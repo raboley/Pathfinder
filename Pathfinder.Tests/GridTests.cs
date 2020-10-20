@@ -56,13 +56,19 @@ using System.Numerics;
 
         private static void AssertGridEqual(Node[,] want, Node[,] got)
         {
-            for (int i = 0; i < want.Length; i++)
+            for (int i = 0; i <= want.GetUpperBound(0); i++)
             {
-                for (int j = 0; j < want.Length; j++)
+                for (int j = 0; j <= want.GetUpperBound(1); j++)
                 {
-                    Assert.Equal(want[i, j], got[i, j]);
+                    AssertNodeFromGridsEqual(want, got, i, j);
                 }
             }
+        }
+
+        private static void AssertNodeFromGridsEqual(Node[,] want, Node[,] got, int i, int j)
+        {
+            Assert.Equal(want[i, j].worldPosition, got[i, j].worldPosition);
+            Assert.Equal(want[i, j].walkable, got[i, j].walkable);
         }
     }
 }
