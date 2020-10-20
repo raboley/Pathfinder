@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pathfinder.Pathfinder
 {
-    class Grid 
+    public class Grid 
     {
         public Grid(Vector2 _gridSize, float _nodeRadius = 0.5f)
         {
@@ -42,7 +42,7 @@ namespace Pathfinder.Pathfinder
     //
     public int MaxSize => gridSizeX * gridSizeY;
     //
-    void CreateGrid()
+    public void CreateGrid()
     {
         grid = new Node[gridSizeX, gridSizeY];
         Vector3 worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();

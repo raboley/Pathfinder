@@ -1,14 +1,8 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Pathfinder.Pathfinder;
+﻿using Pathfinder.Pathfinder;
 using Xunit;
 using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
 
-namespace EasyFarm.Tests.Pathfinding
+ namespace Pathfinder.Tests.Pathfinder
 {
     public class NodeTests
     {
@@ -19,7 +13,7 @@ namespace EasyFarm.Tests.Pathfinding
             Vector3 position = new Vector3(1.0f);
 
             // Act
-            Node node= new Node(position, true);
+            Node node= new Node(position);
 
             // Assert
             Assert.Equal(1,node.gridX);

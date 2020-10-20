@@ -1,13 +1,7 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using Xunit.Sdk;
-using Pathfinder.Pathfinder;
+﻿﻿using Pathfinder.Pathfinder;
+ using Xunit;
 
-namespace EasyFarm.Tests.Pathfinding
+ namespace Pathfinder.Tests.Pathfinder
 {
     public class MappingConversionsTests
     {

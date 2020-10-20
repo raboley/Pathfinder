@@ -20,7 +20,7 @@ namespace Pathfinder.Pathfinder
         public Node parent;
         int heapIndex;
 
-        public Node(Vector3 _worldPos, bool _walkable)
+        public Node(Vector3 _worldPos, bool _walkable = true)
         {
             walkable = _walkable;
             worldPosition = _worldPos;
