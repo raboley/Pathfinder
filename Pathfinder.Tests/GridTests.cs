@@ -1,4 +1,5 @@
-﻿using Pathfinder.Pathfinder;
+﻿using System.Collections.Generic;
+using Pathfinder.Pathfinder;
 using Xunit;
 using System.Numerics;
 
@@ -38,6 +39,44 @@ using System.Numerics;
             // Assert
             Assert.Equal(want.Length, got.Length);
             AssertGridEqual(want, got); 
+        }
+
+        [Fact]
+        public void GetNeighboursCanGetNeighborsFromEdgeNode()
+        {
+            //Arrange
+            var want = GetNeighborsListForEdgeNode();
+
+            //Act
+            Grid grid = new Grid(new Vector2(3f, 3f));
+            grid.CreateGrid();
+            List<Node> got = grid.GetNeighbours(grid.grid[2, 2]);
+            
+            //Assert
+            AssertListEqual(want, got);
+        }
+
+        private static List<Node> GetNeighborsListForEdgeNode()
+        {
+            List<Node> want = new List<Node>();
+            want.Add(new Node(new Vector3(-1, 0, -1)));
+            want.Add(new Node(new Vector3(-1, 0, 0)));
+            want.Add(new Node(new Vector3(-1, 0, 1)));
+            want.Add(new Node(new Vector3(0, 0, -1)));
+            want.Add(new Node(new Vector3(0, 0, 1)));
+            want.Add(new Node(new Vector3(1, 0, -1)));
+            want.Add(new Node(new Vector3(1, 0, 0)));
+            want.Add(new Node(new Vector3(1, 0, 1)));
+            return want;
+        }
+
+        private static void AssertListEqual(List<Node> want, List<Node> got)
+        {
+            Assert.Equal(want.Count, got.Count);
+            for (int i = 0; i < want.Count; i++)
+            {
+                Assert.Equal(want[i], got[i]);
+            }
         }
 
         private static Node[,] SetupThreeByThreeGrid()
