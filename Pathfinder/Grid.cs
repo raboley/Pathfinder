@@ -65,8 +65,9 @@ namespace Pathfinder.Pathfinder
         {
             for (int y = 0; y < gridSizeY; y++)
             {
-                Vector3 worldPoint = worldBottomLeft + vectorRight() * (x * nodeDiameter + NodeRadius) +
-                                     vectorForward() * (y * nodeDiameter + NodeRadius);
+                Vector3 worldPoint = worldBottomLeft 
+                                     + vectorRight() * (x * nodeDiameter + NodeRadius) 
+                                     + vectorForward() * (y * nodeDiameter + NodeRadius);
                 grid[x, y] = new Node(worldPoint, true);
             }
         }
