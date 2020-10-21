@@ -14,8 +14,6 @@ using System.Numerics;
             Node[,] want = new Node[1, 1];
             want[0, 0] = new Node(Vector3.Zero);
             
-            
-
             // Act
             Grid grid = new Grid(Vector2.One);
             grid.CreateGrid();
