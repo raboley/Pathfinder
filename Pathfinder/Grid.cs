@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Pathfinder.Pathfinder
 {
     public class Grid
@@ -14,13 +15,12 @@ namespace Pathfinder.Pathfinder
             GridWorldSize = _gridSize;
             NodeRadius = _nodeRadius;
             nodeDiameter = _nodeRadius * 2;
-            gridSizeX = MappingConversion.ConvertFromFloatToInt(GridWorldSize.X / nodeDiameter);
-            gridSizeY = MappingConversion.ConvertFromFloatToInt(GridWorldSize.Y / nodeDiameter);
+            gridSizeX = GridMath.ConvertFromFloatToInt(GridWorldSize.X / nodeDiameter);
+            gridSizeY = GridMath.ConvertFromFloatToInt(GridWorldSize.Y / nodeDiameter);
             GridCenter = Vector3.Zero;
         }
 
         //     public bool displayGridGizmos;
-        //     public Vector2 gridWorldSize;
         public float NodeRadius;
         float nodeDiameter;
 
@@ -123,17 +123,24 @@ namespace Pathfinder.Pathfinder
         //         return node;
         //     }
         //
-        //     public Node NodeFromWorldPoint(Vector3 worldPosition)
-        //     {
-        //         float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
-        //         float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
-        //         percentX = Mathf.Clamp01(percentX);
-        //         percentY = Mathf.Clamp01(percentY);
-        //
-        //         int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
-        //         int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
-        //         return grid[x, y];
-        //     }
+        public Node NodeFromWorldPoint(Vector3 worldPosition)
+        {
+            // Because our 2D array Grid starts at negative and goes to positive, and you can't have a negative index,
+            // we basically take the value from the world, and if it is negative it must be in the bottom half of the 
+            // array, and if it is positive it is the top half. So we have to move the index to all be in the positives.
+            float percentX = (worldPosition.X + GridWorldSize.X / 2) / GridWorldSize.X;
+            float percentY = (worldPosition.Z + GridWorldSize.Y / 2) / GridWorldSize.Y;
+            
+            percentX = GridMath.Clamp(percentX, 0, 1);
+            percentY = GridMath.Clamp(percentY, 0, 1);
+        
+            int x = GridMath.ConvertFromFloatToInt((gridSizeX - 1) * percentX);
+            int y = GridMath.ConvertFromFloatToInt((gridSizeY - 1) * percentY);
+            return grid[x, y];
+        }
+        
+
+        
         //
         //     public List<Node> path;
         //     void OnDrawGizmos()

@@ -24,8 +24,8 @@ namespace Pathfinder.Pathfinder
         {
             walkable = _walkable;
             worldPosition = _worldPos;
-            gridX = MappingConversion.ConvertFromFloatToInt(_worldPos.X);
-            gridY = MappingConversion.ConvertFromFloatToInt(_worldPos.Z);
+            gridX = GridMath.ConvertFromFloatToInt(_worldPos.X);
+            gridY = GridMath.ConvertFromFloatToInt(_worldPos.Z);
 
         }
 

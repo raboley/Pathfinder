@@ -56,6 +56,21 @@ using System.Numerics;
             AssertListEqual(want, got);
         }
 
+        [Fact]
+        public void GetNodeFromWorldPoint()
+        {
+            //Arrange
+            Node want = new Node((Vector3.One));
+            
+            //Act
+            Grid grid = new Grid(new Vector2(3f, 3f));
+            grid.CreateGrid();
+            Node got = grid.NodeFromWorldPoint(new Vector3(.99f, 1f, .5f));
+
+            //Assert
+            Assert.Equal(want, got);
+        }
+
         private static List<Node> GetNeighborsListForEdgeNode()
         {
             List<Node> want = new List<Node>();

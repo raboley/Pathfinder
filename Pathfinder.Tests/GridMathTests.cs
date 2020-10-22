@@ -1,9 +1,9 @@
-﻿﻿using Pathfinder.Pathfinder;
- using Xunit;
+﻿using Pathfinder.Pathfinder;
+using Xunit;
 
  namespace Pathfinder.Tests.Pathfinder
 {
-    public class MappingConversionsTests
+    public class GridMathTests
     {
         [Fact]
         public void ConvertFromFloatToIntCanRoundAndConvertCorrectly()
@@ -11,7 +11,7 @@
             int expected = 1;
             float startingFloat = 0.51f;
 
-            int actual = MappingConversion.ConvertFromFloatToInt(startingFloat);
+            int actual = GridMath.ConvertFromFloatToInt(startingFloat);
 
             Assert.Equal(expected, actual);
         }
@@ -22,7 +22,7 @@
             int expected = 0;
             float startingFloat = 0.4999f;
 
-            int actual = MappingConversion.ConvertFromFloatToInt(startingFloat);
+            int actual = GridMath.ConvertFromFloatToInt(startingFloat);
 
             Assert.Equal(expected, actual);
         }
@@ -33,7 +33,7 @@
             int expected = -1;
             float startingFloat = -0.51f;
 
-            int actual = MappingConversion.ConvertFromFloatToInt(startingFloat);
+            int actual = GridMath.ConvertFromFloatToInt(startingFloat);
 
             Assert.Equal(expected, actual);
         }
@@ -44,9 +44,31 @@
             int expected = -0;
             float startingFloat = -0.4999f;
 
-            int actual = MappingConversion.ConvertFromFloatToInt(startingFloat);
+            int actual = GridMath.ConvertFromFloatToInt(startingFloat);
 
             Assert.Equal(expected, actual);
+        }
+        
+        [Fact]
+        public void ClampTurnsNegativeNumberToZero() 
+        {
+           float number = -1;
+           float want = 0f;
+
+           float got = GridMath.Clamp(number, 0, 1);
+           
+           Assert.Equal(want, got);
+        }
+        
+        [Fact]
+        public void ClampTurnsPositiveNumberToOne() 
+        {
+            float number = 1;
+            float want = 1f;
+
+            float got = GridMath.Clamp(number, 0, 1);
+           
+            Assert.Equal(want, got);
         }
     }
 }

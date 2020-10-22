@@ -46,7 +46,7 @@
     <ItemGroup>
         <Compile Include="Grid.cs" />
         <Compile Include="Heap.cs" />
-        <Compile Include="MappingConversion.cs" />
+        <Compile Include="GridMath.cs" />
         <Compile Include="Node.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
