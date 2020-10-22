@@ -76,6 +76,7 @@ namespace Pathfinder.Tests.Pathfinder
 
             Assert.Equal(want.worldPosition, got.worldPosition);
         }
+        
         [Fact]
         public void NodeFromWorldPointCanGetANodeFromBigGrid()
         {
@@ -87,6 +88,19 @@ namespace Pathfinder.Tests.Pathfinder
             Assert.Equal(want.worldPosition, got.worldPosition);
         }
 
+        [Fact]
+        public void AddUnWalkableNodeUpdatesTheNode()
+        {
+            var grid = SetupBigGrid();
+            var position = new Vector3(5, 0, -20);
+            Node want = new Node(position, false);
+
+            grid.AddUnWalkableNode(position);
+            var got = grid.NodeFromWorldPoint(position);
+
+            Assert.Equal(want.walkable, got.walkable);
+        }
+        
         private static Grid SetupSmallGrid()
         {
             Grid grid = new Grid(new Vector2(3f, 3f));

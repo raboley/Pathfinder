@@ -113,33 +113,39 @@ namespace Pathfinder.Pathfinder
             return neighbours;
         }
 
-        //
-        //
-        //     public Node AddUnwalkableNode(Vector3 position)
-        //     {
-        //         Node node = NodeFromWorldPoint(position);
-        //         node.walkable = false;
-        //         grid[node.gridX, node.gridY] = node;
-        //         return node;
-        //     }
-        //
+       
         public Node NodeFromWorldPoint(Vector3 worldPosition)
         {
             // Because our 2D array Grid starts at negative and goes to positive, and you can't have a negative index,
             // we basically take the value from the world, and if it is negative it must be in the bottom half of the 
             // array, and if it is positive it is the top half. So we have to move the index to all be in the positives.
-            float percentX = (worldPosition.X + GridWorldSize.X / 2) / GridWorldSize.X;
-            float percentY = (worldPosition.Z + GridWorldSize.Y / 2) / GridWorldSize.Y;
-            
-            percentX = GridMath.Clamp(percentX, 0, 1);
-            percentY = GridMath.Clamp(percentY, 0, 1);
-        
-            int x = GridMath.ConvertFromFloatToInt((gridSizeX - 1) * percentX);
-            int y = GridMath.ConvertFromFloatToInt((gridSizeY - 1) * percentY);
+            int x = GetGridPosX(worldPosition.X);
+            int y = GetGridPosY(worldPosition.Z);
             return grid[x, y];
         }
-        
 
+        public int GetGridPosX(float VectorX)
+        {
+            float percentX = (VectorX + GridWorldSize.X / 2) / GridWorldSize.X;
+            percentX = GridMath.Clamp(percentX, 0, 1);
+            int x = GridMath.ConvertFromFloatToInt((gridSizeX - 1) * percentX);
+            return x;
+        }
+        public int GetGridPosY(float VectorY)
+        {
+            float percentY = (VectorY + GridWorldSize.Y / 2) / GridWorldSize.Y;
+            percentY = GridMath.Clamp(percentY, 0, 1);
+            int y = GridMath.ConvertFromFloatToInt((gridSizeY - 1) * percentY);
+            return y;
+        }
+        
+        public void AddUnWalkableNode(Vector3 position)
+        {
+            Node node = NodeFromWorldPoint(position);
+            node.walkable = false;
+            grid[node.gridX, node.gridY] = node;
+        }
+ 
         
         //
         //     public List<Node> path;
