@@ -59,6 +59,7 @@
         <Compile Include="GridTests.cs" />
         <Compile Include="GridMathTests.cs" />
         <Compile Include="NodeTests.cs" />
+        <Compile Include="PathfindingTests.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>

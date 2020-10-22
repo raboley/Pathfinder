@@ -48,6 +48,7 @@
         <Compile Include="Heap.cs" />
         <Compile Include="GridMath.cs" />
         <Compile Include="Node.cs" />
+        <Compile Include="Pathfinding.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
