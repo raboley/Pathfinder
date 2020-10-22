@@ -3,9 +3,8 @@ using Pathfinder.Pathfinder;
 using Xunit;
 using System.Numerics;
 
- namespace Pathfinder.Tests.Pathfinder
+namespace Pathfinder.Tests.Pathfinder
 {
-    
     public class GridTests
     {
         [Fact]
@@ -14,12 +13,12 @@ using System.Numerics;
             // Arrange
             Node[,] want = new Node[1, 1];
             want[0, 0] = new Node(Vector3.Zero);
-            
+
             // Act
             Grid grid = new Grid(Vector2.One);
             grid.CreateGrid();
             Node[,] got = grid.grid;
-            
+
             // Assert
             Assert.Equal(want.Length, got.Length);
             AssertGridEqual(want, got);
@@ -35,10 +34,10 @@ using System.Numerics;
             Grid grid = new Grid(new Vector2(3f, 3f));
             grid.CreateGrid();
             Node[,] got = grid.grid;
-            
+
             // Assert
             Assert.Equal(want.Length, got.Length);
-            AssertGridEqual(want, got); 
+            AssertGridEqual(want, got);
         }
 
         [Fact]
@@ -51,24 +50,55 @@ using System.Numerics;
             Grid grid = new Grid(new Vector2(3f, 3f));
             grid.CreateGrid();
             List<Node> got = grid.GetNeighbours(grid.grid[2, 2]);
-            
+
             //Assert
             AssertListEqual(want, got);
         }
 
         [Fact]
-        public void GetNodeFromWorldPoint()
+        public void NodeFromWorldPointCanGetANodeFromNegativeVector()
         {
-            //Arrange
-            Node want = new Node((Vector3.One));
-            
-            //Act
+            var grid = SetupSmallGrid();
+            Node want = grid.grid[0, 0];
+
+            Node got = grid.NodeFromWorldPoint(new Vector3(-1, 0, -1));
+
+            Assert.Equal(want.worldPosition, got.worldPosition);
+        }
+
+        [Fact]
+        public void NodeFromWorldPointCanGetANodeFromPositiveVector()
+        {
+            var grid = SetupSmallGrid();
+            Node want = grid.grid[2, 2];
+
+            Node got = grid.NodeFromWorldPoint(new Vector3(1, 0, 1));
+
+            Assert.Equal(want.worldPosition, got.worldPosition);
+        }
+        [Fact]
+        public void NodeFromWorldPointCanGetANodeFromBigGrid()
+        {
+            var grid = SetupBigGrid();
+            Node want = grid.grid[30, 5];
+
+            Node got = grid.NodeFromWorldPoint(new Vector3(5, 0, -20));
+
+            Assert.Equal(want.worldPosition, got.worldPosition);
+        }
+
+        private static Grid SetupSmallGrid()
+        {
             Grid grid = new Grid(new Vector2(3f, 3f));
             grid.CreateGrid();
-            Node got = grid.NodeFromWorldPoint(new Vector3(.99f, 1f, .5f));
-
-            //Assert
-            Assert.Equal(want, got);
+            return grid;
+        }
+        
+        private static Grid SetupBigGrid()
+        {
+            Grid grid = new Grid(new Vector2(51f, 51f));
+            grid.CreateGrid();
+            return grid;
         }
 
         private static List<Node> GetNeighborsListForEdgeNode()
