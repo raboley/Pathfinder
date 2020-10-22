@@ -118,14 +118,17 @@ namespace Pathfinder.Tests.Pathfinder
         private static List<Node> GetNeighborsListForEdgeNode()
         {
             List<Node> want = new List<Node>();
-            want.Add(new Node(new Vector3(-1, 0, -1)));
-            want.Add(new Node(new Vector3(-1, 0, 0)));
-            want.Add(new Node(new Vector3(-1, 0, 1)));
-            want.Add(new Node(new Vector3(0, 0, -1)));
-            want.Add(new Node(new Vector3(0, 0, 1)));
-            want.Add(new Node(new Vector3(1, 0, -1)));
-            want.Add(new Node(new Vector3(1, 0, 0)));
-            want.Add(new Node(new Vector3(1, 0, 1)));
+            want.Add(new Node(new Vector3(0, 0, 0 )));
+            want.Add(new Node(new Vector3(0, 0, 1 )));
+            want.Add(new Node(new Vector3(1, 0, 0 )));
+            // want.Add(new Node(new Vector3(-1, 0, -1)));
+            // want.Add(new Node(new Vector3(-1, 0, 0)));
+            // want.Add(new Node(new Vector3(-1, 0, 1)));
+            // want.Add(new Node(new Vector3(0, 0, -1)));
+            // want.Add(new Node(new Vector3(0, 0, 1)));
+            // want.Add(new Node(new Vector3(1, 0, -1)));
+            // want.Add(new Node(new Vector3(1, 0, 0)));
+            // want.Add(new Node(new Vector3(1, 0, 1)));
             return want;
         }
 

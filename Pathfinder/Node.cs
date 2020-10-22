@@ -24,9 +24,6 @@ namespace Pathfinder.Pathfinder
         {
             walkable = _walkable;
             worldPosition = _worldPos;
-            gridX = GridMath.ConvertFromFloatToInt(_worldPos.X);
-            gridY = GridMath.ConvertFromFloatToInt(_worldPos.Z);
-
         }
 
         public int fCost

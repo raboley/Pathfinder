@@ -71,7 +71,10 @@ namespace Pathfinder.Pathfinder
                     Vector3 worldPoint = worldBottomLeft
                                          + vectorRight() * (x * nodeDiameter + NodeRadius)
                                          + vectorForward() * (y * nodeDiameter + NodeRadius);
-                    grid[x, y] = new Node(worldPoint, true);
+                    Node node = new Node(worldPoint, true);
+                    node.gridX = x;
+                    node.gridY = y;
+                    grid[x, y] = node;
                 }
             }
         }

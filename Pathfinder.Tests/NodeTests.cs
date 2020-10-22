@@ -16,9 +16,8 @@ using System.Numerics;
             Node node= new Node(position);
 
             // Assert
-            Assert.Equal(1,node.gridX);
-            Assert.Equal(1, node.gridY);
             Assert.Equal(true, node.walkable);
+            Assert.Equal(position, node.worldPosition);
         }
     }
 }
