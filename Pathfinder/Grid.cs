@@ -148,7 +148,39 @@ namespace Pathfinder.Pathfinder
             node.walkable = false;
             grid[node.gridX, node.gridY] = node;
         }
- 
+
+        /// <summary>
+        /// Returns a string representation of the current grid
+        /// </summary>
+        public string Print()
+        {
+            string result = "";
+            
+            int numberRows = grid.GetLength(0);
+            int numberColumns = grid.GetLength(1);
+
+            string header = Environment.NewLine + "-" + string.Concat(Enumerable.Repeat("------", numberColumns)) + Environment.NewLine;
+            result += header;
+            
+            for (int i = 0; i < numberRows; i++)
+            {
+                result += "|";
+                for (int j = 0; j < numberColumns; j++)
+                {
+                    if (grid[i, j].walkable == false)
+                    { 
+                        result += "  x  |";
+                    }
+                    else
+                    { 
+                        result += "     |";
+                    }
+                }
+                result += header;
+            }
+
+            return result;
+        }
         
         //
         //     public List<Node> path;
