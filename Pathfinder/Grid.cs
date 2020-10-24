@@ -72,8 +72,8 @@ namespace Pathfinder.Pathfinder
                                          + vectorRight() * (x * nodeDiameter + NodeRadius)
                                          + vectorForward() * (y * nodeDiameter + NodeRadius);
                     GridNode gridNode = new GridNode(worldPoint, true);
-                    gridNode.gridX = x;
-                    gridNode.gridY = y;
+                    gridNode.GridX = x;
+                    gridNode.GridY = y;
                     grid[x, y] = gridNode;
                 }
             }
@@ -103,8 +103,8 @@ namespace Pathfinder.Pathfinder
                         continue;
                     }
 
-                    int checkX = gridNode.gridX + x;
-                    int checkY = gridNode.gridY + y;
+                    int checkX = gridNode.GridX + x;
+                    int checkY = gridNode.GridY + y;
 
                     if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
                     {
@@ -146,8 +146,8 @@ namespace Pathfinder.Pathfinder
         public void AddUnWalkableNode(Vector3 position)
         {
             GridNode gridNode = NodeFromWorldPoint(position);
-            gridNode.walkable = false;
-            grid[gridNode.gridX, gridNode.gridY] = gridNode;
+            gridNode.Walkable = false;
+            grid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 
         /// <summary>
@@ -224,5 +224,11 @@ x = obstacle";
         //         }
         //     }
 
+        public string PrintKnown()
+        {
+            INodePrinter printer = new PrintKnown();
+            string printedGrid = print(printer);
+            return printedGrid; 
+        }
     }
 }

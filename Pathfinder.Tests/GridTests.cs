@@ -63,7 +63,7 @@ namespace Pathfinder.Tests.Pathfinder
 
             var got = grid.NodeFromWorldPoint(new Vector3(-1, 0, -1));
 
-            Assert.Equal(want.worldPosition, got.worldPosition);
+            Assert.Equal(want.WorldPosition, got.WorldPosition);
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace Pathfinder.Tests.Pathfinder
 
             var got = grid.NodeFromWorldPoint(new Vector3(1, 0, 1));
 
-            Assert.Equal(want.worldPosition, got.worldPosition);
+            Assert.Equal(want.WorldPosition, got.WorldPosition);
         }
         
         [Fact]
@@ -85,7 +85,7 @@ namespace Pathfinder.Tests.Pathfinder
 
             var got = grid.NodeFromWorldPoint(new Vector3(5, 0, -20));
 
-            Assert.Equal(want.worldPosition, got.worldPosition);
+            Assert.Equal(want.WorldPosition, got.WorldPosition);
         }
 
         [Theory]
@@ -106,7 +106,7 @@ namespace Pathfinder.Tests.Pathfinder
             grid.AddUnWalkableNode(position);
             var got = grid.grid[gridX, gridY];
 
-            Assert.Equal(want.walkable, got.walkable);
+            Assert.Equal(want.Walkable, got.Walkable);
         }
 
         [Fact]
@@ -180,8 +180,8 @@ namespace Pathfinder.Tests.Pathfinder
         private static void AssertPointNotWalkable(Grid grid, Vector3 position)
         {
             var node = grid.NodeFromWorldPoint(position);
-            Assert.Equal(node.worldPosition, position);
-            Assert.Equal(node.walkable, false);
+            Assert.Equal(node.WorldPosition, position);
+            Assert.Equal(node.Walkable, false);
         }
 
         [Fact]
@@ -370,6 +370,40 @@ x = obstacle
             // assert
             Assert.Equal(want, got);
         }
+
+
+        [Fact]
+        public void TestCanPrintUnknownGrid()
+        {
+            const string want = @"
+-------------------
+|  ?  |  ?  |  ?  |
+-------------------
+|  ?  |  ?  |  ?  |
+-------------------
+|  ?  |  ?  |  ?  |
+-------------------
+";
+            var grid = SetupSmallGrid();
+            string got = grid.PrintKnown();
+
+            Assert.Equal(want, got);
+        }
+
+        [Fact]
+        public void TestCanSetUnknownState()
+        {
+            const bool want = false;
+            var grid = SetupSmallGrid();
+            grid.grid[0, 0].Unknown = want;
+            bool got = grid.grid[0, 0].Unknown;
+            
+            Assert.Equal(want, got);
+        }
+        
+        //********************************************************************************************************//
+        // Test Functions
+        //********************************************************************************************************//
         
         private static Pathfinding SetupForPathfinding()
         {
@@ -456,8 +490,8 @@ x = obstacle
 
         private static void AssertNodeFromGridsEqual(GridNode[,] want, GridNode[,] got, int i, int j)
         {
-            Assert.Equal(want[i, j].worldPosition, got[i, j].worldPosition);
-            Assert.Equal(want[i, j].walkable, got[i, j].walkable);
+            Assert.Equal(want[i, j].WorldPosition, got[i, j].WorldPosition);
+            Assert.Equal(want[i, j].Walkable, got[i, j].Walkable);
         }
     }
 }

@@ -10,39 +10,41 @@ namespace Pathfinder.Pathfinder
 {
     public class GridNode : IHeapItem<GridNode>
     {
-        public bool walkable;
-        public Vector3 worldPosition;
-        public int gridX;
-        public int gridY;
+        public bool Walkable;
+        public Vector3 WorldPosition;
+        public int GridX;
+        public int GridY;
 
-        public int gCost;
-        public int hCost;
-        public GridNode parent;
-        int heapIndex;
+        public int GCost;
+        public int HCost;
+        public GridNode Parent;
+        private int _heapIndex;
 
         public GridNode(Vector3 _worldPos, bool _walkable = true)
         {
-            walkable = _walkable;
-            worldPosition = _worldPos;
+            Walkable = _walkable;
+            WorldPosition = _worldPos;
         }
 
         public int fCost
         {
-            get { return gCost + hCost; }
+            get { return GCost + HCost; }
         }
 
         public int HeapIndex
         {
-            get { return heapIndex; }
-            set { heapIndex = value; }
+            get { return _heapIndex; }
+            set { _heapIndex = value; }
         }
+
+        public bool Unknown { get; set; } = true;
 
         public int CompareTo(GridNode gridNodeToCompare)
         {
             int compare = fCost.CompareTo(gridNodeToCompare.fCost);
             if (compare == 0)
             {
-                compare = hCost.CompareTo(gridNodeToCompare.hCost);
+                compare = HCost.CompareTo(gridNodeToCompare.HCost);
             }
 
             return -compare;

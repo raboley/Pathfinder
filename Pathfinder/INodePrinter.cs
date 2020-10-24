@@ -23,7 +23,7 @@ namespace Pathfinder.Pathfinder
 
         private static bool NotWalkable(GridNode gridNode)
         {
-            return !gridNode.walkable;
+            return !gridNode.Walkable;
         }
         public string WalkableNode { get; } = "     " + NodeSeparator;
         public string ObstacleNode { get; } = "  x  " + NodeSeparator;

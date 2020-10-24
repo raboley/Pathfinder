@@ -6,8 +6,8 @@ namespace Pathfinder.Pathfinder
 
         public override string PrintNode(GridNode gridNode)
         {
-            float x = gridNode.worldPosition.X;
-            float y = gridNode.worldPosition.Z;
+            float x = gridNode.WorldPosition.X;
+            float y = gridNode.WorldPosition.Z;
             string xNode = x.ToString().PadLeft(3, ' ');
             string yNode = y.ToString().PadRight(3, ' ');
             

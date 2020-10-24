@@ -17,6 +17,7 @@
         <e p="Pathfinder.csproj" t="IncludeRecursive" />
         <e p="Pathfinding.cs" t="Include" />
         <e p="PrintCoordinates.cs" t="Include" />
+        <e p="PrintKnown.cs" t="Include" />
         <e p="PrintPath.cs" t="Include" />
         <e p="PrintWalkable.cs" t="Include" />
         <e p="Properties" t="Include">

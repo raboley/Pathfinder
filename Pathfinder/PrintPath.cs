@@ -8,10 +8,10 @@ namespace Pathfinder.Pathfinder
     {
         public override string PrintNode(GridNode gridNode)
         {
-            if (gridNode.worldPosition == Start)
+            if (gridNode.WorldPosition == Start)
                 return StartNode;
 
-            if (gridNode.worldPosition == End)
+            if (gridNode.WorldPosition == End)
                 return EndNode;
 
             if (isWaypoint(gridNode))
@@ -26,7 +26,7 @@ namespace Pathfinder.Pathfinder
             {
                 if (Path.Length > 0)
                 {
-                    if (Path.Contains(gridNode.worldPosition))
+                    if (Path.Contains(gridNode.WorldPosition))
                     {
                         return true;
                     }
