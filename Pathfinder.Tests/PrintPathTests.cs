@@ -12,9 +12,9 @@ namespace Pathfinder.Tests.Pathfinder
         {
             var node = new Node(Vector3.One, false); 
             var printer = new PrintPath();
-            string want = printer.ObstacleNode;
+            var want = printer.ObstacleNode;
 
-            string got = printer.PrintNode(node);
+            var got = printer.PrintNode(node);
 
             Assert.Equal(want, got);
         }
@@ -25,9 +25,9 @@ namespace Pathfinder.Tests.Pathfinder
         {
             var node = new Node(Vector3.One, true); 
             var printer = new PrintPath();
-            string want = printer.WalkableNode;
+            var want = printer.WalkableNode;
 
-            string got = printer.PrintNode(node);
+            var got = printer.PrintNode(node);
 
             Assert.Equal(want, got);
         }
@@ -36,12 +36,11 @@ namespace Pathfinder.Tests.Pathfinder
         public void TestPrintPathPrintsStart()
         {
             var pathStart = Vector3.One;
-            var node = new Node(pathStart, true); 
-            var printer = new PrintPath();
-            printer.Start = pathStart;
-            string want = printer.StartNode;
+            var node = new Node(pathStart, true);
+            var printer = new PrintPath {Start = pathStart};
+            var want = printer.StartNode;
 
-            string got = printer.PrintNode(node);
+            var got = printer.PrintNode(node);
 
             Assert.Equal(want, got);
         }
@@ -52,9 +51,9 @@ namespace Pathfinder.Tests.Pathfinder
             var pathEnd = Vector3.One;
             var node = new Node(pathEnd, true);
             var printer = new PrintPath {End = pathEnd};
-            string want = printer.EndNode;
+            var want = printer.EndNode;
 
-            string got = printer.PrintNode(node);
+            var got = printer.PrintNode(node);
 
             Assert.Equal(want, got);
         }
@@ -63,12 +62,11 @@ namespace Pathfinder.Tests.Pathfinder
         public void TestPrintPathPrintsWaypoint()
         {
             var pathWaypoint = Vector3.One;
-            var node = new Node(pathWaypoint, true); 
-            var printer = new PrintPath();
-            printer.Path = new[] {pathWaypoint};
-            string want = printer.WaypointNode;
+            var node = new Node(pathWaypoint, true);
+            var printer = new PrintPath {Path = new[] {pathWaypoint}};
+            var want = printer.WaypointNode;
 
-            string got = printer.PrintNode(node);
+            var got = printer.PrintNode(node);
 
             Assert.Equal(want, got);
         }
