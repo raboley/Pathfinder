@@ -389,6 +389,30 @@ x = obstacle
 
             Assert.Equal(want, got);
         }
+        
+        [Fact]
+        public void TestCanPrintUnknownGridWithKnownSpots()
+        {
+            const string want = @"
+-------------------
+|  ?  |  ?  |  ?  |
+-------------------
+|  ?  |     |     |
+-------------------
+|     |  ?  |     |
+-------------------
+";
+            var grid = SetupSmallGrid();
+            
+            grid.AddKnownNode(new Vector3(0, 0,  0));
+            grid.AddKnownNode(new Vector3(1, 0,  0));
+            grid.AddKnownNode(new Vector3(1, 0,  -1));
+            grid.AddKnownNode(new Vector3(-1, 0,  -1));
+            string got = grid.PrintKnown();
+
+            Assert.Equal(want, got);
+        }
+        
 
         [Fact]
         public void TestCanSetUnknownState()
@@ -398,6 +422,27 @@ x = obstacle
             grid.grid[0, 0].Unknown = want;
             bool got = grid.grid[0, 0].Unknown;
             
+            Assert.Equal(want, got);
+        }
+        
+        [Theory]
+        [InlineData(-1, -1, 0, 0)]
+        [InlineData(0, -1, 1, 0)]
+        [InlineData(-1, 0, 0, 1)]
+        [InlineData(0, 0, 1, 1)]
+        [InlineData(1, 0, 2, 1)]
+        [InlineData(-1, -1, 0, 0)]
+        [InlineData(0, 1, 1, 2)]
+        [InlineData(1, 1, 2, 2)]
+        public void TestAddKnownNodes(float x, float y, int gridX, int gridY)
+        {
+            var grid = SetupSmallGrid();
+            var position = new Vector3(x, 0, y);
+            bool want = new GridNode(position).Unknown = false;
+
+            grid.AddKnownNode(position);
+            bool got = grid.grid[gridX, gridY].Unknown;
+
             Assert.Equal(want, got);
         }
         

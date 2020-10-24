@@ -230,5 +230,12 @@ x = obstacle";
             string printedGrid = print(printer);
             return printedGrid; 
         }
+
+        public void AddKnownNode(Vector3 worldPoint)
+        {
+            var gridNode = NodeFromWorldPoint(worldPoint);
+            gridNode.Unknown = false;
+            grid[gridNode.GridX, gridNode.GridY] = gridNode; 
+        }
     }
 }
