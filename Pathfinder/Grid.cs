@@ -152,36 +152,91 @@ namespace Pathfinder.Pathfinder
         /// <summary>
         /// Returns a string representation of the current grid
         /// </summary>
-        public string Print()
+        public string Print(bool withCoords = false)
         {
             string result = "";
             
-            int numberRows = grid.GetLength(0);
-            int numberColumns = grid.GetLength(1);
+            int row = grid.GetLength(0);
+            int column = grid.GetLength(1);
 
-            string header = Environment.NewLine + "-" + string.Concat(Enumerable.Repeat("------", numberColumns)) + Environment.NewLine;
+            string columnTop;
+            if (withCoords)
+            {
+                columnTop = "--------";
+            }
+            else
+            {
+                columnTop = "------";
+            }
+
+            string header = Environment.NewLine + "-" + string.Concat(Enumerable.Repeat(columnTop, column)) + Environment.NewLine;
             result += header;
-            
-            for (int i = 0; i < numberRows; i++)
+
+            for (int y = row/2; y >= -1*row/2; y--)
             {
                 result += "|";
-                for (int j = 0; j < numberColumns; j++)
+                for (int x = -1*column/2; x <= column/2; x++)
                 {
-                    if (grid[i, j].walkable == false)
-                    { 
-                        result += "  x  |";
+                    var node = NodeFromWorldPoint(new Vector3(y, 0, x));
+                    if (withCoords)
+                    {
+                        result += x.ToString().PadLeft(3, ' ') + "," + y.ToString().PadRight(3, ' ') + "|"; 
                     }
                     else
-                    { 
-                        result += "     |";
+                    {
+                        if (node.walkable == false)
+                        {
+                            result += "  x  |";
+                        }
+                        else
+                        {
+                            result += "     |";
+                        }
+                    }
+
+                }
+                result += header;
+            }
+
+            // result = buildBottomLeftToTopRight(withCoords, row, result, column, header);
+
+            // result += BuildBottomRight(withCoords, row, result, column, header);
+            // result += someQuad(withCoords, row, result, column, header); 
+            
+            return result;
+        }
+
+        private string buildBottomLeftToTopRight(bool withCoords, int row, string result, int column, string header)
+        {
+            for (int i = row - 1; i >= 0; i--)
+            {
+                result += "|";
+                for (int j = 0; j < column; j++)
+                    // for (int j = column - 1; j >= 0; j--)
+                {
+                    if (withCoords)
+                    {
+                        result += " " + i + "," + j + " |";
+                    }
+                    else
+                    {
+                        if (grid[i, j].walkable == false)
+                        {
+                            result += "  x  |";
+                        }
+                        else
+                        {
+                            result += "     |";
+                        }
                     }
                 }
+
                 result += header;
             }
 
             return result;
         }
-        
+
         //
         //     public List<Node> path;
         //     void OnDrawGizmos()

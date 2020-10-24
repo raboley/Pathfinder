@@ -89,18 +89,22 @@ namespace Pathfinder.Tests.Pathfinder
         }
 
         [Theory]
-        [InlineData(5, -20)]
-        [InlineData(-1, 1)]
-        [InlineData(-1, -1)]
-        [InlineData(0, 0)]
-        public void AddUnWalkableNodeUpdatesTheNode(float x, float y)
+        [InlineData(-1, -1, 0, 0)]
+        [InlineData(0, -1, 1, 0)]
+        [InlineData(-1, 0, 0, 1)]
+        [InlineData(0, 0, 1, 1)]
+        [InlineData(1, 0, 2, 1)]
+        [InlineData(-1, -1, 0, 0)]
+        [InlineData(0, 1, 1, 2)]
+        [InlineData(1, 1, 2, 2)]
+        public void AddUnWalkableNodeUpdatesTheNode(float x, float y, int gridX, int gridY)
         {
-            var grid = SetupBigGrid();
+            var grid = SetupSmallGrid();
             var position = new Vector3(x, 0, y);
             Node want = new Node(position, false);
 
             grid.AddUnWalkableNode(position);
-            var got = grid.NodeFromWorldPoint(position);
+            var got = grid.grid[gridX, gridY];
 
             Assert.Equal(want.walkable, got.walkable);
         }
@@ -124,13 +128,31 @@ namespace Pathfinder.Tests.Pathfinder
         }
         
         [Fact]
+        public void TestPrintWithCoordsSmallGrid()
+        {
+            string want = @"
+-------------------------
+| -1,1  |  0,1  |  1,1  |
+-------------------------
+| -1,0  |  0,0  |  1,0  |
+-------------------------
+| -1,-1 |  0,-1 |  1,-1 |
+-------------------------
+";
+
+            var grid = SetupSmallGrid();
+            string got = grid.Print(true);
+            Assert.Equal(want, got);
+        }
+        
+        [Fact]
         public void TestPrintSmallGridWithObstacles()
         {
             string want = @"
 -------------------
 |  x  |  x  |     |
 -------------------
-|  x  |  x  |     |
+|     |  x  |     |
 -------------------
 |     |     |     |
 -------------------
@@ -138,24 +160,40 @@ namespace Pathfinder.Tests.Pathfinder
 
             string temp = @"
 -------------------
-|  x  |     |  x  |
+|  x  |  x  |     |
 -------------------
-|     |  x  |  x  |
+|     |  x  |     |
 -------------------
 |     |     |     |
 -------------------
 ";
             
             // var grid = SetupSmallGrid();
-            var grid = SetupMediumGrid();
+            var grid = SetupSmallGrid();
+            var pos1 = new Vector3(0, 0, 1);
+            var pos2 = new Vector3(-1, 0, 1);
+            // var pos3 = new Vector3(-1, 0, 0);
+            
             grid.AddUnWalkableNode(Vector3.Zero);
-            grid.AddUnWalkableNode(new Vector3(0, 0, 1));
-            grid.AddUnWalkableNode(new Vector3(-1, 0, 1));
-            grid.AddUnWalkableNode(new Vector3(-1, 0, -1));
+            grid.AddUnWalkableNode(pos1);
+            grid.AddUnWalkableNode(pos2);
+            // grid.AddUnWalkableNode(pos3);
             string got = grid.Print();
+            
+            AssertPointNotWalkable(grid, pos1);
+            AssertPointNotWalkable(grid, pos2);
+            // AssertPointNotWalkable(grid, pos3);
+            
             Assert.Equal(want, got);
         }
-        
+
+        private static void AssertPointNotWalkable(Grid grid, Vector3 position)
+        {
+            var node = grid.NodeFromWorldPoint(position);
+            Assert.Equal(node.worldPosition, position);
+            Assert.Equal(node.walkable, false);
+        }
+
         [Fact]
         public void TestPrintMediumGrid()
         {
