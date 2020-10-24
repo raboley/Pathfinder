@@ -116,7 +116,7 @@ namespace Pathfinder.Pathfinder
             return neighbours;
         }
 
-       
+
         public Node NodeFromWorldPoint(Vector3 worldPosition)
         {
             // Because our 2D array Grid starts at negative and goes to positive, and you can't have a negative index,
@@ -134,6 +134,7 @@ namespace Pathfinder.Pathfinder
             int x = GridMath.ConvertFromFloatToInt((gridSizeX - 1) * percentX);
             return x;
         }
+
         public int GetGridPosY(float VectorY)
         {
             float percentY = (VectorY + GridWorldSize.Y / 2) / GridWorldSize.Y;
@@ -141,7 +142,7 @@ namespace Pathfinder.Pathfinder
             int y = GridMath.ConvertFromFloatToInt((gridSizeY - 1) * percentY);
             return y;
         }
-        
+
         public void AddUnWalkableNode(Vector3 position)
         {
             Node node = NodeFromWorldPoint(position);
@@ -152,83 +153,57 @@ namespace Pathfinder.Pathfinder
         /// <summary>
         /// Returns a string representation of the current grid
         /// </summary>
-        public string Print(bool withCoords = false)
+        ///
+        public string Print()
         {
-            string result = "";
+            INodePrinter printer = new PrintObstacles();
+            string printedGrid = print(printer);
+            return printedGrid;
+        }
+
+        public string PrintWithCoords()
+        {
+            string columnTop = "--------";
+            INodePrinter printer = new PrintCoordinates();
+            string printedGrid = print(printer, columnTop: columnTop);
+            return printedGrid;
+        }
+        
+        public string PrintPath(Vector3 startPos, Vector3 endPos, Vector3[] path)
+        {
+            string result = @"
+Visualization of the path
+s = start
+e = end
+w = waypoint
+x = obstacle";
             
+            var printer = Pathfinder.PrintPath.CreateInstance();
+            printer.Start = startPos;
+            printer.End = endPos;
+            printer.Path = path;
+            string printedGrid = print(printer, result);
+            return printedGrid;
+
+        }
+
+
+        private string print(INodePrinter nodePrinter, string result = "", string columnTop = "------")
+        {
             int row = grid.GetLength(0);
             int column = grid.GetLength(1);
 
-            string columnTop;
-            if (withCoords)
-            {
-                columnTop = "--------";
-            }
-            else
-            {
-                columnTop = "------";
-            }
-
-            string header = Environment.NewLine + "-" + string.Concat(Enumerable.Repeat(columnTop, column)) + Environment.NewLine;
+            string header = Environment.NewLine + "-" + string.Concat(Enumerable.Repeat(columnTop, column)) +
+                            Environment.NewLine;
             result += header;
 
-            for (int y = row/2; y >= -1*row/2; y--)
+            for (int y = row / 2; y >= -1 * row / 2; y--)
             {
                 result += "|";
-                for (int x = -1*column/2; x <= column/2; x++)
+                for (int x = -1 * column / 2; x <= column / 2; x++)
                 {
                     var node = NodeFromWorldPoint(new Vector3(x, 0, y));
-                    if (withCoords)
-                    {
-                        result += x.ToString().PadLeft(3, ' ') + "," + y.ToString().PadRight(3, ' ') + "|"; 
-                    }
-                    else
-                    {
-                        if (node.walkable == false)
-                        {
-                            result += "  x  |";
-                        }
-                        else
-                        {
-                            result += "     |";
-                        }
-                    }
-
-                }
-                result += header;
-            }
-
-            // result = buildBottomLeftToTopRight(withCoords, row, result, column, header);
-
-            // result += BuildBottomRight(withCoords, row, result, column, header);
-            // result += someQuad(withCoords, row, result, column, header); 
-            
-            return result;
-        }
-
-        private string buildBottomLeftToTopRight(bool withCoords, int row, string result, int column, string header)
-        {
-            for (int i = row - 1; i >= 0; i--)
-            {
-                result += "|";
-                for (int j = 0; j < column; j++)
-                    // for (int j = column - 1; j >= 0; j--)
-                {
-                    if (withCoords)
-                    {
-                        result += " " + i + "," + j + " |";
-                    }
-                    else
-                    {
-                        if (grid[i, j].walkable == false)
-                        {
-                            result += "  x  |";
-                        }
-                        else
-                        {
-                            result += "     |";
-                        }
-                    }
+                    result = nodePrinter.PrintNode(node, result);
                 }
 
                 result += header;
@@ -251,5 +226,6 @@ namespace Pathfinder.Pathfinder
         //             }
         //         }
         //     }
+
     }
 }

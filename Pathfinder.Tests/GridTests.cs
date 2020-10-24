@@ -141,7 +141,7 @@ namespace Pathfinder.Tests.Pathfinder
 ";
 
             var grid = SetupSmallGrid();
-            string got = grid.Print(true);
+            string got = grid.PrintWithCoords();
             Assert.Equal(want, got);
         }
         
@@ -319,6 +319,66 @@ namespace Pathfinder.Tests.Pathfinder
             string got = grid.Print();
             Assert.Equal(want, got);
         }     
+        
+        [Fact]
+        public void TestPrintPathShowsAllWithLegend()
+        {
+
+            string want = @"
+Visualization of the path
+s = start
+e = end
+w = waypoint
+x = obstacle
+-------------------------------
+|     |     |     |     |     |
+-------------------------------
+|  e  |  w  |     |     |     |
+-------------------------------
+|  x  |  x  |  x  |  w  |     |
+-------------------------------
+|     |  w  |  w  |     |     |
+-------------------------------
+|  s  |     |     |     |     |
+-------------------------------
+";
+
+            var pathfinding = SetupForPathfinding();
+            
+            pathfinding.Grid.AddUnWalkableNode(Vector3.Zero);
+            pathfinding.Grid.AddUnWalkableNode(new Vector3(-1, 0, 0));
+            pathfinding.Grid.AddUnWalkableNode(new Vector3(-2, 0, 0));
+            pathfinding.Grid.AddUnWalkableNode(new Vector3(-3, 0, 0));
+            pathfinding.Grid.AddUnWalkableNode(new Vector3(-4, 0, 0));
+
+
+            
+            Vector3[] path = new[]
+            {
+                new Vector3(-1, 0, -1),
+                new Vector3(0, 0, -1),
+                new Vector3(1, 0, 0),
+                new Vector3(-1, 0, 1),
+            };
+            var startPos = new Vector3(-2, 0, -2);
+            var endPos = new Vector3(-2, 0, 1);
+
+            // act
+            var got = pathfinding.Grid.PrintPath(startPos, endPos, path);
+            
+            
+            // assert
+            Assert.Equal(want, got);
+        }
+        
+        private static Pathfinding SetupForPathfinding()
+        {
+            Pathfinding pathfinding = new Pathfinding();
+            var grid = new Grid(new Vector2(5, 5));
+            grid.CreateGrid();
+            pathfinding.Grid = grid;
+            return pathfinding;
+        }
         private static Grid SetupSmallGrid()
         {
             Grid grid = new Grid(new Vector2(3f, 3f));

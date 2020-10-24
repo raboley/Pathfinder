@@ -45,24 +45,24 @@ namespace Pathfinder.Tests.Pathfinder
             Assert.Equal(want, got);
         }
         
-        // [Fact]
+        [Fact]
         public void TestFindPathAvoidsObstacles()
         {
             /*
              * Visualization of the grid.
              * p = path
              * x = obstacle
-             * --------------------------
-             * |    |    |    | end|    |
-             * --------------------------
-             * |    |    |    |    |    |
-             * --------------------------
-             * |  x |  x |0,0x|    |    |
-             * --------------------------
-             * |    |  p |    |    |    |
-             * --------------------------
-             * |strt|    |    |    |    |
-             * --------------------------
+-------------------------------
+|     |     |     |     |     |
+-------------------------------
+|  e  |  w  |     |     |     |
+-------------------------------
+|  x  |  x  |  x  |  w  |     |
+-------------------------------
+|     |  w  |  w  |     |     |
+-------------------------------
+|  s  |     |     |     |     |
+-------------------------------
              */
 
             var pathfinding = SetupForPathfinding();
@@ -73,16 +73,18 @@ namespace Pathfinder.Tests.Pathfinder
             pathfinding.Grid.AddUnWalkableNode(new Vector3(-3, 0, 0));
             pathfinding.Grid.AddUnWalkableNode(new Vector3(-4, 0, 0));
 
-            
+
+            var example = pathfinding.Grid.Print();
             
             Vector3[] want = new[]
             {
                 new Vector3(-1, 0, -1),
-                new Vector3(0, 0, 0),
-                new Vector3(0, 0, 1),
+                new Vector3(0, 0, -1),
+                new Vector3(1, 0, 0),
+                new Vector3(-1, 0, 1),
             };
             var startPos = new Vector3(-2, 0, -2);
-            var endPos = new Vector3(1, 0, -2);
+            var endPos = new Vector3(-2, 0, 1);
 
             // act 
             Vector3[] got = pathfinding.FindWaypoints(startPos, endPos);
