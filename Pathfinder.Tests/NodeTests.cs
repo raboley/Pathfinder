@@ -13,11 +13,11 @@ using System.Numerics;
             Vector3 position = new Vector3(1.0f);
 
             // Act
-            Node node= new Node(position);
+            GridNode gridNode= new GridNode(position);
 
             // Assert
-            Assert.Equal(true, node.walkable);
-            Assert.Equal(position, node.worldPosition);
+            Assert.Equal(true, gridNode.walkable);
+            Assert.Equal(position, gridNode.worldPosition);
         }
     }
 }

@@ -6,27 +6,27 @@ namespace Pathfinder.Pathfinder
 {
     public class PrintPath : BasePrinter
     {
-        public override string PrintNode(Node node)
+        public override string PrintNode(GridNode gridNode)
         {
-            if (node.worldPosition == Start)
+            if (gridNode.worldPosition == Start)
                 return StartNode;
 
-            if (node.worldPosition == End)
+            if (gridNode.worldPosition == End)
                 return EndNode;
 
-            if (isWaypoint(node))
+            if (isWaypoint(gridNode))
                 return WaypointNode;
             
-            return base.PrintNode(node);
+            return base.PrintNode(gridNode);
         }
 
-        private bool isWaypoint(Node node)
+        private bool isWaypoint(GridNode gridNode)
         {
             if (Path != null)
             {
                 if (Path.Length > 0)
                 {
-                    if (Path.Contains(node.worldPosition))
+                    if (Path.Contains(gridNode.worldPosition))
                     {
                         return true;
                     }

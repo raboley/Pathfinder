@@ -27,9 +27,9 @@ namespace Pathfinder.Pathfinder
         public Vector2 GridWorldSize;
         public Vector3 GridCenter;
 
-        public Node[,] grid;
+        public GridNode[,] grid;
         //     public bool unknownGrid;
-        //     public Node[,] unwalkableNodes;
+        //     public GridNode[,] unwalkableNodes;
         //
 
         int gridSizeX, gridSizeY;
@@ -38,7 +38,7 @@ namespace Pathfinder.Pathfinder
         //     {
         //         nodeDiameter = nodeRadius * 2;
 
-        //         unwalkableNodes = new Node[gridSizeX, gridSizeY];
+        //         unwalkableNodes = new GridNode[gridSizeX, gridSizeY];
         //         CreateGrid(unknownGrid);
         //     }
         //
@@ -47,7 +47,7 @@ namespace Pathfinder.Pathfinder
         //
         public void CreateGrid()
         {
-            grid = new Node[gridSizeX, gridSizeY];
+            grid = new GridNode[gridSizeX, gridSizeY];
             Vector3 worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
             BuildAndSetGridFromBottomLeftToTopRight(worldBottomLeft);
         }
@@ -71,10 +71,10 @@ namespace Pathfinder.Pathfinder
                     Vector3 worldPoint = worldBottomLeft
                                          + vectorRight() * (x * nodeDiameter + NodeRadius)
                                          + vectorForward() * (y * nodeDiameter + NodeRadius);
-                    Node node = new Node(worldPoint, true);
-                    node.gridX = x;
-                    node.gridY = y;
-                    grid[x, y] = node;
+                    GridNode gridNode = new GridNode(worldPoint, true);
+                    gridNode.gridX = x;
+                    gridNode.gridY = y;
+                    grid[x, y] = gridNode;
                 }
             }
         }
@@ -90,9 +90,9 @@ namespace Pathfinder.Pathfinder
         }
 
 
-        public List<Node> GetNeighbours(Node node)
+        public List<GridNode> GetNeighbours(GridNode gridNode)
         {
-            List<Node> neighbours = new List<Node>();
+            List<GridNode> neighbours = new List<GridNode>();
 
             for (int x = -1; x <= 1; x++)
             {
@@ -103,8 +103,8 @@ namespace Pathfinder.Pathfinder
                         continue;
                     }
 
-                    int checkX = node.gridX + x;
-                    int checkY = node.gridY + y;
+                    int checkX = gridNode.gridX + x;
+                    int checkY = gridNode.gridY + y;
 
                     if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
                     {
@@ -117,7 +117,7 @@ namespace Pathfinder.Pathfinder
         }
 
 
-        public Node NodeFromWorldPoint(Vector3 worldPosition)
+        public GridNode NodeFromWorldPoint(Vector3 worldPosition)
         {
             // Because our 2D array Grid starts at negative and goes to positive, and you can't have a negative index,
             // we basically take the value from the world, and if it is negative it must be in the bottom half of the 
@@ -145,9 +145,9 @@ namespace Pathfinder.Pathfinder
 
         public void AddUnWalkableNode(Vector3 position)
         {
-            Node node = NodeFromWorldPoint(position);
-            node.walkable = false;
-            grid[node.gridX, node.gridY] = node;
+            GridNode gridNode = NodeFromWorldPoint(position);
+            gridNode.walkable = false;
+            grid[gridNode.gridX, gridNode.gridY] = gridNode;
         }
 
         /// <summary>
@@ -210,13 +210,13 @@ x = obstacle";
         }
 
         //
-        //     public List<Node> path;
+        //     public List<GridNode> path;
         //     void OnDrawGizmos()
         //     {
         //         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
         //         if (grid != null && displayGridGizmos)
         //         {
-        //             foreach (Node n in grid)
+        //             foreach (GridNode n in grid)
         //             {
         //                 Gizmos.color = (n.walkable) ? Color.white : Color.red;
         //                 Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));

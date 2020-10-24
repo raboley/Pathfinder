@@ -4,26 +4,26 @@ namespace Pathfinder.Pathfinder
 {
     public interface INodePrinter
     {
-        string PrintNode(Node node);
+        string PrintNode(GridNode gridNode);
     }
 
     /// <summary>
-    /// Contains the implementation for an INodePrinter that will print if a node is walkable or not.
+    /// Contains the implementation for an INodePrinter that will print if a gridNode is walkable or not.
     /// </summary>
     public abstract class BasePrinter : INodePrinter
     {
         
-        public virtual string PrintNode(Node node)
+        public virtual string PrintNode(GridNode gridNode)
         {
-            if (NotWalkable(node))
+            if (NotWalkable(gridNode))
                 return ObstacleNode;
 
             return WalkableNode;
         }
 
-        private static bool NotWalkable(Node node)
+        private static bool NotWalkable(GridNode gridNode)
         {
-            return !node.walkable;
+            return !gridNode.walkable;
         }
         public string WalkableNode { get; } = "     " + NodeSeparator;
         public string ObstacleNode { get; } = "  x  " + NodeSeparator;

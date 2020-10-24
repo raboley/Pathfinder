@@ -33,23 +33,23 @@ namespace Pathfinder.Pathfinder
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
 
-        Node startNode = Grid.NodeFromWorldPoint(startPos);
-        Node targetNode = Grid.NodeFromWorldPoint(targetPos);
+        GridNode startGridNode = Grid.NodeFromWorldPoint(startPos);
+        GridNode targetGridNode = Grid.NodeFromWorldPoint(targetPos);
 
-        if (startNode.walkable && targetNode.walkable)
+        if (startGridNode.walkable && targetGridNode.walkable)
         {
-            Heap<Node> openSet = new Heap<Node>(Grid.MaxSize);
-            HashSet<Node> closedSet = new HashSet<Node>();
+            Heap<GridNode> openSet = new Heap<GridNode>(Grid.MaxSize);
+            HashSet<GridNode> closedSet = new HashSet<GridNode>();
 
-            openSet.Add(startNode);
+            openSet.Add(startGridNode);
 
             while (openSet.Count > 0)
             {
-                Node currentNode = openSet.RemoveFirst();
-                closedSet.Add(currentNode);
+                GridNode currentGridNode = openSet.RemoveFirst();
+                closedSet.Add(currentGridNode);
 
 
-                if (currentNode == targetNode)
+                if (currentGridNode == targetGridNode)
                 {
                     sw.Stop();
                     Console.WriteLine("Path found: " + sw.ElapsedMilliseconds + "ms");
@@ -57,20 +57,20 @@ namespace Pathfinder.Pathfinder
                     break;
                 }
 
-                foreach (Node neighbour in Grid.GetNeighbours(currentNode))
+                foreach (GridNode neighbour in Grid.GetNeighbours(currentGridNode))
                 {
                     if (!neighbour.walkable || closedSet.Contains(neighbour))
                     {
                         continue;
                     }
 
-                    int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
+                    int newMovementCostToNeighbour = currentGridNode.gCost + GetDistance(currentGridNode, neighbour);
 
                     if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour))
                     {
                         neighbour.gCost = newMovementCostToNeighbour;
-                        neighbour.hCost = GetDistance(neighbour, targetNode);
-                        neighbour.parent = currentNode;
+                        neighbour.hCost = GetDistance(neighbour, targetGridNode);
+                        neighbour.parent = currentGridNode;
 
                         if (!openSet.Contains(neighbour))
                             openSet.Add(neighbour);
@@ -85,17 +85,17 @@ namespace Pathfinder.Pathfinder
         {
             return null;
         }
-        waypoints = RetracePath(startNode, targetNode);
+        waypoints = RetracePath(startGridNode, targetGridNode);
         return waypoints;
     }
 
-    Vector3[] RetracePath(Node startNode, Node endNode) {
-        List<Node> path = new List<Node>();
-        Node currentNode = endNode;
+    Vector3[] RetracePath(GridNode startGridNode, GridNode endGridNode) {
+        List<GridNode> path = new List<GridNode>();
+        GridNode currentGridNode = endGridNode;
     
-        while (currentNode != startNode) {
-            path.Add(currentNode);
-            currentNode = currentNode.parent;
+        while (currentGridNode != startGridNode) {
+            path.Add(currentGridNode);
+            currentGridNode = currentGridNode.parent;
         }
         Vector3[] waypoints = SimplifyPath(path);
         Array.Reverse(waypoints);
@@ -103,7 +103,7 @@ namespace Pathfinder.Pathfinder
     
     }
     
-    Vector3[] SimplifyPath(List<Node> path) {
+    Vector3[] SimplifyPath(List<GridNode> path) {
         List<Vector3> waypoints = new List<Vector3>();
         Vector2 directionOld = Vector2.Zero;
     
@@ -117,9 +117,9 @@ namespace Pathfinder.Pathfinder
         return waypoints.ToArray();
     }
     
-    int GetDistance(Node nodeA, Node nodeB) {
-        int dstX = Math.Abs(nodeA.gridX - nodeB.gridX);
-        int dstY = Math.Abs(nodeA.gridY - nodeB.gridY);
+    int GetDistance(GridNode gridNodeA, GridNode gridNodeB) {
+        int dstX = Math.Abs(gridNodeA.gridX - gridNodeB.gridX);
+        int dstY = Math.Abs(gridNodeA.gridY - gridNodeB.gridY);
     
         if (dstX > dstY) {
             return 14*dstY + 10* (dstX-dstY);

@@ -8,7 +8,7 @@ using Pathfinder.Pathfinder;
 
 namespace Pathfinder.Pathfinder
 {
-    public class Node : IHeapItem<Node>
+    public class GridNode : IHeapItem<GridNode>
     {
         public bool walkable;
         public Vector3 worldPosition;
@@ -17,10 +17,10 @@ namespace Pathfinder.Pathfinder
 
         public int gCost;
         public int hCost;
-        public Node parent;
+        public GridNode parent;
         int heapIndex;
 
-        public Node(Vector3 _worldPos, bool _walkable = true)
+        public GridNode(Vector3 _worldPos, bool _walkable = true)
         {
             walkable = _walkable;
             worldPosition = _worldPos;
@@ -37,12 +37,12 @@ namespace Pathfinder.Pathfinder
             set { heapIndex = value; }
         }
 
-        public int CompareTo(Node nodeToCompare)
+        public int CompareTo(GridNode gridNodeToCompare)
         {
-            int compare = fCost.CompareTo(nodeToCompare.fCost);
+            int compare = fCost.CompareTo(gridNodeToCompare.fCost);
             if (compare == 0)
             {
-                compare = hCost.CompareTo(nodeToCompare.hCost);
+                compare = hCost.CompareTo(gridNodeToCompare.hCost);
             }
 
             return -compare;

@@ -11,13 +11,13 @@ namespace Pathfinder.Tests.Pathfinder
         public void CreateGridCanGenerateGridFromCorner()
         {
             // Arrange
-            Node[,] want = new Node[1, 1];
-            want[0, 0] = new Node(Vector3.Zero);
+            GridNode[,] want = new GridNode[1, 1];
+            want[0, 0] = new GridNode(Vector3.Zero);
 
             // Act
             Grid grid = new Grid(Vector2.One);
             grid.CreateGrid();
-            Node[,] got = grid.grid;
+            GridNode[,] got = grid.grid;
 
             // Assert
             Assert.Equal(want.Length, got.Length);
@@ -28,12 +28,12 @@ namespace Pathfinder.Tests.Pathfinder
         public void CanCreateGridWithMultipleNodes()
         {
             // Arrange
-            Node[,] want = SetupThreeByThreeGrid();
+            GridNode[,] want = SetupThreeByThreeGrid();
 
             // Act
             Grid grid = new Grid(new Vector2(3f, 3f));
             grid.CreateGrid();
-            Node[,] got = grid.grid;
+            GridNode[,] got = grid.grid;
 
             // Assert
             Assert.Equal(want.Length, got.Length);
@@ -49,7 +49,7 @@ namespace Pathfinder.Tests.Pathfinder
             //Act
             Grid grid = new Grid(new Vector2(3f, 3f));
             grid.CreateGrid();
-            List<Node> got = grid.GetNeighbours(grid.grid[2, 2]);
+            List<GridNode> got = grid.GetNeighbours(grid.grid[2, 2]);
 
             //Assert
             AssertListEqual(want, got);
@@ -59,9 +59,9 @@ namespace Pathfinder.Tests.Pathfinder
         public void NodeFromWorldPointCanGetANodeFromNegativeVector()
         {
             var grid = SetupSmallGrid();
-            Node want = grid.grid[0, 0];
+            GridNode want = grid.grid[0, 0];
 
-            Node got = grid.NodeFromWorldPoint(new Vector3(-1, 0, -1));
+            GridNode got = grid.NodeFromWorldPoint(new Vector3(-1, 0, -1));
 
             Assert.Equal(want.worldPosition, got.worldPosition);
         }
@@ -70,9 +70,9 @@ namespace Pathfinder.Tests.Pathfinder
         public void NodeFromWorldPointCanGetANodeFromPositiveVector()
         {
             var grid = SetupSmallGrid();
-            Node want = grid.grid[2, 2];
+            GridNode want = grid.grid[2, 2];
 
-            Node got = grid.NodeFromWorldPoint(new Vector3(1, 0, 1));
+            GridNode got = grid.NodeFromWorldPoint(new Vector3(1, 0, 1));
 
             Assert.Equal(want.worldPosition, got.worldPosition);
         }
@@ -81,9 +81,9 @@ namespace Pathfinder.Tests.Pathfinder
         public void NodeFromWorldPointCanGetANodeFromBigGrid()
         {
             var grid = SetupBigGrid();
-            Node want = grid.grid[30, 5];
+            GridNode want = grid.grid[30, 5];
 
-            Node got = grid.NodeFromWorldPoint(new Vector3(5, 0, -20));
+            GridNode got = grid.NodeFromWorldPoint(new Vector3(5, 0, -20));
 
             Assert.Equal(want.worldPosition, got.worldPosition);
         }
@@ -101,7 +101,7 @@ namespace Pathfinder.Tests.Pathfinder
         {
             var grid = SetupSmallGrid();
             var position = new Vector3(x, 0, y);
-            Node want = new Node(position, false);
+            GridNode want = new GridNode(position, false);
 
             grid.AddUnWalkableNode(position);
             var got = grid.grid[gridX, gridY];
@@ -399,24 +399,24 @@ x = obstacle
             return grid;
         }
 
-        private static List<Node> GetNeighborsListForEdgeNode()
+        private static List<GridNode> GetNeighborsListForEdgeNode()
         {
-            List<Node> want = new List<Node>();
-            want.Add(new Node(new Vector3(0, 0, 0 )));
-            want.Add(new Node(new Vector3(0, 0, 1 )));
-            want.Add(new Node(new Vector3(1, 0, 0 )));
-            // want.Add(new Node(new Vector3(-1, 0, -1)));
-            // want.Add(new Node(new Vector3(-1, 0, 0)));
-            // want.Add(new Node(new Vector3(-1, 0, 1)));
-            // want.Add(new Node(new Vector3(0, 0, -1)));
-            // want.Add(new Node(new Vector3(0, 0, 1)));
-            // want.Add(new Node(new Vector3(1, 0, -1)));
-            // want.Add(new Node(new Vector3(1, 0, 0)));
-            // want.Add(new Node(new Vector3(1, 0, 1)));
+            List<GridNode> want = new List<GridNode>();
+            want.Add(new GridNode(new Vector3(0, 0, 0 )));
+            want.Add(new GridNode(new Vector3(0, 0, 1 )));
+            want.Add(new GridNode(new Vector3(1, 0, 0 )));
+            // want.Add(new GridNode(new Vector3(-1, 0, -1)));
+            // want.Add(new GridNode(new Vector3(-1, 0, 0)));
+            // want.Add(new GridNode(new Vector3(-1, 0, 1)));
+            // want.Add(new GridNode(new Vector3(0, 0, -1)));
+            // want.Add(new GridNode(new Vector3(0, 0, 1)));
+            // want.Add(new GridNode(new Vector3(1, 0, -1)));
+            // want.Add(new GridNode(new Vector3(1, 0, 0)));
+            // want.Add(new GridNode(new Vector3(1, 0, 1)));
             return want;
         }
 
-        private static void AssertListEqual(List<Node> want, List<Node> got)
+        private static void AssertListEqual(List<GridNode> want, List<GridNode> got)
         {
             Assert.Equal(want.Count, got.Count);
             for (int i = 0; i < want.Count; i++)
@@ -425,23 +425,23 @@ x = obstacle
             }
         }
 
-        private static Node[,] SetupThreeByThreeGrid()
+        private static GridNode[,] SetupThreeByThreeGrid()
         {
-            Node[,] want = new Node[3, 3];
-            want[0, 0] = new Node(new Vector3(-1f, 0, -1f));
-            want[0, 1] = new Node(new Vector3(-1f, 0f, 0f));
-            want[0, 2] = new Node(new Vector3(-1f, 0f, 1f));
-            want[1, 0] = new Node(new Vector3(0f, 0f, -1f));
-            want[1, 1] = new Node(new Vector3(0f, 0f, 0f));
-            want[1, 2] = new Node(new Vector3(0f, 0f, 1f));
-            want[2, 0] = new Node(new Vector3(1f, 0f, -1f));
-            want[2, 1] = new Node(new Vector3(1f, 0f, 0f));
-            want[2, 2] = new Node(new Vector3(1f, 0f, 1f));
+            GridNode[,] want = new GridNode[3, 3];
+            want[0, 0] = new GridNode(new Vector3(-1f, 0, -1f));
+            want[0, 1] = new GridNode(new Vector3(-1f, 0f, 0f));
+            want[0, 2] = new GridNode(new Vector3(-1f, 0f, 1f));
+            want[1, 0] = new GridNode(new Vector3(0f, 0f, -1f));
+            want[1, 1] = new GridNode(new Vector3(0f, 0f, 0f));
+            want[1, 2] = new GridNode(new Vector3(0f, 0f, 1f));
+            want[2, 0] = new GridNode(new Vector3(1f, 0f, -1f));
+            want[2, 1] = new GridNode(new Vector3(1f, 0f, 0f));
+            want[2, 2] = new GridNode(new Vector3(1f, 0f, 1f));
             return want;
         }
 
 
-        private static void AssertGridEqual(Node[,] want, Node[,] got)
+        private static void AssertGridEqual(GridNode[,] want, GridNode[,] got)
         {
             for (int i = 0; i <= want.GetUpperBound(0); i++)
             {
@@ -452,7 +452,7 @@ x = obstacle
             }
         }
 
-        private static void AssertNodeFromGridsEqual(Node[,] want, Node[,] got, int i, int j)
+        private static void AssertNodeFromGridsEqual(GridNode[,] want, GridNode[,] got, int i, int j)
         {
             Assert.Equal(want[i, j].worldPosition, got[i, j].worldPosition);
             Assert.Equal(want[i, j].walkable, got[i, j].walkable);

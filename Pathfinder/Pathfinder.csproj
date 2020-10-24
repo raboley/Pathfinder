@@ -48,7 +48,7 @@
         <Compile Include="Heap.cs" />
         <Compile Include="GridMath.cs" />
         <Compile Include="INodePrinter.cs" />
-        <Compile Include="Node.cs" />
+        <Compile Include="GridNode.cs" />
         <Compile Include="Pathfinding.cs" />
         <Compile Include="PrintCoordinates.cs" />
         <Compile Include="PrintWalkable.cs" />

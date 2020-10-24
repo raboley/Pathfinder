@@ -4,10 +4,10 @@ namespace Pathfinder.Pathfinder
     {
         private string _coordSeparator = ",";
 
-        public override string PrintNode(Node node)
+        public override string PrintNode(GridNode gridNode)
         {
-            var x = node.worldPosition.X;
-            var y = node.worldPosition.Z;
+            var x = gridNode.worldPosition.X;
+            var y = gridNode.worldPosition.Z;
             string xNode = x.ToString().PadLeft(3, ' ');
             string yNode = y.ToString().PadRight(3, ' ');
             
