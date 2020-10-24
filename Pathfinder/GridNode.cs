@@ -24,6 +24,7 @@ namespace Pathfinder.Pathfinder
         {
             Walkable = _walkable;
             WorldPosition = _worldPos;
+            Entities = new List<IEntity>();
         }
 
         public int fCost
@@ -38,6 +39,7 @@ namespace Pathfinder.Pathfinder
         }
 
         public bool Unknown { get; set; } = true;
+        public List<IEntity> Entities { get; set; }
 
         public int CompareTo(GridNode gridNodeToCompare)
         {

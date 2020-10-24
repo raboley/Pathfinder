@@ -11,7 +11,9 @@
         <e p="GridMath.cs" t="Include" />
         <e p="GridNode.cs" t="Include" />
         <e p="Heap.cs" t="Include" />
+        <e p="IEntity.cs" t="Include" />
         <e p="INodePrinter.cs" t="Include" />
+        <e p="NPC.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Pathfinder.csproj" t="IncludeRecursive" />

@@ -52,7 +52,7 @@ namespace Pathfinder.Tests.Pathfinder
             var got = grid.GetNeighbours(grid.grid[2, 2]);
 
             //Assert
-            AssertListEqual(want, got);
+            AssertListGridNodesEqual(want, got);
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace Pathfinder.Tests.Pathfinder
 
             Assert.Equal(want.WorldPosition, got.WorldPosition);
         }
-        
+
         [Fact]
         public void NodeFromWorldPointCanGetANodeFromBigGrid()
         {
@@ -126,7 +126,7 @@ namespace Pathfinder.Tests.Pathfinder
             string got = grid.Print();
             Assert.Equal(want, got);
         }
-        
+
         [Fact]
         public void TestPrintWithCoordsSmallGrid()
         {
@@ -144,7 +144,7 @@ namespace Pathfinder.Tests.Pathfinder
             string got = grid.PrintWithCoords();
             Assert.Equal(want, got);
         }
-        
+
         [Fact]
         public void TestPrintSmallGridWithObstacles()
         {
@@ -163,17 +163,17 @@ namespace Pathfinder.Tests.Pathfinder
             var pos1 = new Vector3(0, 0, 1);
             var pos2 = new Vector3(-1, 0, 1);
             var pos3 = new Vector3(-1, 0, 0);
-            
+
             grid.AddUnWalkableNode(Vector3.Zero);
             grid.AddUnWalkableNode(pos1);
             grid.AddUnWalkableNode(pos2);
             grid.AddUnWalkableNode(pos3);
             string got = grid.Print();
-            
+
             AssertPointNotWalkable(grid, pos1);
             AssertPointNotWalkable(grid, pos2);
             AssertPointNotWalkable(grid, pos3);
-            
+
             Assert.Equal(want, got);
         }
 
@@ -205,7 +205,7 @@ namespace Pathfinder.Tests.Pathfinder
             string got = grid.Print();
             Assert.Equal(want, got);
         }
-        
+
         [Fact]
         public void TestPrintBigGrid()
         {
@@ -318,12 +318,11 @@ namespace Pathfinder.Tests.Pathfinder
             var grid = SetupBigGrid();
             string got = grid.Print();
             Assert.Equal(want, got);
-        }     
-        
+        }
+
         [Fact]
         public void TestPrintPathShowsAllWithLegend()
         {
-
             const string want = @"
 Visualization of the path
 s = start
@@ -344,7 +343,7 @@ x = obstacle
 ";
 
             var pathfinding = SetupForPathfinding();
-            
+
             pathfinding.Grid.AddUnWalkableNode(Vector3.Zero);
             pathfinding.Grid.AddUnWalkableNode(new Vector3(-1, 0, 0));
             pathfinding.Grid.AddUnWalkableNode(new Vector3(-2, 0, 0));
@@ -352,7 +351,6 @@ x = obstacle
             pathfinding.Grid.AddUnWalkableNode(new Vector3(-4, 0, 0));
 
 
-            
             var path = new[]
             {
                 new Vector3(-1, 0, -1),
@@ -365,8 +363,8 @@ x = obstacle
 
             // act
             string got = pathfinding.Grid.PrintPath(startPos, endPos, path);
-            
-            
+
+
             // assert
             Assert.Equal(want, got);
         }
@@ -389,7 +387,7 @@ x = obstacle
 
             Assert.Equal(want, got);
         }
-        
+
         [Fact]
         public void TestCanPrintUnknownGridWithKnownSpots()
         {
@@ -403,16 +401,16 @@ x = obstacle
 -------------------
 ";
             var grid = SetupSmallGrid();
-            
-            grid.AddKnownNode(new Vector3(0, 0,  0));
-            grid.AddKnownNode(new Vector3(1, 0,  0));
-            grid.AddKnownNode(new Vector3(1, 0,  -1));
-            grid.AddKnownNode(new Vector3(-1, 0,  -1));
+
+            grid.AddKnownNode(new Vector3(0, 0, 0));
+            grid.AddKnownNode(new Vector3(1, 0, 0));
+            grid.AddKnownNode(new Vector3(1, 0, -1));
+            grid.AddKnownNode(new Vector3(-1, 0, -1));
             string got = grid.PrintKnown();
 
             Assert.Equal(want, got);
         }
-        
+
 
         [Fact]
         public void TestCanSetUnknownState()
@@ -421,10 +419,10 @@ x = obstacle
             var grid = SetupSmallGrid();
             grid.grid[0, 0].Unknown = want;
             bool got = grid.grid[0, 0].Unknown;
-            
+
             Assert.Equal(want, got);
         }
-        
+
         [Theory]
         [InlineData(-1, -1, 0, 0)]
         [InlineData(0, -1, 1, 0)]
@@ -438,18 +436,45 @@ x = obstacle
         {
             var grid = SetupSmallGrid();
             var position = new Vector3(x, 0, y);
-            bool want = new GridNode(position).Unknown = false;
+            const bool want = false;
 
             grid.AddKnownNode(position);
             bool got = grid.grid[gridX, gridY].Unknown;
 
             Assert.Equal(want, got);
         }
-        
+
+        [Theory]
+        [InlineData(-1, -1, 0, 0)]
+        [InlineData(0, -1, 1, 0)]
+        [InlineData(-1, 0, 0, 1)]
+        [InlineData(0, 0, 1, 1)]
+        [InlineData(1, 0, 2, 1)]
+        [InlineData(-1, -1, 0, 0)]
+        [InlineData(0, 1, 1, 2)]
+        [InlineData(1, 1, 2, 2)]
+        public void TestAddEntityToNode(float x, float y, int gridX, int gridY)
+        {
+            var grid = SetupSmallGrid();
+            var position = new Vector3(x, 0, y);
+            var want = new List<IEntity> {new NPC("rabbit")};
+            
+            grid.AddEntities(position, new List<IEntity>{new NPC("rabbit")});
+
+            foreach (var t in want)
+            {
+                t.Position = position;
+            }
+
+            var got = grid.grid[gridX, gridY].Entities;
+
+            AssertListEntitiesEqual(want, got);
+        }
+
         //********************************************************************************************************//
-        // Test Functions
+        // Test Helper Functions
         //********************************************************************************************************//
-        
+
         private static Pathfinding SetupForPathfinding()
         {
             var pathfinding = new Pathfinding();
@@ -458,19 +483,21 @@ x = obstacle
             pathfinding.Grid = grid;
             return pathfinding;
         }
+
         private static Grid SetupSmallGrid()
         {
             var grid = new Grid(new Vector2(3f, 3f));
             grid.CreateGrid();
             return grid;
         }
+
         private static Grid SetupMediumGrid()
         {
             var grid = new Grid(new Vector2(5f, 5f));
             grid.CreateGrid();
             return grid;
         }
-        
+
         private static Grid SetupBigGrid()
         {
             var grid = new Grid(new Vector2(51f, 51f));
@@ -497,12 +524,22 @@ x = obstacle
             return want;
         }
 
-        private static void AssertListEqual(IReadOnlyList<GridNode> want, List<GridNode> got)
+        private static void AssertListGridNodesEqual(IReadOnlyList<GridNode> want, List<GridNode> got)
         {
             Assert.Equal(want.Count, got.Count);
             for (var i = 0; i < want.Count; i++)
             {
                 Assert.Equal(want[i], got[i]);
+            }
+        }
+        
+        private static void AssertListEntitiesEqual(List<IEntity> want, List<IEntity> got)
+        {
+            Assert.Equal(want.Count, got.Count);
+            for (var i = 0; i < want.Count; i++)
+            {
+                Assert.Equal(want[i].Name, got[i].Name);
+                Assert.Equal(want[i].Position, got[i].Position);
             }
         }
 

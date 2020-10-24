@@ -168,7 +168,7 @@ namespace Pathfinder.Pathfinder
             string printedGrid = print(printer, columnTop: columnTop);
             return printedGrid;
         }
-        
+
         public string PrintPath(Vector3 startPos, Vector3 endPos, Vector3[] path)
         {
             var legend = @"
@@ -181,7 +181,6 @@ x = obstacle";
             var printer = new PrintPath {Start = startPos, End = endPos, Path = path};
             string printedGrid = print(printer, legend);
             return printedGrid;
-
         }
 
 
@@ -228,14 +227,27 @@ x = obstacle";
         {
             INodePrinter printer = new PrintKnown();
             string printedGrid = print(printer);
-            return printedGrid; 
+            return printedGrid;
         }
 
         public void AddKnownNode(Vector3 worldPoint)
         {
             var gridNode = NodeFromWorldPoint(worldPoint);
             gridNode.Unknown = false;
-            grid[gridNode.GridX, gridNode.GridY] = gridNode; 
+            grid[gridNode.GridX, gridNode.GridY] = gridNode;
+        }
+
+        public void AddEntities(Vector3 position, IEnumerable<IEntity> entities)
+        {
+            var gridNode = NodeFromWorldPoint(position);
+
+            foreach (var entity in entities)
+            {
+                entity.Position = position;
+            }
+            
+            gridNode.Entities.AddRange(entities);
+            grid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
     }
 }
