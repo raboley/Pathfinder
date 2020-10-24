@@ -171,7 +171,7 @@ namespace Pathfinder.Pathfinder
         
         public string PrintPath(Vector3 startPos, Vector3 endPos, Vector3[] path)
         {
-            string legend = @"
+            var legend = @"
 Visualization of the path
 s = start
 e = end

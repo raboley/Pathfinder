@@ -11,13 +11,13 @@ namespace Pathfinder.Tests.Pathfinder
         public void CreateGridCanGenerateGridFromCorner()
         {
             // Arrange
-            GridNode[,] want = new GridNode[1, 1];
+            var want = new GridNode[1, 1];
             want[0, 0] = new GridNode(Vector3.Zero);
 
             // Act
-            Grid grid = new Grid(Vector2.One);
+            var grid = new Grid(Vector2.One);
             grid.CreateGrid();
-            GridNode[,] got = grid.grid;
+            var got = grid.grid;
 
             // Assert
             Assert.Equal(want.Length, got.Length);
@@ -28,12 +28,12 @@ namespace Pathfinder.Tests.Pathfinder
         public void CanCreateGridWithMultipleNodes()
         {
             // Arrange
-            GridNode[,] want = SetupThreeByThreeGrid();
+            var want = SetupThreeByThreeGrid();
 
             // Act
-            Grid grid = new Grid(new Vector2(3f, 3f));
+            var grid = new Grid(new Vector2(3f, 3f));
             grid.CreateGrid();
-            GridNode[,] got = grid.grid;
+            var got = grid.grid;
 
             // Assert
             Assert.Equal(want.Length, got.Length);
@@ -47,9 +47,9 @@ namespace Pathfinder.Tests.Pathfinder
             var want = GetNeighborsListForEdgeNode();
 
             //Act
-            Grid grid = new Grid(new Vector2(3f, 3f));
+            var grid = new Grid(new Vector2(3f, 3f));
             grid.CreateGrid();
-            List<GridNode> got = grid.GetNeighbours(grid.grid[2, 2]);
+            var got = grid.GetNeighbours(grid.grid[2, 2]);
 
             //Assert
             AssertListEqual(want, got);
@@ -59,9 +59,9 @@ namespace Pathfinder.Tests.Pathfinder
         public void NodeFromWorldPointCanGetANodeFromNegativeVector()
         {
             var grid = SetupSmallGrid();
-            GridNode want = grid.grid[0, 0];
+            var want = grid.grid[0, 0];
 
-            GridNode got = grid.NodeFromWorldPoint(new Vector3(-1, 0, -1));
+            var got = grid.NodeFromWorldPoint(new Vector3(-1, 0, -1));
 
             Assert.Equal(want.worldPosition, got.worldPosition);
         }
@@ -70,9 +70,9 @@ namespace Pathfinder.Tests.Pathfinder
         public void NodeFromWorldPointCanGetANodeFromPositiveVector()
         {
             var grid = SetupSmallGrid();
-            GridNode want = grid.grid[2, 2];
+            var want = grid.grid[2, 2];
 
-            GridNode got = grid.NodeFromWorldPoint(new Vector3(1, 0, 1));
+            var got = grid.NodeFromWorldPoint(new Vector3(1, 0, 1));
 
             Assert.Equal(want.worldPosition, got.worldPosition);
         }
@@ -81,9 +81,9 @@ namespace Pathfinder.Tests.Pathfinder
         public void NodeFromWorldPointCanGetANodeFromBigGrid()
         {
             var grid = SetupBigGrid();
-            GridNode want = grid.grid[30, 5];
+            var want = grid.grid[30, 5];
 
-            GridNode got = grid.NodeFromWorldPoint(new Vector3(5, 0, -20));
+            var got = grid.NodeFromWorldPoint(new Vector3(5, 0, -20));
 
             Assert.Equal(want.worldPosition, got.worldPosition);
         }
@@ -101,7 +101,7 @@ namespace Pathfinder.Tests.Pathfinder
         {
             var grid = SetupSmallGrid();
             var position = new Vector3(x, 0, y);
-            GridNode want = new GridNode(position, false);
+            var want = new GridNode(position, false);
 
             grid.AddUnWalkableNode(position);
             var got = grid.grid[gridX, gridY];
@@ -112,7 +112,7 @@ namespace Pathfinder.Tests.Pathfinder
         [Fact]
         public void TestPrintSmallGrid()
         {
-            string want = @"
+            const string want = @"
 -------------------
 |     |     |     |
 -------------------
@@ -130,7 +130,7 @@ namespace Pathfinder.Tests.Pathfinder
         [Fact]
         public void TestPrintWithCoordsSmallGrid()
         {
-            string want = @"
+            const string want = @"
 -------------------------
 | -1,1  |  0,1  |  1,1  |
 -------------------------
@@ -148,7 +148,7 @@ namespace Pathfinder.Tests.Pathfinder
         [Fact]
         public void TestPrintSmallGridWithObstacles()
         {
-            string want = @"
+            const string want = @"
 -------------------
 |  x  |  x  |     |
 -------------------
@@ -187,7 +187,7 @@ namespace Pathfinder.Tests.Pathfinder
         [Fact]
         public void TestPrintMediumGrid()
         {
-            string want = @"
+            const string want = @"
 -------------------------------
 |     |     |     |     |     |
 -------------------------------
@@ -209,7 +209,7 @@ namespace Pathfinder.Tests.Pathfinder
         [Fact]
         public void TestPrintBigGrid()
         {
-            string want = @"
+            const string want = @"
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |     |
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -324,7 +324,7 @@ namespace Pathfinder.Tests.Pathfinder
         public void TestPrintPathShowsAllWithLegend()
         {
 
-            string want = @"
+            const string want = @"
 Visualization of the path
 s = start
 e = end
@@ -353,7 +353,7 @@ x = obstacle
 
 
             
-            Vector3[] path = new[]
+            var path = new[]
             {
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, -1),
@@ -364,7 +364,7 @@ x = obstacle
             var endPos = new Vector3(-2, 0, 1);
 
             // act
-            var got = pathfinding.Grid.PrintPath(startPos, endPos, path);
+            string got = pathfinding.Grid.PrintPath(startPos, endPos, path);
             
             
             // assert
@@ -373,7 +373,7 @@ x = obstacle
         
         private static Pathfinding SetupForPathfinding()
         {
-            Pathfinding pathfinding = new Pathfinding();
+            var pathfinding = new Pathfinding();
             var grid = new Grid(new Vector2(5, 5));
             grid.CreateGrid();
             pathfinding.Grid = grid;
@@ -381,30 +381,32 @@ x = obstacle
         }
         private static Grid SetupSmallGrid()
         {
-            Grid grid = new Grid(new Vector2(3f, 3f));
+            var grid = new Grid(new Vector2(3f, 3f));
             grid.CreateGrid();
             return grid;
         }
         private static Grid SetupMediumGrid()
         {
-            Grid grid = new Grid(new Vector2(5f, 5f));
+            var grid = new Grid(new Vector2(5f, 5f));
             grid.CreateGrid();
             return grid;
         }
         
         private static Grid SetupBigGrid()
         {
-            Grid grid = new Grid(new Vector2(51f, 51f));
+            var grid = new Grid(new Vector2(51f, 51f));
             grid.CreateGrid();
             return grid;
         }
 
         private static List<GridNode> GetNeighborsListForEdgeNode()
         {
-            List<GridNode> want = new List<GridNode>();
-            want.Add(new GridNode(new Vector3(0, 0, 0 )));
-            want.Add(new GridNode(new Vector3(0, 0, 1 )));
-            want.Add(new GridNode(new Vector3(1, 0, 0 )));
+            var want = new List<GridNode>
+            {
+                new GridNode(new Vector3(0, 0, 0)),
+                new GridNode(new Vector3(0, 0, 1)),
+                new GridNode(new Vector3(1, 0, 0))
+            };
             // want.Add(new GridNode(new Vector3(-1, 0, -1)));
             // want.Add(new GridNode(new Vector3(-1, 0, 0)));
             // want.Add(new GridNode(new Vector3(-1, 0, 1)));
@@ -416,10 +418,10 @@ x = obstacle
             return want;
         }
 
-        private static void AssertListEqual(List<GridNode> want, List<GridNode> got)
+        private static void AssertListEqual(IReadOnlyList<GridNode> want, List<GridNode> got)
         {
             Assert.Equal(want.Count, got.Count);
-            for (int i = 0; i < want.Count; i++)
+            for (var i = 0; i < want.Count; i++)
             {
                 Assert.Equal(want[i], got[i]);
             }
@@ -427,7 +429,7 @@ x = obstacle
 
         private static GridNode[,] SetupThreeByThreeGrid()
         {
-            GridNode[,] want = new GridNode[3, 3];
+            var want = new GridNode[3, 3];
             want[0, 0] = new GridNode(new Vector3(-1f, 0, -1f));
             want[0, 1] = new GridNode(new Vector3(-1f, 0f, 0f));
             want[0, 2] = new GridNode(new Vector3(-1f, 0f, 1f));
@@ -443,9 +445,9 @@ x = obstacle
 
         private static void AssertGridEqual(GridNode[,] want, GridNode[,] got)
         {
-            for (int i = 0; i <= want.GetUpperBound(0); i++)
+            for (var i = 0; i <= want.GetUpperBound(0); i++)
             {
-                for (int j = 0; j <= want.GetUpperBound(1); j++)
+                for (var j = 0; j <= want.GetUpperBound(1); j++)
                 {
                     AssertNodeFromGridsEqual(want, got, i, j);
                 }
