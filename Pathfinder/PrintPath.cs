@@ -4,27 +4,10 @@ using System.Numerics;
 
 namespace Pathfinder.Pathfinder
 {
-    public class PrintPath : INodePrinter
+    public class PrintPath : BasePrinter
     {
-        public static PrintPath CreateInstance()
+        public override string PrintNode(Node node)
         {
-            var printer = new PrintPath
-            {
-                ObstacleNode = "  x  |",
-                WalkableNode = "     |",
-                EndNode = "  e  |",
-                StartNode = "  s  |",
-                WaypointNode = "  w  |"
-            };
-
-            return printer;
-        }
-
-        public string PrintNode(Node node)
-        {
-            if (node.walkable == false)
-                return ObstacleNode;
-
             if (node.worldPosition == Start)
                 return StartNode;
 
@@ -33,8 +16,8 @@ namespace Pathfinder.Pathfinder
 
             if (isWaypoint(node))
                 return WaypointNode;
-
-            return WalkableNode;
+            
+            return base.PrintNode(node);
         }
 
         private bool isWaypoint(Node node)
@@ -57,14 +40,11 @@ namespace Pathfinder.Pathfinder
         public Vector3 End { get; set; }
         public Vector3[] Path { get; set; }
 
-        public string WaypointNode { get; set; }
+        public string WaypointNode { get; set; } = "  w  " + NodeSeparator;
 
-        public string StartNode { get; set; }
+        public string StartNode { get; set; } = "  s  " + NodeSeparator;
 
-        public string EndNode { get; set; }
+        public string EndNode { get; set; } = "  e  " + NodeSeparator;
 
-        public string WalkableNode { get; set; }
-
-        public string ObstacleNode { get; set; }
     }
 }

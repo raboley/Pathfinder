@@ -7,6 +7,9 @@ namespace Pathfinder.Pathfinder
         string PrintNode(Node node);
     }
 
+    /// <summary>
+    /// Contains the implementation for an INodePrinter that will print if a node is walkable or not.
+    /// </summary>
     public abstract class BasePrinter : INodePrinter
     {
         

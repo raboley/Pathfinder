@@ -171,18 +171,15 @@ namespace Pathfinder.Pathfinder
         
         public string PrintPath(Vector3 startPos, Vector3 endPos, Vector3[] path)
         {
-            string result = @"
+            string legend = @"
 Visualization of the path
 s = start
 e = end
 w = waypoint
 x = obstacle";
-            
-            var printer = Pathfinder.PrintPath.CreateInstance();
-            printer.Start = startPos;
-            printer.End = endPos;
-            printer.Path = path;
-            string printedGrid = print(printer, result);
+
+            var printer = new PrintPath {Start = startPos, End = endPos, Path = path};
+            string printedGrid = print(printer, legend);
             return printedGrid;
 
         }

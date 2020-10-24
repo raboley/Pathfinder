@@ -11,7 +11,7 @@ namespace Pathfinder.Tests.Pathfinder
         public void TestPrintPathPrintsObstacleWhenPresent()
         {
             var node = new Node(Vector3.One, false); 
-            var printer = PrintPath.CreateInstance();
+            var printer = new PrintPath();
             string want = printer.ObstacleNode;
 
             string got = printer.PrintNode(node);
@@ -24,7 +24,7 @@ namespace Pathfinder.Tests.Pathfinder
         public void TestPrintPathPrintsWalkable()
         {
             var node = new Node(Vector3.One, true); 
-            var printer = PrintPath.CreateInstance();
+            var printer = new PrintPath();
             string want = printer.WalkableNode;
 
             string got = printer.PrintNode(node);
@@ -37,7 +37,7 @@ namespace Pathfinder.Tests.Pathfinder
         {
             var pathStart = Vector3.One;
             var node = new Node(pathStart, true); 
-            var printer = PrintPath.CreateInstance();
+            var printer = new PrintPath();
             printer.Start = pathStart;
             string want = printer.StartNode;
 
@@ -50,9 +50,8 @@ namespace Pathfinder.Tests.Pathfinder
         public void TestPrintPathPrintsEnd()
         {
             var pathEnd = Vector3.One;
-            var node = new Node(pathEnd, true); 
-            var printer = PrintPath.CreateInstance();
-            printer.End = pathEnd;
+            var node = new Node(pathEnd, true);
+            var printer = new PrintPath {End = pathEnd};
             string want = printer.EndNode;
 
             string got = printer.PrintNode(node);
@@ -65,7 +64,7 @@ namespace Pathfinder.Tests.Pathfinder
         {
             var pathWaypoint = Vector3.One;
             var node = new Node(pathWaypoint, true); 
-            var printer = PrintPath.CreateInstance();
+            var printer = new PrintPath();
             printer.Path = new[] {pathWaypoint};
             string want = printer.WaypointNode;
 
