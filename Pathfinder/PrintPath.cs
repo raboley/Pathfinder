@@ -20,21 +20,21 @@ namespace Pathfinder.Pathfinder
             return printer;
         }
 
-        public string PrintNode(Node node, string result = "")
+        public string PrintNode(Node node)
         {
             if (node.walkable == false)
-                return result + ObstacleNode;
+                return ObstacleNode;
 
             if (node.worldPosition == Start)
-                return result + StartNode;
+                return StartNode;
 
             if (node.worldPosition == End)
-                return result + EndNode;
+                return EndNode;
 
             if (isWaypoint(node))
-                return result + WaypointNode;
+                return WaypointNode;
 
-            return result + WalkableNode;
+            return WalkableNode;
         }
 
         private bool isWaypoint(Node node)

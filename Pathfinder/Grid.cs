@@ -156,7 +156,7 @@ namespace Pathfinder.Pathfinder
         ///
         public string Print()
         {
-            INodePrinter printer = new PrintObstacles();
+            INodePrinter printer = new PrintWalkable();
             string printedGrid = print(printer);
             return printedGrid;
         }
@@ -203,7 +203,7 @@ x = obstacle";
                 for (int x = -1 * column / 2; x <= column / 2; x++)
                 {
                     var node = NodeFromWorldPoint(new Vector3(x, 0, y));
-                    result = nodePrinter.PrintNode(node, result);
+                    result += nodePrinter.PrintNode(node);
                 }
 
                 result += header;
