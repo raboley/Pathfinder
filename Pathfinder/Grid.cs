@@ -177,7 +177,7 @@ namespace Pathfinder.Pathfinder
                 result += "|";
                 for (int x = -1*column/2; x <= column/2; x++)
                 {
-                    var node = NodeFromWorldPoint(new Vector3(y, 0, x));
+                    var node = NodeFromWorldPoint(new Vector3(x, 0, y));
                     if (withCoords)
                     {
                         result += x.ToString().PadLeft(3, ' ') + "," + y.ToString().PadRight(3, ' ') + "|"; 

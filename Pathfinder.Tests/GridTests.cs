@@ -152,37 +152,27 @@ namespace Pathfinder.Tests.Pathfinder
 -------------------
 |  x  |  x  |     |
 -------------------
-|     |  x  |     |
+|  x  |  x  |     |
 -------------------
 |     |     |     |
 -------------------
 ";
 
-            string temp = @"
--------------------
-|  x  |  x  |     |
--------------------
-|     |  x  |     |
--------------------
-|     |     |     |
--------------------
-";
-            
             // var grid = SetupSmallGrid();
             var grid = SetupSmallGrid();
             var pos1 = new Vector3(0, 0, 1);
             var pos2 = new Vector3(-1, 0, 1);
-            // var pos3 = new Vector3(-1, 0, 0);
+            var pos3 = new Vector3(-1, 0, 0);
             
             grid.AddUnWalkableNode(Vector3.Zero);
             grid.AddUnWalkableNode(pos1);
             grid.AddUnWalkableNode(pos2);
-            // grid.AddUnWalkableNode(pos3);
+            grid.AddUnWalkableNode(pos3);
             string got = grid.Print();
             
             AssertPointNotWalkable(grid, pos1);
             AssertPointNotWalkable(grid, pos2);
-            // AssertPointNotWalkable(grid, pos3);
+            AssertPointNotWalkable(grid, pos3);
             
             Assert.Equal(want, got);
         }
