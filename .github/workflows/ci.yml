@@ -33,7 +33,7 @@ jobs:
         run: nuget setapikey ${{ secrets.GITHUB_TOKEN }} -Source "github"
         
       - name: Publish the package to GitHub packages
-        run: nuget push bin\Debug\*.nupkg -source "github" -SkipDuplicate
+        run: nuget push obj\Release\*.nupkg -source "github" -SkipDuplicate
 
       # - name: Setup dotnet
       #   uses: actions/setup-dotnet@v1
