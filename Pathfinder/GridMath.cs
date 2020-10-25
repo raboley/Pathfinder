@@ -11,7 +11,7 @@ namespace Pathfinder.Pathfinder
         public static int ConvertFromFloatToInt(float startingFloat)
         {
 
-            int roundedInt = Convert.ToInt16(Math.Round(Convert.ToDouble(startingFloat)));
+            int roundedInt = Convert.ToInt32(Math.Round(Convert.ToDouble(startingFloat)));
             return roundedInt;
         }
         

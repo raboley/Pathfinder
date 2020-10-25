@@ -18,8 +18,7 @@ namespace Pathfinder.Tests.Pathfinder
             want[0, 0] = new GridNode(Vector3.Zero);
 
             // Act
-            var grid = new Grid(Vector2.One);
-            grid.CreateGrid();
+            var grid = Grid.NewGridFromVector2(Vector2.One);
             var got = grid.MapGrid;
 
             // Assert
@@ -34,8 +33,7 @@ namespace Pathfinder.Tests.Pathfinder
             var want = SetupThreeByThreeGrid();
 
             // Act
-            var grid = new Grid(new Vector2(3f, 3f));
-            grid.CreateGrid();
+            var grid = Grid.NewGridFromVector2(new Vector2(3f, 3f));
             var got = grid.MapGrid;
 
             // Assert
@@ -50,8 +48,7 @@ namespace Pathfinder.Tests.Pathfinder
             var want = GetNeighborsListForEdgeNode();
 
             //Act
-            var grid = new Grid(new Vector2(3f, 3f));
-            grid.CreateGrid();
+            var grid = Grid.NewGridFromVector2(new Vector2(3f, 3f));
             var got = grid.GetNeighbours(grid.MapGrid[2, 2]);
 
             //Assert
@@ -467,7 +464,7 @@ x = obstacle
             foreach (var t in want)
             {
                 t.Position = position;
-                t.Zone = _smallGridZoneName;
+                t.MapName = _smallGridZoneName;
             }
 
             var got = grid.MapGrid[gridX, gridY].Entities;
@@ -482,30 +479,27 @@ x = obstacle
         private static Pathfinding SetupForPathfinding()
         {
             var pathfinding = new Pathfinding();
-            var grid = new Grid(new Vector2(5, 5));
-            grid.CreateGrid();
+            var grid = Grid.NewGridFromVector2(new Vector2(5, 5));
             pathfinding.Grid = grid;
             return pathfinding;
         }
 
         private static Grid SetupSmallGrid()
         {
-            var grid = new Grid(new Vector2(3f, 3f)) {ZoneName = _smallGridZoneName};
-            grid.CreateGrid();
+            var grid = Grid.NewGridFromVector2(new Vector2(3f, 3f));
+            grid.MapName = _smallGridZoneName;
             return grid;
         }
 
         private static Grid SetupMediumGrid()
         {
-            var grid = new Grid(new Vector2(5f, 5f));
-            grid.CreateGrid();
+            var grid = Grid.NewGridFromVector2(new Vector2(5f, 5f));
             return grid;
         }
 
         private static Grid SetupBigGrid()
         {
-            var grid = new Grid(new Vector2(51f, 51f));
-            grid.CreateGrid();
+            var grid = Grid.NewGridFromVector2(new Vector2(51f, 51f));
             return grid;
         }
 
@@ -545,7 +539,7 @@ x = obstacle
             {
                 Assert.Equal(want[i].Name, got[i].Name);
                 Assert.Equal(want[i].Position, got[i].Position);
-                Assert.Equal(want[i].Zone, got[i].Zone);
+                Assert.Equal(want[i].MapName, got[i].MapName);
             }
         }
 

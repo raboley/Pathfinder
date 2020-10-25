@@ -11,6 +11,6 @@ namespace Pathfinder.Pathfinder
 
         public string Name { get; set; }
         public Vector3 Position { get; set; }
-        public string Zone { get; set; }
+        public string MapName { get; set; }
     }
 }

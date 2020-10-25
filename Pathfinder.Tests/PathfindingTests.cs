@@ -96,8 +96,7 @@ namespace Pathfinder.Tests.Pathfinder
         private static Pathfinding SetupForPathfinding()
         {
             Pathfinding pathfinding = new Pathfinding();
-            var grid = new Grid(new Vector2(5, 5));
-            grid.CreateGrid();
+            var grid = Grid.NewGridFromVector2(new Vector2(5, 5));
             pathfinding.Grid = grid;
             return pathfinding;
         }

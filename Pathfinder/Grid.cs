@@ -10,54 +10,54 @@ namespace Pathfinder.Pathfinder
 {
     public class Grid
     {
-        public Grid(Vector2 _gridSize, float _nodeRadius = 0.5f)
+        /// <summary>
+        /// Initializes a new Grid object and builds a MapGrid of size gridSize.
+        /// The MapGrid will be a 2D array incrementing from bottom left of the grid (most negative)
+        /// to top right (most positive). The MapGrid consists of Nodes that will have a GridX and GridY which is
+        /// their address in the MapGrid, and a WorldPosition which is the Vector3 address of the point in the world.
+        /// 
+        /// For example in a grid sized Vector2(3, 3)
+        ///     the center point Node will have a WorldPosition of Vector3(0, 0, 0)
+        ///     but, the GridX would be 1, and GridY would be 1
+        ///     so, to address the center in the GridMap it would be GridMap[1,1]
+        /// </summary>
+        /// <param name="gridSize"></param>
+        /// <param name="nodeRadius"></param>
+        /// <returns></returns>
+        public static Grid NewGridFromVector2(Vector2 gridSize, float nodeRadius = 0.5f)
         {
-            GridWorldSize = _gridSize;
-            NodeRadius = _nodeRadius;
-            nodeDiameter = _nodeRadius * 2;
-            gridSizeX = GridMath.ConvertFromFloatToInt(GridWorldSize.X / nodeDiameter);
-            gridSizeY = GridMath.ConvertFromFloatToInt(GridWorldSize.Y / nodeDiameter);
-            GridCenter = Vector3.Zero;
-        }
+            var grid = new Grid();
+            grid.NodeRadius = nodeRadius;
+            grid.GridWorldSize = gridSize;
+            grid.MapGrid = new GridNode[grid._gridSizeX, grid._gridSizeY];
+            var worldBottomLeft = grid.GetBottomLeftNodeFromGridWorldSize();
+            grid.BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
 
-        public float NodeRadius;
-        float nodeDiameter;
-
-        public Vector2 GridWorldSize;
-        public Vector3 GridCenter;
-
-        public GridNode[,] MapGrid;
-
-        int gridSizeX, gridSizeY;
-        public int MaxSize => gridSizeX * gridSizeY;
-
-        //
-        public void CreateGrid()
-        {
-            MapGrid = new GridNode[gridSizeX, gridSizeY];
-            Vector3 worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
-            BuildAndSetGridFromBottomLeftToTopRight(worldBottomLeft);
+            return grid;
         }
 
         private Vector3 GetBottomLeftNodeFromGridWorldSize()
         {
-            Vector3 biggestX = vectorRight() * GridWorldSize.X / 2;
-            Vector3 biggestY = vectorForward() * GridWorldSize.Y / 2;
-            Vector3 worldBottomLeft = GridCenter - biggestX - biggestY;
+            var biggestX = vectorRight() * GridWorldSize.X / 2;
+            var biggestY = vectorForward() * GridWorldSize.Y / 2;
+            var worldBottomLeft = GridCenter - biggestX - biggestY;
             return worldBottomLeft;
         }
 
-        private void BuildAndSetGridFromBottomLeftToTopRight(Vector3 worldBottomLeft)
+        /// <summary>
+        /// Starting from the bottom left, increment x and y up until we reach the appropriate world sizes for both coords.
+        /// This works because by starting at the most negative, we can then just build up till we reach the most positive.
+        /// </summary>
+        /// <param name="worldBottomLeft"></param>
+        private void BuildMapGridFromBottomLeftToTopRight(Vector3 worldBottomLeft)
         {
-            // Starting from the bottom left, increment x and y up until we reach the appropriate world sizes for both coords.
-            // This works because by starting at the most negative, we can then just build up till we reach the most positive.
-            for (int x = 0; x < gridSizeX; x++)
+            for (int x = 0; x < _gridSizeX; x++)
             {
-                for (int y = 0; y < gridSizeY; y++)
+                for (int y = 0; y < _gridSizeY; y++)
                 {
                     Vector3 worldPoint = worldBottomLeft
-                                         + vectorRight() * (x * nodeDiameter + NodeRadius)
-                                         + vectorForward() * (y * nodeDiameter + NodeRadius);
+                                         + vectorRight() * (x * NodeDiameter + NodeRadius)
+                                         + vectorForward() * (y * NodeDiameter + NodeRadius);
                     GridNode gridNode = new GridNode(worldPoint, true);
                     gridNode.GridX = x;
                     gridNode.GridY = y;
@@ -93,7 +93,7 @@ namespace Pathfinder.Pathfinder
                     int checkX = gridNode.GridX + x;
                     int checkY = gridNode.GridY + y;
 
-                    if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
+                    if (checkX >= 0 && checkX < _gridSizeX && checkY >= 0 && checkY < _gridSizeY)
                     {
                         neighbours.Add(MapGrid[checkX, checkY]);
                     }
@@ -104,47 +104,73 @@ namespace Pathfinder.Pathfinder
         }
 
 
+        /// <summary>
+        /// Because our 2D array Grid starts at negative and goes to positive, and you can't have a negative index,
+        /// we basically take the value from the world, and if it is negative it must be in the bottom half of the 
+        /// array, and if it is positive it is the top half. So we have to move the index to all be in the positives.
+        /// </summary>
+        /// <param name="worldPosition"></param>
+        /// <returns></returns>
         public GridNode NodeFromWorldPoint(Vector3 worldPosition)
         {
-            // Because our 2D array Grid starts at negative and goes to positive, and you can't have a negative index,
-            // we basically take the value from the world, and if it is negative it must be in the bottom half of the 
-            // array, and if it is positive it is the top half. So we have to move the index to all be in the positives.
             int x = GetGridPosX(worldPosition.X);
+            // Note: Since in 3D space Y is height, and don't traverse the world via the height, this should be Z.
             int y = GetGridPosY(worldPosition.Z);
             return MapGrid[x, y];
         }
 
-        public int GetGridPosX(float VectorX)
+        public int GetGridPosX(float vectorX)
         {
-            float percentX = (VectorX + GridWorldSize.X / 2) / GridWorldSize.X;
+            float percentX = (vectorX + GridWorldSize.X / 2) / GridWorldSize.X;
             percentX = GridMath.Clamp(percentX, 0, 1);
-            int x = GridMath.ConvertFromFloatToInt((gridSizeX - 1) * percentX);
+            int x = GridMath.ConvertFromFloatToInt((_gridSizeX - 1) * percentX);
             return x;
         }
 
-        public int GetGridPosY(float VectorY)
+        public int GetGridPosY(float vectorY)
         {
-            float percentY = (VectorY + GridWorldSize.Y / 2) / GridWorldSize.Y;
+            float percentY = (vectorY + GridWorldSize.Y / 2) / GridWorldSize.Y;
             percentY = GridMath.Clamp(percentY, 0, 1);
-            int y = GridMath.ConvertFromFloatToInt((gridSizeY - 1) * percentY);
+            int y = GridMath.ConvertFromFloatToInt((_gridSizeY - 1) * percentY);
             return y;
         }
 
         public void AddUnWalkableNode(Vector3 position)
         {
-            GridNode gridNode = NodeFromWorldPoint(position);
+            var gridNode = NodeFromWorldPoint(position);
             gridNode.Walkable = false;
             MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 
+        public void AddKnownNode(Vector3 worldPoint)
+        {
+            var gridNode = NodeFromWorldPoint(worldPoint);
+            gridNode.Unknown = false;
+            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
+        }
+
+        public void AddEntities(Vector3 position, IEnumerable<IEntity> entities)
+        {
+            var gridNode = NodeFromWorldPoint(position);
+
+            var listEntities = entities.ToList();
+            foreach (var entity in listEntities)
+            {
+                entity.Position = position;
+                entity.MapName = MapName;
+            }
+
+            gridNode.Entities.AddRange(listEntities);
+            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
+        }
+
         /// <summary>
-        /// Returns a string representation of the current MapGrid
+        /// Returns a string representation of the current MapGrid's walkable and not walkable Nodes.
         /// </summary>
-        ///
         public string Print()
         {
             INodePrinter printer = new PrintWalkable();
-            string printedGrid = print(printer);
+            string printedGrid = PrintMap(printer);
             return printedGrid;
         }
 
@@ -152,7 +178,7 @@ namespace Pathfinder.Pathfinder
         {
             string columnTop = "--------";
             INodePrinter printer = new PrintCoordinates();
-            string printedGrid = print(printer, columnTop: columnTop);
+            string printedGrid = PrintMap(printer, columnTop: columnTop);
             return printedGrid;
         }
 
@@ -166,12 +192,18 @@ w = waypoint
 x = obstacle";
 
             var printer = new PrintPath {Start = startPos, End = endPos, Path = path};
-            string printedGrid = print(printer, legend);
+            string printedGrid = PrintMap(printer, legend);
             return printedGrid;
         }
 
+        public string PrintKnown()
+        {
+            INodePrinter printer = new PrintKnown();
+            string printedGrid = PrintMap(printer);
+            return printedGrid;
+        }
 
-        private string print(INodePrinter nodePrinter, string result = "", string columnTop = "------")
+        private string PrintMap(INodePrinter nodePrinter, string result = "", string columnTop = "------")
         {
             int row = MapGrid.GetLength(0);
             int column = MapGrid.GetLength(1);
@@ -195,49 +227,43 @@ x = obstacle";
             return result;
         }
 
-        //
-        //     public List<GridNode> path;
-        //     void OnDrawGizmos()
-        //     {
-        //         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-        //         if (MapGrid != null && displayGridGizmos)
-        //         {
-        //             foreach (GridNode n in MapGrid)
-        //             {
-        //                 Gizmos.color = (n.walkable) ? Color.white : Color.red;
-        //                 Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
-        //             }
-        //         }
-        //     }
-
-        public string PrintKnown()
+        public GridNode[,] MapGrid;
+        private float NodeRadius { get; set; }
+        private float NodeDiameter => NodeRadius * 2;
+        public Vector2 GridWorldSize
         {
-            INodePrinter printer = new PrintKnown();
-            string printedGrid = print(printer);
-            return printedGrid;
-        }
-
-        public void AddKnownNode(Vector3 worldPoint)
-        {
-            var gridNode = NodeFromWorldPoint(worldPoint);
-            gridNode.Unknown = false;
-            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
-        }
-
-        public void AddEntities(Vector3 position, IEnumerable<IEntity> entities)
-        {
-            var gridNode = NodeFromWorldPoint(position);
-
-            foreach (var entity in entities)
+            get => new Vector2(_gridSizeX * 1f, _gridSizeY * 1f);
+            set
             {
-                entity.Position = position;
-                entity.Zone = ZoneName;
+                if (NodeDiameter == 0)
+                {
+                    throw new Exception(
+                        "NodeRadius must be set prior to initializing the GridWorldSize. Otherwise Divide by " +
+                        "zero error when trying to figure out the size wold size.");
+                }
+
+                _gridSizeX = GridMath.ConvertFromFloatToInt(value.X / NodeDiameter);
+                _gridSizeY = GridMath.ConvertFromFloatToInt(value.Y / NodeDiameter);
             }
-            
-            gridNode.Entities.AddRange(entities);
-            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 
-        public string ZoneName { get; set; }
+        public Vector3 GridCenter
+        {
+            get => new Vector3(_gridCenterX, _gridCenterY, _gridCenterZ);
+            set
+            {
+                _gridCenterX = value.X;
+                _gridCenterY = value.Y;
+                _gridCenterZ = value.Z;
+            }
+        }
+
+        private float _gridCenterX, _gridCenterY, _gridCenterZ;
+
+
+        public int MaxSize => _gridSizeX * _gridSizeY;
+        private int _gridSizeX, _gridSizeY;
+        
+        public string MapName { get; set; }
     }
 }

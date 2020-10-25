@@ -6,6 +6,6 @@ namespace Pathfinder.Pathfinder
     {
         string Name { get; set; }
         Vector3 Position { get; set; }
-        string Zone { get; set; }
+        string MapName { get; set; }
     }
 }
