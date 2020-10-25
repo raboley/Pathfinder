@@ -2,11 +2,14 @@
 using Pathfinder.Pathfinder;
 using Xunit;
 using System.Numerics;
+using Xunit.Sdk;
 
 namespace Pathfinder.Tests.Pathfinder
 {
     public class GridTests
     {
+        private static string _smallGridZoneName = "Small Grid";
+
         [Fact]
         public void CreateGridCanGenerateGridFromCorner()
         {
@@ -464,6 +467,7 @@ x = obstacle
             foreach (var t in want)
             {
                 t.Position = position;
+                t.Zone = _smallGridZoneName;
             }
 
             var got = grid.grid[gridX, gridY].Entities;
@@ -486,7 +490,7 @@ x = obstacle
 
         private static Grid SetupSmallGrid()
         {
-            var grid = new Grid(new Vector2(3f, 3f));
+            var grid = new Grid(new Vector2(3f, 3f)) {ZoneName = _smallGridZoneName};
             grid.CreateGrid();
             return grid;
         }
@@ -536,10 +540,12 @@ x = obstacle
         private static void AssertListEntitiesEqual(List<IEntity> want, List<IEntity> got)
         {
             Assert.Equal(want.Count, got.Count);
+
             for (var i = 0; i < want.Count; i++)
             {
                 Assert.Equal(want[i].Name, got[i].Name);
                 Assert.Equal(want[i].Position, got[i].Position);
+                Assert.Equal(want[i].Zone, got[i].Zone);
             }
         }
 

@@ -244,10 +244,13 @@ x = obstacle";
             foreach (var entity in entities)
             {
                 entity.Position = position;
+                entity.Zone = ZoneName;
             }
             
             gridNode.Entities.AddRange(entities);
             grid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
+
+        public string ZoneName { get; set; }
     }
 }
