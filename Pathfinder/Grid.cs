@@ -74,6 +74,11 @@ namespace Pathfinder.Pathfinder
             return new Vector3(0f, 0f, 1f);
         }
 
+        public static Grid GetGridMap(string mapName, IPersister persister)
+        {
+            var grid = persister.Load<Grid>();
+            return grid;
+        }
 
         public List<GridNode> GetNeighbours(GridNode gridNode)
         {
@@ -264,5 +269,19 @@ x = obstacle";
         private int _gridSizeX, _gridSizeY;
 
         public string MapName { get; set; }
+
+        public Vector2 DefaultGridSize
+        {
+            get => new Vector2(_defaultGridSizeX, _defaultGridSizeY);
+            set
+            {
+                _defaultGridSizeX = value.X;
+                _defaultGridSizeY = value.Y;
+            }
+        }
+
+        private float _defaultGridSizeX, _defaultGridSizeY;
+
+        public IPersister Persister { get; set; }
     }
 }

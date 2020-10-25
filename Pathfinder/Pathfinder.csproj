@@ -46,6 +46,7 @@
     <ItemGroup>
         <Compile Include="FilePersister.cs" />
         <Compile Include="Grid.cs" />
+        <Compile Include="GridFactory.cs"/>
         <Compile Include="Heap.cs" />
         <Compile Include="GridMath.cs" />
         <Compile Include="IEntity.cs" />

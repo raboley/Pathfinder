@@ -8,8 +8,6 @@ namespace Pathfinder.Tests.Pathfinder
 {
     public class GridTests
     {
-        private static string _smallGridZoneName = "Small Grid";
-
         [Fact]
         public void CreateGridCanGenerateGridFromCorner()
         {
@@ -23,14 +21,14 @@ namespace Pathfinder.Tests.Pathfinder
 
             // Assert
             Assert.Equal(want.Length, got.Length);
-            AssertGridEqual(want, got);
+            GridSetup.AssertGridEqual(want, got);
         }
 
         [Fact]
         public void CanCreateGridWithMultipleNodes()
         {
             // Arrange
-            var want = SetupThreeByThreeGrid();
+            var want = GridSetup.SetupThreeByThreeGrid();
 
             // Act
             var grid = Grid.NewGridFromVector2(new Vector2(3f, 3f));
@@ -38,27 +36,27 @@ namespace Pathfinder.Tests.Pathfinder
 
             // Assert
             Assert.Equal(want.Length, got.Length);
-            AssertGridEqual(want, got);
+            GridSetup.AssertGridEqual(want, got);
         }
 
         [Fact]
         public void GetNeighboursCanGetNeighborsFromEdgeNode()
         {
             //Arrange
-            var want = GetNeighborsListForEdgeNode();
+            var want = GridSetup.GetNeighborsListForEdgeNode();
 
             //Act
             var grid = Grid.NewGridFromVector2(new Vector2(3f, 3f));
             var got = grid.GetNeighbours(grid.MapGrid[2, 2]);
 
             //Assert
-            AssertListGridNodesEqual(want, got);
+            GridSetup.AssertListGridNodesEqual(want, got);
         }
 
         [Fact]
         public void NodeFromWorldPointCanGetANodeFromNegativeVector()
         {
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
             var want = grid.MapGrid[0, 0];
 
             var got = grid.NodeFromWorldPoint(new Vector3(-1, 0, -1));
@@ -69,7 +67,7 @@ namespace Pathfinder.Tests.Pathfinder
         [Fact]
         public void NodeFromWorldPointCanGetANodeFromPositiveVector()
         {
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
             var want = grid.MapGrid[2, 2];
 
             var got = grid.NodeFromWorldPoint(new Vector3(1, 0, 1));
@@ -80,7 +78,7 @@ namespace Pathfinder.Tests.Pathfinder
         [Fact]
         public void NodeFromWorldPointCanGetANodeFromBigGrid()
         {
-            var grid = SetupBigGrid();
+            var grid = GridSetup.SetupBigGrid();
             var want = grid.MapGrid[30, 5];
 
             var got = grid.NodeFromWorldPoint(new Vector3(5, 0, -20));
@@ -99,7 +97,7 @@ namespace Pathfinder.Tests.Pathfinder
         [InlineData(1, 1, 2, 2)]
         public void AddUnWalkableNodeUpdatesTheNode(float x, float y, int gridX, int gridY)
         {
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
             var position = new Vector3(x, 0, y);
             var want = new GridNode(position, false);
 
@@ -122,7 +120,7 @@ namespace Pathfinder.Tests.Pathfinder
 -------------------
 ";
 
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
             string got = grid.Print();
             Assert.Equal(want, got);
         }
@@ -140,7 +138,7 @@ namespace Pathfinder.Tests.Pathfinder
 -------------------------
 ";
 
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
             string got = grid.PrintWithCoords();
             Assert.Equal(want, got);
         }
@@ -159,7 +157,7 @@ namespace Pathfinder.Tests.Pathfinder
 ";
 
             // var MapGrid = SetupSmallGrid();
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
             var pos1 = new Vector3(0, 0, 1);
             var pos2 = new Vector3(-1, 0, 1);
             var pos3 = new Vector3(-1, 0, 0);
@@ -170,18 +168,11 @@ namespace Pathfinder.Tests.Pathfinder
             grid.AddUnWalkableNode(pos3);
             string got = grid.Print();
 
-            AssertPointNotWalkable(grid, pos1);
-            AssertPointNotWalkable(grid, pos2);
-            AssertPointNotWalkable(grid, pos3);
+            GridSetup.AssertPointNotWalkable(grid, pos1);
+            GridSetup.AssertPointNotWalkable(grid, pos2);
+            GridSetup.AssertPointNotWalkable(grid, pos3);
 
             Assert.Equal(want, got);
-        }
-
-        private static void AssertPointNotWalkable(Grid grid, Vector3 position)
-        {
-            var node = grid.NodeFromWorldPoint(position);
-            Assert.Equal(node.WorldPosition, position);
-            Assert.Equal(node.Walkable, false);
         }
 
         [Fact]
@@ -201,7 +192,7 @@ namespace Pathfinder.Tests.Pathfinder
 -------------------------------
 ";
 
-            var grid = SetupMediumGrid();
+            var grid = GridSetup.SetupMediumGrid();
             string got = grid.Print();
             Assert.Equal(want, got);
         }
@@ -315,7 +306,7 @@ namespace Pathfinder.Tests.Pathfinder
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ";
 
-            var grid = SetupBigGrid();
+            var grid = GridSetup.SetupBigGrid();
             string got = grid.Print();
             Assert.Equal(want, got);
         }
@@ -342,7 +333,7 @@ x = obstacle
 -------------------------------
 ";
 
-            var pathfinding = SetupForPathfinding();
+            var pathfinding = GridSetup.SetupForPathfinding();
 
             pathfinding.Grid.AddUnWalkableNode(Vector3.Zero);
             pathfinding.Grid.AddUnWalkableNode(new Vector3(-1, 0, 0));
@@ -382,7 +373,7 @@ x = obstacle
 |  ?  |  ?  |  ?  |
 -------------------
 ";
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
             string got = grid.PrintKnown();
 
             Assert.Equal(want, got);
@@ -400,7 +391,7 @@ x = obstacle
 |     |  ?  |     |
 -------------------
 ";
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
 
             grid.AddKnownNode(new Vector3(0, 0, 0));
             grid.AddKnownNode(new Vector3(1, 0, 0));
@@ -416,7 +407,7 @@ x = obstacle
         public void TestCanSetUnknownState()
         {
             const bool want = false;
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
             grid.MapGrid[0, 0].Unknown = want;
             bool got = grid.MapGrid[0, 0].Unknown;
 
@@ -434,7 +425,7 @@ x = obstacle
         [InlineData(1, 1, 2, 2)]
         public void TestAddKnownNodes(float x, float y, int gridX, int gridY)
         {
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
             var position = new Vector3(x, 0, y);
             const bool want = false;
 
@@ -455,7 +446,7 @@ x = obstacle
         [InlineData(1, 1, 2, 2)]
         public void TestAddEntityToNode(float x, float y, int gridX, int gridY)
         {
-            var grid = SetupSmallGrid();
+            var grid = GridSetup.SetupSmallGrid();
             var position = new Vector3(x, 0, y);
             var want = new List<IEntity> {new NPC("rabbit")};
 
@@ -464,18 +455,18 @@ x = obstacle
             foreach (var t in want)
             {
                 t.Position = position;
-                t.MapName = _smallGridZoneName;
+                t.MapName = GridSetup._smallGridZoneName;
             }
 
             var got = grid.MapGrid[gridX, gridY].Entities;
 
-            AssertListEntitiesEqual(want, got);
+            GridSetup.AssertListEntitiesEqual(want, got);
         }
 
         [Fact]
         public void TestCanSaveToFile()
         {
-            var want = SetupSmallGrid();
+            var want = GridSetup.SetupSmallGrid();
             var persister = new FilePersister("tempGrid.golden");
 
             persister.Save(want);
@@ -483,13 +474,13 @@ x = obstacle
             var got = persister.Load<Grid>();
             persister.Delete();
 
-            AssertGridEqual(want.MapGrid, got.MapGrid);
+            GridSetup.AssertGridEqual(want.MapGrid, got.MapGrid);
         }
 
         [Fact]
         public void TestCanLoadGridFromFile()
         {
-            var want = SetupSmallGrid();
+            var want = GridSetup.SetupSmallGrid();
             var persister = new FilePersister("TestCanLoadGridFromFile.golden");
             // Path assumes to start from ./debug/ so we want to set it to the test fixtures dir.
             string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
@@ -501,111 +492,7 @@ x = obstacle
 
             var got = persister.Load<Grid>();
 
-            AssertGridEqual(want.MapGrid, got.MapGrid);
-        }
-
-        //********************************************************************************************************//
-        // Test Helper Functions
-        //********************************************************************************************************//
-
-        private static Pathfinding SetupForPathfinding()
-        {
-            var pathfinding = new Pathfinding();
-            var grid = Grid.NewGridFromVector2(new Vector2(5, 5));
-            pathfinding.Grid = grid;
-            return pathfinding;
-        }
-
-        private static Grid SetupSmallGrid()
-        {
-            var grid = Grid.NewGridFromVector2(new Vector2(3f, 3f));
-            grid.MapName = _smallGridZoneName;
-            return grid;
-        }
-
-        private static Grid SetupMediumGrid()
-        {
-            var grid = Grid.NewGridFromVector2(new Vector2(5f, 5f));
-            return grid;
-        }
-
-        private static Grid SetupBigGrid()
-        {
-            var grid = Grid.NewGridFromVector2(new Vector2(51f, 51f));
-            return grid;
-        }
-
-        private static List<GridNode> GetNeighborsListForEdgeNode()
-        {
-            var want = new List<GridNode>
-            {
-                new GridNode(new Vector3(0, 0, 0)),
-                new GridNode(new Vector3(0, 0, 1)),
-                new GridNode(new Vector3(1, 0, 0))
-            };
-            // want.Add(new GridNode(new Vector3(-1, 0, -1)));
-            // want.Add(new GridNode(new Vector3(-1, 0, 0)));
-            // want.Add(new GridNode(new Vector3(-1, 0, 1)));
-            // want.Add(new GridNode(new Vector3(0, 0, -1)));
-            // want.Add(new GridNode(new Vector3(0, 0, 1)));
-            // want.Add(new GridNode(new Vector3(1, 0, -1)));
-            // want.Add(new GridNode(new Vector3(1, 0, 0)));
-            // want.Add(new GridNode(new Vector3(1, 0, 1)));
-            return want;
-        }
-
-        private static void AssertListGridNodesEqual(IReadOnlyList<GridNode> want, List<GridNode> got)
-        {
-            Assert.Equal(want.Count, got.Count);
-            for (var i = 0; i < want.Count; i++)
-            {
-                Assert.Equal(want[i], got[i]);
-            }
-        }
-
-        private static void AssertListEntitiesEqual(List<IEntity> want, List<IEntity> got)
-        {
-            Assert.Equal(want.Count, got.Count);
-
-            for (var i = 0; i < want.Count; i++)
-            {
-                Assert.Equal(want[i].Name, got[i].Name);
-                Assert.Equal(want[i].Position, got[i].Position);
-                Assert.Equal(want[i].MapName, got[i].MapName);
-            }
-        }
-
-        private static GridNode[,] SetupThreeByThreeGrid()
-        {
-            var want = new GridNode[3, 3];
-            want[0, 0] = new GridNode(new Vector3(-1f, 0, -1f));
-            want[0, 1] = new GridNode(new Vector3(-1f, 0f, 0f));
-            want[0, 2] = new GridNode(new Vector3(-1f, 0f, 1f));
-            want[1, 0] = new GridNode(new Vector3(0f, 0f, -1f));
-            want[1, 1] = new GridNode(new Vector3(0f, 0f, 0f));
-            want[1, 2] = new GridNode(new Vector3(0f, 0f, 1f));
-            want[2, 0] = new GridNode(new Vector3(1f, 0f, -1f));
-            want[2, 1] = new GridNode(new Vector3(1f, 0f, 0f));
-            want[2, 2] = new GridNode(new Vector3(1f, 0f, 1f));
-            return want;
-        }
-
-
-        private static void AssertGridEqual(GridNode[,] want, GridNode[,] got)
-        {
-            for (var i = 0; i <= want.GetUpperBound(0); i++)
-            {
-                for (var j = 0; j <= want.GetUpperBound(1); j++)
-                {
-                    AssertNodeFromGridsEqual(want, got, i, j);
-                }
-            }
-        }
-
-        private static void AssertNodeFromGridsEqual(GridNode[,] want, GridNode[,] got, int i, int j)
-        {
-            Assert.Equal(want[i, j].WorldPosition, got[i, j].WorldPosition);
-            Assert.Equal(want[i, j].Walkable, got[i, j].Walkable);
+            GridSetup.AssertGridEqual(want.MapGrid, got.MapGrid);
         }
     }
 }
