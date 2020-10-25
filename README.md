@@ -26,3 +26,21 @@ x = obstacle
 ```
 
 The path to travel starts at `s` and travels along `w` avoiding `x`'s trying to reach `e`
+
+# Publishing to Github Packages
+
+to publish to github packages:
+
+```shell script
+
+nuget restore Pathfinder.sln
+msbuild Pathfinder.sln /p:Configuration=Release
+
+export GITHUB_PASSWORD=<password>
+nuget sources Add -Name "github" -Source https://nuget.pkg.github.com/raboley/index.json -UserName raboley -Password $GITHUB_PASSWORD
+
+nuget setapikey $GITHUB_PASSWORD -Source "github"
+
+
+nuget push Pathfinder/*.nupkg -source "github" -SkipDuplicate
+```
