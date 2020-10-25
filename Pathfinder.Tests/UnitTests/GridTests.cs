@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Numerics;
-using Pathfinder.Pathfinder;
 using Xunit;
 
-namespace Pathfinder.Tests.Pathfinder
+namespace Pathfinder.Tests.UnitTests
 {
     public class GridTests
     {
@@ -502,24 +500,6 @@ x = obstacle
 
             var got = persister.Load<Grid>();
             persister.Delete();
-
-            GridSetup.AssertGridEqual(want.MapGrid, got.MapGrid);
-        }
-
-        [Fact]
-        public void TestCanLoadGridFromFile()
-        {
-            var want = GridSetup.SetupSmallGrid();
-            var persister = new FilePersister("TestCanLoadGridFromFile.golden");
-            // Path assumes to start from ./debug/ so we want to set it to the test fixtures dir.
-            string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
-            string parentDirectory = Directory.GetParent(grandParentDirectory).FullName;
-            persister.FilePath = Path.Combine(parentDirectory, "fixtures");
-
-            // Uncomment to make golden file if grid changes.
-            // persister.Save(want);
-
-            var got = persister.Load<Grid>();
 
             GridSetup.AssertGridEqual(want.MapGrid, got.MapGrid);
         }

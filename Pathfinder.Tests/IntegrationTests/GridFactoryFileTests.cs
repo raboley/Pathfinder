@@ -4,9 +4,9 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using Xunit;
 
-namespace Pathfinder.Tests.Pathfinder
+namespace Pathfinder.Tests.IntegrationTests
 {
-    public class GridFactoryTests
+    public class GridFactoryFileTests
     {
         [Fact]
         public void TestGridFactoryCanGetGridFromFile()
@@ -16,8 +16,8 @@ namespace Pathfinder.Tests.Pathfinder
             var mapName = GetCurrentMethodName();
 
             // Uncomment to make golden file if grid changes.
-            // gridFactory.Persister.MapName = mapName;
-            // gridFactory.Persister.Save(want);
+            gridFactory.Persister.MapName = mapName;
+            gridFactory.Persister.Save(want);
 
             var got = gridFactory.LoadGrid(mapName);
 

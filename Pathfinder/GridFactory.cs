@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Pathfinder.Pathfinder
+namespace Pathfinder
 {
     public class GridFactory
     {

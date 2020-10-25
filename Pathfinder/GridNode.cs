@@ -1,18 +1,14 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Pathfinder.Pathfinder;
 
-namespace Pathfinder.Pathfinder
+namespace Pathfinder
 {
     [Serializable]
     public class GridNode : IHeapItem<GridNode>
     {
         public bool Walkable;
-        
+
         public int GridX;
         public int GridY;
 
@@ -28,7 +24,7 @@ namespace Pathfinder.Pathfinder
             X = _worldPos.X;
             Y = _worldPos.Y;
             Z = _worldPos.Z;
-            
+
             Entities = new List<IEntity>();
         }
 
@@ -61,7 +57,7 @@ namespace Pathfinder.Pathfinder
         {
             int compare = fCost.CompareTo(gridNodeToCompare.fCost);
             if (compare == 0)
-            { 
+            {
                 compare = HCost.CompareTo(gridNodeToCompare.HCost);
             }
 

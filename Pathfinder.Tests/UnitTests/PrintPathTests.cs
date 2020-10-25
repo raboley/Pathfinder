@@ -1,16 +1,14 @@
 using System.Numerics;
-using Pathfinder.Pathfinder;
 using Xunit;
 
-namespace Pathfinder.Tests.Pathfinder
+namespace Pathfinder.Tests.UnitTests
 {
     public class PrintPathTests
     {
-
         [Fact]
         public void TestPrintPathPrintsObstacleWhenPresent()
         {
-            var node = new GridNode(Vector3.One, false); 
+            var node = new GridNode(Vector3.One, false);
             var printer = new PrintPath();
             var want = printer.ObstacleNode;
 
@@ -18,12 +16,12 @@ namespace Pathfinder.Tests.Pathfinder
 
             Assert.Equal(want, got);
         }
-        
-        
+
+
         [Fact]
         public void TestPrintPathPrintsWalkable()
         {
-            var node = new GridNode(Vector3.One, true); 
+            var node = new GridNode(Vector3.One, true);
             var printer = new PrintPath();
             var want = printer.WalkableNode;
 
@@ -31,7 +29,7 @@ namespace Pathfinder.Tests.Pathfinder
 
             Assert.Equal(want, got);
         }
-        
+
         [Fact]
         public void TestPrintPathPrintsStart()
         {
@@ -44,7 +42,7 @@ namespace Pathfinder.Tests.Pathfinder
 
             Assert.Equal(want, got);
         }
-        
+
         [Fact]
         public void TestPrintPathPrintsEnd()
         {
@@ -57,7 +55,7 @@ namespace Pathfinder.Tests.Pathfinder
 
             Assert.Equal(want, got);
         }
-        
+
         [Fact]
         public void TestPrintPathPrintsWaypoint()
         {

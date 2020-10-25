@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Numerics;
-using Pathfinder.Pathfinder;
 using Xunit;
 
-namespace Pathfinder.Tests.Pathfinder
+namespace Pathfinder.Tests
 {
     public class GridSetup
     {

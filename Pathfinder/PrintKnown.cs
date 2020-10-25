@@ -1,4 +1,4 @@
-namespace Pathfinder.Pathfinder
+namespace Pathfinder
 {
     public class PrintKnown : BasePrinter
     {
@@ -6,7 +6,7 @@ namespace Pathfinder.Pathfinder
         {
             if (gridNode.Unknown)
                 return UnknownNode;
-            
+
             return base.PrintNode(gridNode);
         }
 

@@ -1,7 +1,6 @@
 using System.IO;
-using Pathfinder.Pathfinder;
 
-namespace Pathfinder.Tests.Pathfinder
+namespace Pathfinder.Tests
 {
     public class PersisterSetup
     {

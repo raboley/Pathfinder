@@ -1,4 +1,4 @@
-namespace Pathfinder.Pathfinder
+namespace Pathfinder
 {
     public class PrintCoordinates : BasePrinter
     {
@@ -10,7 +10,7 @@ namespace Pathfinder.Pathfinder
             float y = gridNode.WorldPosition.Z;
             string xNode = x.ToString().PadLeft(3, ' ');
             string yNode = y.ToString().PadRight(3, ' ');
-            
+
             return xNode + _coordSeparator + yNode + NodeSeparator;
         }
     }

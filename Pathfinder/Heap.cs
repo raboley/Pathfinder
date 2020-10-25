@@ -1,10 +1,6 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace Pathfinder.Pathfinder
+namespace Pathfinder
 {
     public class Heap<T> where T : IHeapItem<T>
     {
@@ -41,10 +37,7 @@ namespace Pathfinder.Pathfinder
 
         public int Count
         {
-            get
-            {
-                return currentItemCount;
-            }
+            get { return currentItemCount; }
         }
 
         public bool Contains(T item)
@@ -119,10 +112,6 @@ namespace Pathfinder.Pathfinder
 
     public interface IHeapItem<T> : IComparable<T>
     {
-        int HeapIndex
-        {
-            get;
-            set;
-        }
+        int HeapIndex { get; set; }
     }
 }

@@ -1,7 +1,6 @@
-﻿using Pathfinder.Pathfinder;
-using Xunit;
+﻿using Xunit;
 
- namespace Pathfinder.Tests.Pathfinder
+namespace Pathfinder.Tests.UnitTests
 {
     public class GridMathTests
     {
@@ -48,26 +47,26 @@ using Xunit;
 
             Assert.Equal(expected, actual);
         }
-        
-        [Fact]
-        public void ClampTurnsNegativeNumberToZero() 
-        {
-           float number = -1;
-           float want = 0f;
 
-           float got = GridMath.Clamp(number, 0, 1);
-           
-           Assert.Equal(want, got);
-        }
-        
         [Fact]
-        public void ClampTurnsPositiveNumberToOne() 
+        public void ClampTurnsNegativeNumberToZero()
+        {
+            float number = -1;
+            float want = 0f;
+
+            float got = GridMath.Clamp(number, 0, 1);
+
+            Assert.Equal(want, got);
+        }
+
+        [Fact]
+        public void ClampTurnsPositiveNumberToOne()
         {
             float number = 1;
             float want = 1f;
 
             float got = GridMath.Clamp(number, 0, 1);
-           
+
             Assert.Equal(want, got);
         }
     }

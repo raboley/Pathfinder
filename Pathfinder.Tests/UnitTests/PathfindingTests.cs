@@ -1,9 +1,7 @@
-using System.IO;
 using System.Numerics;
-using Pathfinder.Pathfinder;
 using Xunit;
 
-namespace Pathfinder.Tests.Pathfinder
+namespace Pathfinder.Tests.UnitTests
 {
     public class PathfinderTests
     {
@@ -28,7 +26,7 @@ namespace Pathfinder.Tests.Pathfinder
 
             // arrange
             var pathfinding = SetupForPathfinding();
-            
+
             Vector3[] want = new[]
             {
                 new Vector3(-1, 0, -1),
@@ -40,11 +38,11 @@ namespace Pathfinder.Tests.Pathfinder
 
             // act 
             Vector3[] got = pathfinding.FindWaypoints(startPos, endPos);
-            
+
             // assert
             Assert.Equal(want, got);
         }
-        
+
         [Fact]
         public void TestFindPathAvoidsObstacles()
         {
@@ -66,7 +64,7 @@ namespace Pathfinder.Tests.Pathfinder
              */
 
             var pathfinding = SetupForPathfinding();
-            
+
             pathfinding.Grid.AddUnWalkableNode(Vector3.Zero);
             pathfinding.Grid.AddUnWalkableNode(new Vector3(-1, 0, 0));
             pathfinding.Grid.AddUnWalkableNode(new Vector3(-2, 0, 0));
@@ -75,7 +73,7 @@ namespace Pathfinder.Tests.Pathfinder
 
 
             var example = pathfinding.Grid.Print();
-            
+
             Vector3[] want = new[]
             {
                 new Vector3(-1, 0, -1),
@@ -88,7 +86,7 @@ namespace Pathfinder.Tests.Pathfinder
 
             // act 
             Vector3[] got = pathfinding.FindWaypoints(startPos, endPos);
-            
+
             // assert
             Assert.Equal(want, got);
         }

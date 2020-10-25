@@ -1,6 +1,4 @@
-using System.Numerics;
-
-namespace Pathfinder.Pathfinder
+namespace Pathfinder
 {
     public interface INodePrinter
     {
@@ -12,7 +10,6 @@ namespace Pathfinder.Pathfinder
     /// </summary>
     public abstract class BasePrinter : INodePrinter
     {
-        
         public virtual string PrintNode(GridNode gridNode)
         {
             if (NotWalkable(gridNode))
@@ -25,6 +22,7 @@ namespace Pathfinder.Pathfinder
         {
             return !gridNode.Walkable;
         }
+
         public string WalkableNode { get; } = "     " + NodeSeparator;
         public string ObstacleNode { get; } = "  x  " + NodeSeparator;
         public static string NodeSeparator { get; } = "|";

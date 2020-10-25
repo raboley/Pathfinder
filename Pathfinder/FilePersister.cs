@@ -1,7 +1,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Pathfinder.Pathfinder
+namespace Pathfinder
 {
     public class FilePersister : IPersister
     {

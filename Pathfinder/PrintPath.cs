@@ -1,8 +1,7 @@
-using System;
 using System.Linq;
 using System.Numerics;
 
-namespace Pathfinder.Pathfinder
+namespace Pathfinder
 {
     public class PrintPath : BasePrinter
     {
@@ -16,7 +15,7 @@ namespace Pathfinder.Pathfinder
 
             if (isWaypoint(gridNode))
                 return WaypointNode;
-            
+
             return base.PrintNode(gridNode);
         }
 
@@ -45,6 +44,5 @@ namespace Pathfinder.Pathfinder
         public string StartNode { get; set; } = "  s  " + NodeSeparator;
 
         public string EndNode { get; set; } = "  e  " + NodeSeparator;
-
     }
 }

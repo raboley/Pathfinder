@@ -1,4 +1,4 @@
-namespace Pathfinder.Pathfinder
+namespace Pathfinder
 {
     public interface IPersister
     {

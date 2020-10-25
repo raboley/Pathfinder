@@ -1,8 +1,7 @@
 ﻿using System.Numerics;
-using Pathfinder.Pathfinder;
 using Xunit;
 
-namespace Pathfinder.Tests.Pathfinder
+namespace Pathfinder.Tests.UnitTests
 {
     public class NodeTests
     {

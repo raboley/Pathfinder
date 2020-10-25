@@ -1,7 +1,6 @@
 using System.Numerics;
-using Pathfinder.Pathfinder;
 
-namespace Pathfinder.Tests.Pathfinder
+namespace Pathfinder.Tests
 {
     static internal class GridFactorySetup
     {
