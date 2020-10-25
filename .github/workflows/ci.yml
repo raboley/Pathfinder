@@ -25,6 +25,10 @@ jobs:
         
       - name: Build the Solution
         run: msbuild Pathfinder.sln /p:Configuration=Release
+
+      - name: Nuget Pack
+        run: nuget pack
+        working-directory: Pathfinder
         
       - name: Nuget Add Source
         run: nuget sources Add -Name "github" -Source https://nuget.pkg.github.com/${{ github.actor }}/index.json -UserName ${{ github.actor }} -Password ${{ secrets.GITHUB_TOKEN }}
