@@ -11,7 +11,7 @@ namespace Pathfinder.Tests.Pathfinder
         public void TestFindPath()
         {
             /*
-             * Visualization of the grid.
+             * Visualization of the MapGrid.
              * p = path
              * --------------------------
              * |    |    |    | end|    |
@@ -49,7 +49,7 @@ namespace Pathfinder.Tests.Pathfinder
         public void TestFindPathAvoidsObstacles()
         {
             /*
-             * Visualization of the grid.
+             * Visualization of the MapGrid.
              * p = path
              * x = obstacle
 -------------------------------

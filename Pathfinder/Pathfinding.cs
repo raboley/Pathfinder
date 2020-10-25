@@ -12,7 +12,7 @@ namespace Pathfinder.Pathfinder
     // PathRequestManager requestManager;
     // void Awake() {
     //     requestManager = GetComponent<PathRequestManager>();
-    //     grid = GetComponent<Grid>();
+    //     MapGrid = GetComponent<Grid>();
     // }
     //
     // public void StartFindPath(Vector3 startPos, Vector3 targetPos) {

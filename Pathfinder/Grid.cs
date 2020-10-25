@@ -20,34 +20,21 @@ namespace Pathfinder.Pathfinder
             GridCenter = Vector3.Zero;
         }
 
-        //     public bool displayGridGizmos;
         public float NodeRadius;
         float nodeDiameter;
 
         public Vector2 GridWorldSize;
         public Vector3 GridCenter;
 
-        public GridNode[,] grid;
-        //     public bool unknownGrid;
-        //     public GridNode[,] unwalkableNodes;
-        //
+        public GridNode[,] MapGrid;
 
         int gridSizeX, gridSizeY;
-        //
-        //     void Awake()
-        //     {
-        //         nodeDiameter = nodeRadius * 2;
-
-        //         unwalkableNodes = new GridNode[gridSizeX, gridSizeY];
-        //         CreateGrid(unknownGrid);
-        //     }
-        //
         public int MaxSize => gridSizeX * gridSizeY;
 
         //
         public void CreateGrid()
         {
-            grid = new GridNode[gridSizeX, gridSizeY];
+            MapGrid = new GridNode[gridSizeX, gridSizeY];
             Vector3 worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
             BuildAndSetGridFromBottomLeftToTopRight(worldBottomLeft);
         }
@@ -74,7 +61,7 @@ namespace Pathfinder.Pathfinder
                     GridNode gridNode = new GridNode(worldPoint, true);
                     gridNode.GridX = x;
                     gridNode.GridY = y;
-                    grid[x, y] = gridNode;
+                    MapGrid[x, y] = gridNode;
                 }
             }
         }
@@ -108,7 +95,7 @@ namespace Pathfinder.Pathfinder
 
                     if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
                     {
-                        neighbours.Add(grid[checkX, checkY]);
+                        neighbours.Add(MapGrid[checkX, checkY]);
                     }
                 }
             }
@@ -124,7 +111,7 @@ namespace Pathfinder.Pathfinder
             // array, and if it is positive it is the top half. So we have to move the index to all be in the positives.
             int x = GetGridPosX(worldPosition.X);
             int y = GetGridPosY(worldPosition.Z);
-            return grid[x, y];
+            return MapGrid[x, y];
         }
 
         public int GetGridPosX(float VectorX)
@@ -147,11 +134,11 @@ namespace Pathfinder.Pathfinder
         {
             GridNode gridNode = NodeFromWorldPoint(position);
             gridNode.Walkable = false;
-            grid[gridNode.GridX, gridNode.GridY] = gridNode;
+            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 
         /// <summary>
-        /// Returns a string representation of the current grid
+        /// Returns a string representation of the current MapGrid
         /// </summary>
         ///
         public string Print()
@@ -186,8 +173,8 @@ x = obstacle";
 
         private string print(INodePrinter nodePrinter, string result = "", string columnTop = "------")
         {
-            int row = grid.GetLength(0);
-            int column = grid.GetLength(1);
+            int row = MapGrid.GetLength(0);
+            int column = MapGrid.GetLength(1);
 
             string header = Environment.NewLine + "-" + string.Concat(Enumerable.Repeat(columnTop, column)) +
                             Environment.NewLine;
@@ -213,9 +200,9 @@ x = obstacle";
         //     void OnDrawGizmos()
         //     {
         //         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-        //         if (grid != null && displayGridGizmos)
+        //         if (MapGrid != null && displayGridGizmos)
         //         {
-        //             foreach (GridNode n in grid)
+        //             foreach (GridNode n in MapGrid)
         //             {
         //                 Gizmos.color = (n.walkable) ? Color.white : Color.red;
         //                 Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - .1f));
@@ -234,7 +221,7 @@ x = obstacle";
         {
             var gridNode = NodeFromWorldPoint(worldPoint);
             gridNode.Unknown = false;
-            grid[gridNode.GridX, gridNode.GridY] = gridNode;
+            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 
         public void AddEntities(Vector3 position, IEnumerable<IEntity> entities)
@@ -248,7 +235,7 @@ x = obstacle";
             }
             
             gridNode.Entities.AddRange(entities);
-            grid[gridNode.GridX, gridNode.GridY] = gridNode;
+            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 
         public string ZoneName { get; set; }
