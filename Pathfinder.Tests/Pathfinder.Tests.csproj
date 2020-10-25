@@ -56,12 +56,13 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="GridFactory.Tests.cs"/>
+        <Compile Include="GridFactoryTests.cs"/>
         <Compile Include="GridSetup.cs"/>
         <Compile Include="GridTests.cs"/>
         <Compile Include="GridMathTests.cs"/>
         <Compile Include="NodeTests.cs"/>
         <Compile Include="PathfindingTests.cs"/>
+        <Compile Include="PersisterSetup.cs"/>
         <Compile Include="PrintPathTests.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
