@@ -32,6 +32,9 @@ jobs:
       - name: Nuget SetAPIKey
         run: nuget setapikey ${{ secrets.GITHUB_TOKEN }} -Source "github"
         
+      - name: DEBUG ls
+        run: ls -R
+        
       - name: Publish the package to GitHub packages
         run: nuget push obj\Release\*.nupkg -source "github" -SkipDuplicate
 
