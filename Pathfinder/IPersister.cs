@@ -4,5 +4,6 @@ namespace Pathfinder.Pathfinder
     {
         void Save<T>(T serializableData);
         T Load<T>();
+        void Delete();
     }
 }

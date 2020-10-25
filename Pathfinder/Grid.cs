@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace Pathfinder.Pathfinder
 {
+    [Serializable]
     public class Grid
     {
         /// <summary>
@@ -230,6 +228,7 @@ x = obstacle";
         public GridNode[,] MapGrid;
         private float NodeRadius { get; set; }
         private float NodeDiameter => NodeRadius * 2;
+
         public Vector2 GridWorldSize
         {
             get => new Vector2(_gridSizeX * 1f, _gridSizeY * 1f);
@@ -263,7 +262,7 @@ x = obstacle";
 
         public int MaxSize => _gridSizeX * _gridSizeY;
         private int _gridSizeX, _gridSizeY;
-        
+
         public string MapName { get; set; }
     }
 }

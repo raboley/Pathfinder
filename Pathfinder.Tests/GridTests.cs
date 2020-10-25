@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Numerics;
 using Pathfinder.Pathfinder;
 using Xunit;
-using System.Numerics;
-using Xunit.Sdk;
 
 namespace Pathfinder.Tests.Pathfinder
 {
@@ -458,8 +458,8 @@ x = obstacle
             var grid = SetupSmallGrid();
             var position = new Vector3(x, 0, y);
             var want = new List<IEntity> {new NPC("rabbit")};
-            
-            grid.AddEntities(position, new List<IEntity>{new NPC("rabbit")});
+
+            grid.AddEntities(position, new List<IEntity> {new NPC("rabbit")});
 
             foreach (var t in want)
             {
@@ -470,6 +470,38 @@ x = obstacle
             var got = grid.MapGrid[gridX, gridY].Entities;
 
             AssertListEntitiesEqual(want, got);
+        }
+
+        [Fact]
+        public void TestCanSaveToFile()
+        {
+            var want = SetupSmallGrid();
+            var persister = new FilePersister("tempGrid.golden");
+
+            persister.Save(want);
+
+            var got = persister.Load<Grid>();
+            persister.Delete();
+
+            AssertGridEqual(want.MapGrid, got.MapGrid);
+        }
+
+        [Fact]
+        public void TestCanLoadGridFromFile()
+        {
+            var want = SetupSmallGrid();
+            var persister = new FilePersister("TestCanLoadGridFromFile.golden");
+            // Path assumes to start from ./debug/ so we want to set it to the test fixtures dir.
+            string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
+            string parentDirectory = Directory.GetParent(grandParentDirectory).FullName;
+            persister.FilePath = Path.Combine(parentDirectory, "fixtures");
+
+            // Uncomment to make golden file if grid changes.
+            // persister.Save(want);
+
+            var got = persister.Load<Grid>();
+
+            AssertGridEqual(want.MapGrid, got.MapGrid);
         }
 
         //********************************************************************************************************//
@@ -530,7 +562,7 @@ x = obstacle
                 Assert.Equal(want[i], got[i]);
             }
         }
-        
+
         private static void AssertListEntitiesEqual(List<IEntity> want, List<IEntity> got)
         {
             Assert.Equal(want.Count, got.Count);
