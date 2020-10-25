@@ -36,7 +36,7 @@ jobs:
         run: ls -R
         
       - name: Publish the package to GitHub packages
-        run: nuget push obj\Release\*.nupkg -source "github" -SkipDuplicate
+        run: nuget push Pathfinder\bin\Debug\Release\*.nupkg -source "github" -SkipDuplicate
 
       # - name: Setup dotnet
       #   uses: actions/setup-dotnet@v1
