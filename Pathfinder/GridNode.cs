@@ -13,8 +13,6 @@ namespace Pathfinder.Pathfinder
     {
         public bool Walkable;
         
-        [NonSerialized]
-        public Vector3 WorldPosition;
         public int GridX;
         public int GridY;
 
@@ -32,6 +30,17 @@ namespace Pathfinder.Pathfinder
             Z = _worldPos.Z;
             
             Entities = new List<IEntity>();
+        }
+
+        public Vector3 WorldPosition
+        {
+            get => new Vector3(X, Y, Z);
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+                Z = value.Z;
+            }
         }
 
         public int fCost
@@ -59,8 +68,8 @@ namespace Pathfinder.Pathfinder
             return -compare;
         }
 
-        public float X { get; }
-        public float Y { get; }
-        public float Z { get; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
     }
 }

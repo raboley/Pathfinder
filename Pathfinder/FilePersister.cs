@@ -11,22 +11,22 @@ namespace Pathfinder.Pathfinder
             FileName = fileName;
         }
 
-        public void Save(GridNode gridNode)
+        public void Save<T>(T serializableData)
         {
             Stream saveFileStream = File.Create(FileName);
             BinaryFormatter serializer = new BinaryFormatter();
-            serializer.Serialize(saveFileStream, gridNode);
+            serializer.Serialize(saveFileStream, serializableData);
             saveFileStream.Close(); 
         }
 
-        public GridNode Load()
+        public T Load<T>()
         {
             Stream openFileStream = File.OpenRead(FileName);
             BinaryFormatter deserializer = new BinaryFormatter();
-            var gridNode = (GridNode) deserializer.Deserialize(openFileStream);
+            var gridNode = (T) deserializer.Deserialize(openFileStream);
             openFileStream.Close();
             
-            gridNode.WorldPosition = new Vector3(gridNode.X, gridNode.Y, gridNode.Z);
+            // gridNode.WorldPosition = new Vector3(gridNode.X, gridNode.Y, gridNode.Z);
 
             return gridNode;
         }

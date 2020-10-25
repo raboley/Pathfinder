@@ -28,9 +28,10 @@ using System.Numerics;
            
            persister.Save(want);
 
-           var got = persister.Load();
+           var got = persister.Load<GridNode>();
 
            Assert.Equal(want, got);
+           Assert.Equal(want.WorldPosition, got.WorldPosition);
         }
     }
 }
