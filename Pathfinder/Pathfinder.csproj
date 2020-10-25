@@ -30,15 +30,14 @@
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
+        <!--        package -->
+        <PackageId>Raboley.Pathfinder</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>russell_boley</Authors>
+        <Company>raboley</Company>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/raboley/Pathfinder</RepositoryUrl>
     </PropertyGroup>
-    <!--    <PropertyGroup>-->
-    <!--        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
-    <!--        <PackageId>Raboley.Pathfinder</PackageId>-->
-    <!--        <PackageOutputPath>Pathfinder/bin/Release</PackageOutputPath>-->
-    <!--        <Version>1.0.0</Version>-->
-    <!--        <Authors>russell_boley</Authors>-->
-    <!--        <Company>raboley</Company>-->
-    <!--    </PropertyGroup>-->
     <ItemGroup>
         <Reference Include="mscorlib"/>
         <Reference Include="System"/>
@@ -49,20 +48,20 @@
             <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
             <Private>True</Private>
         </Reference>
-        <Reference Include="System.Xml" />
+        <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="FilePersister.cs" />
-        <Compile Include="Grid.cs" />
+        <Compile Include="Grid.cs"/>
         <Compile Include="GridFactory.cs"/>
-        <Compile Include="Heap.cs" />
-        <Compile Include="GridMath.cs" />
-        <Compile Include="IEntity.cs" />
-        <Compile Include="INodePrinter.cs" />
-        <Compile Include="GridNode.cs" />
-        <Compile Include="IPersister.cs" />
-        <Compile Include="NPC.cs" />
-        <Compile Include="Pathfinding.cs" />
+        <Compile Include="Heap.cs"/>
+        <Compile Include="GridMath.cs"/>
+        <Compile Include="IEntity.cs"/>
+        <Compile Include="INodePrinter.cs"/>
+        <Compile Include="GridNode.cs"/>
+        <Compile Include="IPersister.cs"/>
+        <Compile Include="NPC.cs"/>
+        <Compile Include="Pathfinding.cs"/>
         <Compile Include="PrintCoordinates.cs"/>
         <Compile Include="PrintKnown.cs"/>
         <Compile Include="PrintWalkable.cs"/>
