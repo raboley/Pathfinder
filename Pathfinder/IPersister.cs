@@ -6,5 +6,6 @@ namespace Pathfinder.Pathfinder
         T Load<T>();
         void Delete();
         string MapName { get; set; }
+        bool Exists();
     }
 }

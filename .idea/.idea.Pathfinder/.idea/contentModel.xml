@@ -32,6 +32,7 @@
       <e p="Pathfinder.sln" t="IncludeFlat" />
       <e p="Pathfinder.Tests" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="GridFactorySetup.cs" t="Include" />
         <e p="GridFactoryTests.cs" t="Include" />
         <e p="GridMathTests.cs" t="Include" />
         <e p="GridSetup.cs" t="Include" />

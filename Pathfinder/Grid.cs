@@ -27,11 +27,23 @@ namespace Pathfinder.Pathfinder
             var grid = new Grid();
             grid.NodeRadius = nodeRadius;
             grid.GridWorldSize = gridSize;
+            BuildGridMap(grid);
+
+            return grid;
+        }
+
+        private static void BuildGridMap(Grid grid)
+        {
             grid.MapGrid = new GridNode[grid._gridSizeX, grid._gridSizeY];
             var worldBottomLeft = grid.GetBottomLeftNodeFromGridWorldSize();
             grid.BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
+        }
 
-            return grid;
+        public void BuildGridMap()
+        {
+            MapGrid = new GridNode[_gridSizeX, _gridSizeY];
+            var worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
+            BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
         }
 
         private Vector3 GetBottomLeftNodeFromGridWorldSize()
@@ -73,6 +85,7 @@ namespace Pathfinder.Pathfinder
         {
             return new Vector3(0f, 0f, 1f);
         }
+
 
         public static Grid GetGridMap(string mapName, IPersister persister)
         {
@@ -231,7 +244,7 @@ x = obstacle";
         }
 
         public GridNode[,] MapGrid;
-        private float NodeRadius { get; set; }
+        private float NodeRadius { get; set; } = 0.5f;
         private float NodeDiameter => NodeRadius * 2;
 
         public Vector2 GridWorldSize
@@ -269,18 +282,6 @@ x = obstacle";
         private int _gridSizeX, _gridSizeY;
 
         public string MapName { get; set; }
-
-        public Vector2 DefaultGridSize
-        {
-            get => new Vector2(_defaultGridSizeX, _defaultGridSizeY);
-            set
-            {
-                _defaultGridSizeX = value.X;
-                _defaultGridSizeY = value.Y;
-            }
-        }
-
-        private float _defaultGridSizeX, _defaultGridSizeY;
 
         public IPersister Persister { get; set; }
     }
