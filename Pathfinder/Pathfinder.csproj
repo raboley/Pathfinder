@@ -44,12 +44,14 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="FilePersister.cs" />
         <Compile Include="Grid.cs" />
         <Compile Include="Heap.cs" />
         <Compile Include="GridMath.cs" />
         <Compile Include="IEntity.cs" />
         <Compile Include="INodePrinter.cs" />
         <Compile Include="GridNode.cs" />
+        <Compile Include="IPersister.cs" />
         <Compile Include="NPC.cs" />
         <Compile Include="Pathfinding.cs" />
         <Compile Include="PrintCoordinates.cs" />

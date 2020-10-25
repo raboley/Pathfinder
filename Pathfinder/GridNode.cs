@@ -8,9 +8,12 @@ using Pathfinder.Pathfinder;
 
 namespace Pathfinder.Pathfinder
 {
+    [Serializable]
     public class GridNode : IHeapItem<GridNode>
     {
         public bool Walkable;
+        
+        [NonSerialized]
         public Vector3 WorldPosition;
         public int GridX;
         public int GridY;
@@ -24,6 +27,10 @@ namespace Pathfinder.Pathfinder
         {
             Walkable = _walkable;
             WorldPosition = _worldPos;
+            X = _worldPos.X;
+            Y = _worldPos.Y;
+            Z = _worldPos.Z;
+            
             Entities = new List<IEntity>();
         }
 
@@ -45,11 +52,15 @@ namespace Pathfinder.Pathfinder
         {
             int compare = fCost.CompareTo(gridNodeToCompare.fCost);
             if (compare == 0)
-            {
+            { 
                 compare = HCost.CompareTo(gridNodeToCompare.HCost);
             }
 
             return -compare;
         }
+
+        public float X { get; }
+        public float Y { get; }
+        public float Z { get; }
     }
 }

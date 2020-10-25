@@ -19,5 +19,18 @@ using System.Numerics;
             Assert.Equal(true, gridNode.Walkable);
             Assert.Equal(position, gridNode.WorldPosition);
         }
+
+        [Fact]
+        public void TestCanSaveToFile()
+        {
+           var want = new GridNode(Vector3.One); 
+           var persister = new FilePersister("tempNode.golden");
+           
+           persister.Save(want);
+
+           var got = persister.Load();
+
+           Assert.Equal(want, got);
+        }
     }
 }
