@@ -35,6 +35,7 @@ namespace Pathfinder.Pathfinder
         private static void BuildGridMap(Grid grid)
         {
             grid.MapGrid = new GridNode[grid._gridSizeX, grid._gridSizeY];
+            grid.NpcList = new List<IEntity>();
             var worldBottomLeft = grid.GetBottomLeftNodeFromGridWorldSize();
             grid.BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
         }
@@ -42,6 +43,7 @@ namespace Pathfinder.Pathfinder
         public void BuildGridMap()
         {
             MapGrid = new GridNode[_gridSizeX, _gridSizeY];
+            NpcList = new List<IEntity>();
             var worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
             BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
         }
@@ -283,6 +285,12 @@ x = obstacle";
 
         public string MapName { get; set; }
 
-        public IPersister Persister { get; set; }
+        public List<IEntity> NpcList { get; set; }
+
+        public void AddNpc(NPC npc)
+        {
+            npc.MapName = MapName;
+            NpcList.Add(npc);
+        }
     }
 }

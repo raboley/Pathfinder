@@ -464,6 +464,35 @@ x = obstacle
         }
 
         [Fact]
+        public void AddNpcAddsToList()
+        {
+            var grid = GridSetup.SetupSmallGrid();
+            var want = new List<IEntity>();
+
+            var npc = new NPC("rabbit", Vector3.One) {MapName = grid.MapName};
+            want.Add(npc);
+            // want.Add(new NPC("bull"));
+            // want.Add(new NPC("frog"));
+
+            grid.AddNpc(new NPC("rabbit", Vector3.One));
+            var got = grid.NpcList;
+
+            AssertNpcListEqual(want, got);
+        }
+
+        private static void AssertNpcListEqual(List<IEntity> want, List<IEntity> got)
+        {
+            Assert.Equal(want.Count, got.Count);
+            for (int i = 0; i < want.Count; i++)
+            {
+                Assert.Equal(want[i].Name, got[i].Name);
+                Assert.Equal(want[i].MapName, got[i].MapName);
+                Assert.Equal(want[i].Position, got[i].Position);
+            }
+        }
+
+
+        [Fact]
         public void TestCanSaveToFile()
         {
             var want = GridSetup.SetupSmallGrid();
