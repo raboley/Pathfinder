@@ -1,0 +1,38 @@
+name: CI
+on:
+  push:
+    branches:
+      - main # Default release branch
+      
+jobs:
+  publish:
+    name: build, pack & publish
+    runs-on: [windows-latest]
+    steps:
+      - uses: actions/checkout@v2
+          
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+        
+      - name: Setup Nuget
+        uses: NuGet/setup-nuget@v1.0.2
+        
+      - name: Restore Nuget Packages
+        run: nuget restore Pathfinder.sln
+        
+      - name: Build the Solution
+        run: msbuild Pathfinder.sln
+        
+
+      # - name: Setup dotnet
+      #   uses: actions/setup-dotnet@v1
+      #   with:
+      #     dotnet-version: 3.1.200
+
+      # Publish
+#      - name: publish on version change
+#        id: publish_nuget
+#        uses: rohith/publish-nuget@v2
+#        with:
+#          # Filepath of the project to be packaged, relative to root of repository
+#          PROJECT_FILE_PATH: Core/Core.csproj
