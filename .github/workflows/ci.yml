@@ -20,9 +20,20 @@ jobs:
       - name: Restore Nuget Packages
         run: nuget restore Pathfinder.sln
         
-      - name: Build the Solution
-        run: msbuild Pathfinder.sln
+#      - name: Run Unit Tests
+#        run: mstest /testmetadata:Pathfinder.vsmdi
         
+      - name: Build the Solution
+        run: msbuild Pathfinder.sln /p:Configuration=Release
+        
+      - name: Nuget Add Source
+        run: nuget sources Add -Name "github" -Source https://nuget.pkg.github.com/${{ github.actor }}/index.json -UserName ${{ github.actor }} -Password ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Nuget SetAPIKey
+        run: nuget setapikey ${{ secrets.GITHUB_TOKEN }} -Source "github"
+        
+      - name: Publish the package to GitHub packages
+        run: nuget push bin\Debug\*.nupkg -source "github" -SkipDuplicate
 
       # - name: Setup dotnet
       #   uses: actions/setup-dotnet@v1
