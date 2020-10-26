@@ -36,6 +36,7 @@ namespace Pathfinder
         {
             grid.MapGrid = new GridNode[grid._gridSizeX, grid._gridSizeY];
             grid.NpcList = new List<IEntity>();
+            grid.ThingList = new List<IEntity>();
             var worldBottomLeft = grid.GetBottomLeftNodeFromGridWorldSize();
             grid.BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
         }
@@ -44,6 +45,7 @@ namespace Pathfinder
         {
             MapGrid = new GridNode[_gridSizeX, _gridSizeY];
             NpcList = new List<IEntity>();
+            ThingList = new List<IEntity>();
             var worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
             BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
         }
@@ -167,6 +169,34 @@ namespace Pathfinder
             MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 
+        public void AddEntities(Vector3 position, IEnumerable<IEntity> entities)
+        {
+            var gridNode = NodeFromWorldPoint(position);
+
+            var listEntities = entities.ToList();
+            foreach (var entity in listEntities)
+            {
+                entity.Position = position;
+                entity.MapName = MapName;
+            }
+
+            gridNode.Entities.AddRange(listEntities);
+
+            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
+        }
+
+        public void AddNpc(NPC npc)
+        {
+            npc.MapName = MapName;
+            NpcList.Add(npc);
+        }
+
+        public void AddInanimateObject(IEntity entity)
+        {
+            entity.MapName = MapName;
+            ThingList.Add(entity);
+        }
+
         /// <summary>
         /// Returns a string representation of the current MapGrid's walkable and not walkable Nodes.
         /// </summary>
@@ -230,9 +260,8 @@ x = obstacle";
             return result;
         }
 
-        public GridNode[,] MapGrid;
-        private float NodeRadius { get; set; } = 0.5f;
-        private float NodeDiameter => NodeRadius * 2;
+
+        public string MapName { get; set; }
 
         public Vector2 GridWorldSize
         {
@@ -268,22 +297,12 @@ x = obstacle";
         public int MaxSize => _gridSizeX * _gridSizeY;
         private int _gridSizeX, _gridSizeY;
 
-        public string MapName { get; set; }
 
         public List<IEntity> NpcList { get; set; }
-
-        public void AddNpc(NPC npc)
-        {
-            npc.MapName = MapName;
-            NpcList.Add(npc);
-        }
-
-        public void AddInanimateObject(IEntity entity)
-        {
-            entity.MapName = MapName;
-            ThingList.Add(entity);
-        }
-
         public List<IEntity> ThingList { get; set; }
+        public GridNode[,] MapGrid;
+
+        private float NodeRadius { get; set; } = 0.5f;
+        private float NodeDiameter => NodeRadius * 2;
     }
 }
