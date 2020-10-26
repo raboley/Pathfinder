@@ -292,5 +292,13 @@ x = obstacle";
             npc.MapName = MapName;
             NpcList.Add(npc);
         }
+
+        public void AddInanimateObject(IEntity entity)
+        {
+            entity.MapName = MapName;
+            InanimateObjectList.Add(entity);
+        }
+
+        public List<IEntity> InanimateObjectList { get; set; }
     }
 }
