@@ -6,6 +6,20 @@ namespace Pathfinder.Tests.IntegrationTests
     public class GridFileTests
     {
         [Fact]
+        public void TestCanSaveToFile()
+        {
+            var want = GridSetup.SetupSmallGrid();
+            var persister = new FilePersister("tempGrid.golden");
+
+            persister.Save(want);
+
+            var got = persister.Load<Grid>();
+            persister.Delete();
+
+            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
+        }
+
+        [Fact]
         public void TestCanLoadGridFromFile()
         {
             var want = GridSetup.SetupSmallGrid();

@@ -460,20 +460,5 @@ x = obstacle
                 Assert.Equal(want[i].Position, got[i].Position);
             }
         }
-
-
-        [Fact]
-        public void TestCanSaveToFile()
-        {
-            var want = GridSetup.SetupSmallGrid();
-            var persister = new FilePersister("tempGrid.golden");
-
-            persister.Save(want);
-
-            var got = persister.Load<Grid>();
-            persister.Delete();
-
-            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
-        }
     }
 }

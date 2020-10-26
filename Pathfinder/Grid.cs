@@ -169,22 +169,6 @@ namespace Pathfinder
             MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 
-        public void AddEntities(Vector3 position, IEnumerable<IEntity> entities)
-        {
-            var gridNode = NodeFromWorldPoint(position);
-
-            var listEntities = entities.ToList();
-            foreach (var entity in listEntities)
-            {
-                entity.Position = position;
-                entity.MapName = MapName;
-            }
-
-            gridNode.Entities.AddRange(listEntities);
-
-            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
-        }
-
         public void AddNpc(NPC npc)
         {
             npc.MapName = MapName;

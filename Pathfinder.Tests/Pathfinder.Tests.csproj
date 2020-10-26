@@ -62,6 +62,7 @@
     <ItemGroup>
         <Compile Include="GridFactorySetup.cs"/>
         <Compile Include="GridSetup.cs"/>
+        <Compile Include="IntegrationTests\FileTextPersisterTests.cs"/>
         <Compile Include="IntegrationTests\GridFactoryFileTests.cs"/>
         <Compile Include="IntegrationTests\GridFileTests.cs"/>
         <Compile Include="PersisterSetup.cs"/>

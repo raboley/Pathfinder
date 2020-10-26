@@ -1,7 +1,5 @@
-using System.Diagnostics;
 using System.IO;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using Xunit;
 
 namespace Pathfinder.Tests.IntegrationTests
@@ -13,7 +11,7 @@ namespace Pathfinder.Tests.IntegrationTests
         {
             var want = GridSetup.SetupSmallGrid();
             var gridFactory = GridFactorySetup.SetupGridFactory();
-            var mapName = GetCurrentMethodName();
+            var mapName = PersisterSetup.GetCurrentMethodName();
 
             // Uncomment to make golden file if grid changes.
             gridFactory.Persister.MapName = mapName;
@@ -38,7 +36,7 @@ namespace Pathfinder.Tests.IntegrationTests
         {
             var want = GridSetup.SetupSmallGrid();
             var gridFactory = GridFactorySetup.SetupGridFactory();
-            string mapName = GetCurrentMethodName();
+            string mapName = PersisterSetup.GetCurrentMethodName();
             want.MapName = mapName;
 
             // Uncomment to make golden file if grid changes.
@@ -65,15 +63,6 @@ namespace Pathfinder.Tests.IntegrationTests
 
             GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
             Assert.Equal(want.MapName, got.MapName);
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public string GetCurrentMethodName()
-        {
-            var st = new StackTrace();
-            var sf = st.GetFrame(1);
-
-            return sf.GetMethod().Name;
         }
     }
 }

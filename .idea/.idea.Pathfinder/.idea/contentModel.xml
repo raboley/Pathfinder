@@ -8,6 +8,7 @@
       <e p="Pathfinder" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="FilePersister.cs" t="Include" />
+        <e p="FileTextPersister.cs" t="Include" />
         <e p="Grid.cs" t="Include" />
         <e p="GridFactory.cs" t="Include" />
         <e p="GridMath.cs" t="Include" />
@@ -38,6 +39,7 @@
         <e p="GridFactorySetup.cs" t="Include" />
         <e p="GridSetup.cs" t="Include" />
         <e p="IntegrationTests" t="Include">
+          <e p="FileTextPersisterTests.cs" t="Include" />
           <e p="GridFactoryFileTests.cs" t="Include" />
           <e p="GridFileTests.cs" t="Include" />
           <e p="GridNode.json" t="Include" />
