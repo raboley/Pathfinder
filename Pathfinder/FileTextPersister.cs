@@ -7,7 +7,7 @@ namespace Pathfinder
     {
         public void Save<T>(T text)
         {
-            if (FileName == "" || FileName == null)
+            if (string.IsNullOrEmpty(FileName))
             {
                 throw new Exception("Must set Property FileName before trying to write text to file.");
             }
