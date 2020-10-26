@@ -1,5 +1,5 @@
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using Newtonsoft.Json;
 
 namespace Pathfinder
 {
@@ -16,22 +16,24 @@ namespace Pathfinder
 
         public void Save<T>(T serializableData)
         {
-            Stream saveFileStream = File.Create(FullPath);
-            BinaryFormatter serializer = new BinaryFormatter();
-            serializer.Serialize(saveFileStream, serializableData);
-            saveFileStream.Close();
+            JsonSerializer jsonSerializer = new JsonSerializer();
+
+            using (StreamWriter streamWriter = new StreamWriter(FullPath))
+            using (JsonWriter jsonTextWriter = new JsonTextWriter(streamWriter))
+            {
+                jsonSerializer.Serialize(jsonTextWriter, serializableData);
+            }
         }
 
         public T Load<T>()
         {
-            Stream openFileStream = File.OpenRead(FullPath);
-            BinaryFormatter deserializer = new BinaryFormatter();
-            var gridNode = (T) deserializer.Deserialize(openFileStream);
-            openFileStream.Close();
+            JsonSerializer jsonSerializer = new JsonSerializer();
 
-            // gridNode.WorldPosition = new Vector3(gridNode.X, gridNode.Y, gridNode.Z);
-
-            return gridNode;
+            using (StreamReader streamReader = new StreamReader(FullPath))
+            using (JsonReader jsonReader = new JsonTextReader(streamReader))
+            {
+                return jsonSerializer.Deserialize<T>(jsonReader);
+            }
         }
 
         public void Delete()
@@ -55,5 +57,6 @@ namespace Pathfinder
         public string FileName { get; set; }
         public string FilePath { get; set; } = Directory.GetCurrentDirectory();
         public string FullPath => Path.Combine(FilePath, FileName);
+        public ISerializer Serializer;
     }
 }

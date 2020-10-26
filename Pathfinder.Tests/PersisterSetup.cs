@@ -7,7 +7,7 @@ namespace Pathfinder.Tests
         public static FilePersister SetupTestFilePersister()
         {
             var persister = new FilePersister();
-            persister.DefaultExtension = "golden";
+            persister.DefaultExtension = "json";
             string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
             string parentDirectory = Directory.GetParent(grandParentDirectory).FullName;
             persister.FilePath = Path.Combine(parentDirectory, "fixtures");
