@@ -103,7 +103,10 @@ namespace Pathfinder.Tests
             Assert.Equal(want.GridWorldSize, got.GridWorldSize);
             Assert.Equal(want.MaxSize, got.MaxSize);
             Assert.Equal(want.MapName, got.MapName);
+
             AssertGridMapEqual(want.MapGrid, got.MapGrid);
+            AssertListEntitiesEqual(want.NpcList, want.NpcList);
+            AssertListEntitiesEqual(want.ThingList, want.ThingList);
         }
 
         public static void AssertGridMapEqual(GridNode[,] want, GridNode[,] got)
