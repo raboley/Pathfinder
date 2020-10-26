@@ -21,7 +21,7 @@ namespace Pathfinder.Tests.IntegrationTests
 
             var got = gridFactory.LoadGrid(mapName);
 
-            GridSetup.AssertGridEqual(want.MapGrid, got.MapGrid);
+            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
         }
 
         [Fact]
@@ -42,12 +42,12 @@ namespace Pathfinder.Tests.IntegrationTests
             want.MapName = mapName;
 
             // Uncomment to make golden file if grid changes.
-            // gridFactory.Persister.MapName = mapName;
-            // gridFactory.Persister.Save(want);
+            gridFactory.Persister.MapName = mapName;
+            gridFactory.Persister.Save(want);
 
             var got = gridFactory.LoadGridOrCreateNew(mapName);
 
-            GridSetup.AssertGridEqual(want.MapGrid, got.MapGrid);
+            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
             Assert.Equal(want.MapName, got.MapName);
         }
 
@@ -63,7 +63,7 @@ namespace Pathfinder.Tests.IntegrationTests
 
             var got = gridFactory.LoadGridOrCreateNew(mapName);
 
-            GridSetup.AssertGridEqual(want.MapGrid, got.MapGrid);
+            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
             Assert.Equal(want.MapName, got.MapName);
         }
 

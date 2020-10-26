@@ -19,7 +19,7 @@ namespace Pathfinder.Tests.UnitTests
 
             // Assert
             Assert.Equal(want.Length, got.Length);
-            GridSetup.AssertGridEqual(want, got);
+            GridSetup.AssertGridMapEqual(want, got);
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Pathfinder.Tests.UnitTests
 
             // Assert
             Assert.Equal(want.Length, got.Length);
-            GridSetup.AssertGridEqual(want, got);
+            GridSetup.AssertGridMapEqual(want, got);
         }
 
         [Fact]
@@ -433,34 +433,6 @@ x = obstacle
             Assert.Equal(want, got);
         }
 
-        [Theory]
-        [InlineData(-1, -1, 0, 0)]
-        [InlineData(0, -1, 1, 0)]
-        [InlineData(-1, 0, 0, 1)]
-        [InlineData(0, 0, 1, 1)]
-        [InlineData(1, 0, 2, 1)]
-        [InlineData(-1, -1, 0, 0)]
-        [InlineData(0, 1, 1, 2)]
-        [InlineData(1, 1, 2, 2)]
-        public void TestAddEntityToNode(float x, float y, int gridX, int gridY)
-        {
-            var grid = GridSetup.SetupSmallGrid();
-            var position = new Vector3(x, 0, y);
-            var want = new List<IEntity> {new NPC("rabbit")};
-
-            grid.AddEntities(position, new List<IEntity> {new NPC("rabbit")});
-
-            foreach (var t in want)
-            {
-                t.Position = position;
-                t.MapName = GridSetup._smallGridZoneName;
-            }
-
-            var got = grid.MapGrid[gridX, gridY].Entities;
-
-            GridSetup.AssertListEntitiesEqual(want, got);
-        }
-
         [Fact]
         public void AddNpcAddsToList()
         {
@@ -501,7 +473,7 @@ x = obstacle
             var got = persister.Load<Grid>();
             persister.Delete();
 
-            GridSetup.AssertGridEqual(want.MapGrid, got.MapGrid);
+            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
         }
     }
 }

@@ -167,21 +167,6 @@ namespace Pathfinder
             MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 
-        public void AddEntities(Vector3 position, IEnumerable<IEntity> entities)
-        {
-            var gridNode = NodeFromWorldPoint(position);
-
-            var listEntities = entities.ToList();
-            foreach (var entity in listEntities)
-            {
-                entity.Position = position;
-                entity.MapName = MapName;
-            }
-
-            gridNode.Entities.AddRange(listEntities);
-            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
-        }
-
         /// <summary>
         /// Returns a string representation of the current MapGrid's walkable and not walkable Nodes.
         /// </summary>
@@ -296,9 +281,9 @@ x = obstacle";
         public void AddInanimateObject(IEntity entity)
         {
             entity.MapName = MapName;
-            InanimateObjectList.Add(entity);
+            ThingList.Add(entity);
         }
 
-        public List<IEntity> InanimateObjectList { get; set; }
+        public List<IEntity> ThingList { get; set; }
     }
 }

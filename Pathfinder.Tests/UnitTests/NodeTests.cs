@@ -30,7 +30,6 @@ namespace Pathfinder.Tests.UnitTests
             var got = persister.Load<GridNode>();
             persister.Delete();
 
-            Assert.Equal(want, got);
             Assert.Equal(want.WorldPosition, got.WorldPosition);
         }
     }

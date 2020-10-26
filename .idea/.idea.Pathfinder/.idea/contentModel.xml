@@ -27,6 +27,8 @@
         <e p="PrintWalkable.cs" t="Include" />
         <e p="Properties" t="Include">
           <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
         </e>
       </e>
       <e p="Pathfinder.sln" t="IncludeFlat" />
@@ -37,6 +39,7 @@
         <e p="IntegrationTests" t="Include">
           <e p="GridFactoryFileTests.cs" t="Include" />
           <e p="GridFileTests.cs" t="Include" />
+          <e p="GridNode.json" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
@@ -48,6 +51,7 @@
         <e p="UnitTests" t="Include">
           <e p="GridMathTests.cs" t="Include" />
           <e p="GridTests.cs" t="Include" />
+          <e p="JsonSerializerTests.cs" t="Include" />
           <e p="NodeTests.cs" t="Include" />
           <e p="PathfindingTests.cs" t="Include" />
           <e p="PrintPathTests.cs" t="Include" />

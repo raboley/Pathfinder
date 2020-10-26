@@ -16,11 +16,11 @@ namespace Pathfinder.Tests.IntegrationTests
             persister.FilePath = Path.Combine(parentDirectory, "fixtures");
 
             // Uncomment to make golden file if grid changes.
-            // persister.Save(want);
+            persister.Save(want);
 
             var got = persister.Load<Grid>();
 
-            GridSetup.AssertGridEqual(want.MapGrid, got.MapGrid);
+            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
         }
     }
 }

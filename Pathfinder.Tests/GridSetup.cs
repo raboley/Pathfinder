@@ -97,8 +97,18 @@ namespace Pathfinder.Tests
             return want;
         }
 
-        public static void AssertGridEqual(GridNode[,] want, GridNode[,] got)
+        public static void AssertGridEqual(Grid want, Grid got)
         {
+            Assert.Equal(want.GridCenter, got.GridCenter);
+            Assert.Equal(want.GridWorldSize, got.GridWorldSize);
+            Assert.Equal(want.MaxSize, got.MaxSize);
+            Assert.Equal(want.MapName, got.MapName);
+            AssertGridMapEqual(want.MapGrid, got.MapGrid);
+        }
+
+        public static void AssertGridMapEqual(GridNode[,] want, GridNode[,] got)
+        {
+            Assert.Equal(want.Length, got.Length);
             for (var i = 0; i <= want.GetUpperBound(0); i++)
             {
                 for (var j = 0; j <= want.GetUpperBound(1); j++)
@@ -112,6 +122,7 @@ namespace Pathfinder.Tests
         {
             Assert.Equal(want[i, j].WorldPosition, got[i, j].WorldPosition);
             Assert.Equal(want[i, j].Walkable, got[i, j].Walkable);
+            Assert.Equal(want[i, j].Unknown, got[i, j].Unknown);
         }
     }
 }

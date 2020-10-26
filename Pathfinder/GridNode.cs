@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 namespace Pathfinder
@@ -7,25 +6,26 @@ namespace Pathfinder
     [Serializable]
     public class GridNode : IHeapItem<GridNode>
     {
-        public bool Walkable;
+        public bool Unknown { get; set; }
+        public bool Walkable { get; set; }
+        public int HeapIndex { get; set; }
 
-        public int GridX;
-        public int GridY;
 
-        public int GCost;
-        public int HCost;
-        public GridNode Parent;
-        private int _heapIndex;
+        [NonSerialized] public int GCost;
+        [NonSerialized] public int HCost;
+        [NonSerialized] public GridNode Parent;
 
-        public GridNode(Vector3 _worldPos, bool _walkable = true)
+        public GridNode(Vector3 worldPos, bool _walkable = true, bool unknown = true)
         {
             Walkable = _walkable;
-            WorldPosition = _worldPos;
-            X = _worldPos.X;
-            Y = _worldPos.Y;
-            Z = _worldPos.Z;
+            WorldPosition = worldPos;
+            Unknown = unknown;
+        }
 
-            Entities = new List<IEntity>();
+
+        public int FCost
+        {
+            get { return GCost + HCost; }
         }
 
         public Vector3 WorldPosition
@@ -39,23 +39,10 @@ namespace Pathfinder
             }
         }
 
-        public int fCost
-        {
-            get { return GCost + HCost; }
-        }
-
-        public int HeapIndex
-        {
-            get { return _heapIndex; }
-            set { _heapIndex = value; }
-        }
-
-        public bool Unknown { get; set; } = true;
-        public List<IEntity> Entities { get; set; }
 
         public int CompareTo(GridNode gridNodeToCompare)
         {
-            int compare = fCost.CompareTo(gridNodeToCompare.fCost);
+            int compare = FCost.CompareTo(gridNodeToCompare.FCost);
             if (compare == 0)
             {
                 compare = HCost.CompareTo(gridNodeToCompare.HCost);
@@ -64,8 +51,11 @@ namespace Pathfinder
             return -compare;
         }
 
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
+        public int GridX;
+        public int GridY;
+
+        public float X;
+        public float Y;
+        public float Z;
     }
 }
