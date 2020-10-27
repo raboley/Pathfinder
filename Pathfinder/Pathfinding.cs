@@ -34,8 +34,8 @@ namespace Pathfinder
             Vector3[] waypoints = new Vector3[0];
             bool pathSuccess = false;
 
-            GridNode startGridNode = Grid.NodeFromWorldPoint(startPos);
-            GridNode targetGridNode = Grid.NodeFromWorldPoint(targetPos);
+            GridNode startGridNode = Grid.GetNodeFromWorldPoint(startPos);
+            GridNode targetGridNode = Grid.GetNodeFromWorldPoint(targetPos);
 
             if (startGridNode.Walkable && targetGridNode.Walkable)
             {

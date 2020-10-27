@@ -57,7 +57,7 @@ namespace Pathfinder.Tests.UnitTests
             var grid = GridSetup.SetupSmallGrid();
             var want = grid.MapGrid[0, 0];
 
-            var got = grid.NodeFromWorldPoint(new Vector3(-1, 0, -1));
+            var got = grid.GetNodeFromWorldPoint(new Vector3(-1, 0, -1));
 
             Assert.Equal(want.WorldPosition, got.WorldPosition);
         }
@@ -68,7 +68,7 @@ namespace Pathfinder.Tests.UnitTests
             var grid = GridSetup.SetupSmallGrid();
             var want = grid.MapGrid[2, 2];
 
-            var got = grid.NodeFromWorldPoint(new Vector3(1, 0, 1));
+            var got = grid.GetNodeFromWorldPoint(new Vector3(1, 0, 1));
 
             Assert.Equal(want.WorldPosition, got.WorldPosition);
         }
@@ -79,7 +79,7 @@ namespace Pathfinder.Tests.UnitTests
             var grid = GridSetup.SetupBigGrid();
             var want = grid.MapGrid[30, 5];
 
-            var got = grid.NodeFromWorldPoint(new Vector3(5, 0, -20));
+            var got = grid.GetNodeFromWorldPoint(new Vector3(5, 0, -20));
 
             Assert.Equal(want.WorldPosition, got.WorldPosition);
         }

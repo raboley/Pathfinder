@@ -131,7 +131,7 @@ namespace Pathfinder
         /// </summary>
         /// <param name="worldPosition"></param>
         /// <returns></returns>
-        public GridNode NodeFromWorldPoint(Vector3 worldPosition)
+        public GridNode GetNodeFromWorldPoint(Vector3 worldPosition)
         {
             int x = GetGridPosX(worldPosition.X);
             // Note: Since in 3D space Y is height, and don't traverse the world via the height, this should be Z.
@@ -157,16 +157,15 @@ namespace Pathfinder
 
         public void AddUnWalkableNode(Vector3 position)
         {
-            var gridNode = NodeFromWorldPoint(position);
+            var gridNode = GetNodeFromWorldPoint(position);
             gridNode.Walkable = false;
             MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 
         public void AddKnownNode(Vector3 worldPoint)
         {
-            var gridNode = NodeFromWorldPoint(worldPoint);
-            gridNode.Unknown = false;
-            MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
+            var gridNode = GetNodeFromWorldPoint(worldPoint);
+            MapGrid[gridNode.GridX, gridNode.GridY].Unknown = false;
         }
 
         public void AddNpc(NPC npc)
@@ -234,7 +233,7 @@ x = obstacle";
                 result += "|";
                 for (int x = -1 * column / 2; x <= column / 2; x++)
                 {
-                    var node = NodeFromWorldPoint(new Vector3(x, 0, y));
+                    var node = GetNodeFromWorldPoint(new Vector3(x, 0, y));
                     result += nodePrinter.PrintNode(node);
                 }
 
@@ -285,7 +284,7 @@ x = obstacle";
         public List<IEntity> NpcList { get; set; }
         public List<IEntity> ThingList { get; set; }
         public GridNode[,] MapGrid;
-        public List<GridNode> UnknownNodes => MapGrid?.Cast<GridNode>().ToList();
+        public List<GridNode> UnknownNodes => MapGrid?.Cast<GridNode>().ToList().FindAll(n => n.Unknown == true);
 
         private float NodeRadius { get; set; } = 0.5f;
         private float NodeDiameter => NodeRadius * 2;

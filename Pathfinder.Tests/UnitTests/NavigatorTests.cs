@@ -33,5 +33,34 @@ namespace Pathfinder.Tests.UnitTests
                 Assert.Equal(want[i], traveledPath[i]);
             }
         }
+
+        [Fact]
+        public void NavigatorDiscoversAllUnknownNodes()
+        {
+            const string want = @"
+-------------------
+|     |     |     |
+-------------------
+|     |     |     |
+-------------------
+|     |     |     |
+-------------------
+";
+            var grid = GridSetup.SetupSmallGrid();
+            var pathfinding = new Pathfinding();
+            pathfinding.Grid = grid;
+
+            var navigator = new Navigator();
+            navigator.Position = Vector3.One;
+            navigator.Pathfinder = pathfinding;
+
+            navigator.DiscoverAllNodes();
+
+
+            Assert.Empty(navigator.Pathfinder.Grid.UnknownNodes);
+
+            string got = grid.PrintKnown();
+            Assert.Equal(want, got);
+        }
     }
 }

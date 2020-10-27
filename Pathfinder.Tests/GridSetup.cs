@@ -10,7 +10,7 @@ namespace Pathfinder.Tests
 
         public static void AssertPointNotWalkable(Grid grid, Vector3 position)
         {
-            var node = grid.NodeFromWorldPoint(position);
+            var node = grid.GetNodeFromWorldPoint(position);
             Assert.Equal(node.WorldPosition, position);
             Assert.Equal(node.Walkable, false);
         }
