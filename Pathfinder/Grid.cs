@@ -285,6 +285,7 @@ x = obstacle";
         public List<IEntity> NpcList { get; set; }
         public List<IEntity> ThingList { get; set; }
         public GridNode[,] MapGrid;
+        public List<GridNode> UnknownNodes => MapGrid?.Cast<GridNode>().ToList();
 
         private float NodeRadius { get; set; } = 0.5f;
         private float NodeDiameter => NodeRadius * 2;

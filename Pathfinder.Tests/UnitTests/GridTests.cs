@@ -450,6 +450,35 @@ x = obstacle
             AssertNpcListEqual(want, got);
         }
 
+        [Fact]
+        public void GetUnknownNodes()
+        {
+            var want = new List<GridNode>
+            {
+                new GridNode(new Vector3(-1, 0, -1)),
+                new GridNode(new Vector3(-1, 0, 0)),
+                new GridNode(new Vector3(-1, 0, 1)),
+                new GridNode(new Vector3(0, 0, -1)),
+                new GridNode(new Vector3(0, 0, 0)) {Unknown = false},
+                new GridNode(new Vector3(0, 0, 1)),
+                new GridNode(new Vector3(1, 0, -1)),
+                new GridNode(new Vector3(1, 0, 0)),
+                new GridNode(new Vector3(1, 0, 1)),
+            };
+
+            var grid = GridSetup.SetupSmallGrid();
+            grid.MapGrid[1, 1].Unknown = false;
+
+            var got = grid.UnknownNodes;
+
+            Assert.Equal(want.Count, got.Count);
+            for (var i = 0; i < want.Count; i++)
+            {
+                Assert.Equal(want[i].WorldPosition, got[i].WorldPosition);
+                Assert.Equal(want[i].Unknown, got[i].Unknown);
+            }
+        }
+
         private static void AssertNpcListEqual(List<IEntity> want, List<IEntity> got)
         {
             Assert.Equal(want.Count, got.Count);
