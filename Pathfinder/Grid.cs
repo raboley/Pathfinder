@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Security.Policy;
 
 namespace Pathfinder
 {
@@ -35,10 +36,17 @@ namespace Pathfinder
         private static void BuildGridMap(Grid grid)
         {
             grid.MapGrid = new GridNode[grid._gridSizeX, grid._gridSizeY];
-            grid.NpcList = new List<IEntity>();
-            grid.ThingList = new List<IEntity>();
+            SetupAllLists(grid);
             var worldBottomLeft = grid.GetBottomLeftNodeFromGridWorldSize();
             grid.BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
+        }
+
+        private static void SetupAllLists(Grid grid)
+        {
+            grid.NpcList = new List<IEntity>();
+            grid.ThingList = new List<IEntity>();
+            grid.ZoneBoundaries = new Dictionary<string, List<Vector3>>();
+            grid.MobList = new List<IEntity>();
         }
 
         public void BuildGridMap()
@@ -46,9 +54,13 @@ namespace Pathfinder
             MapGrid = new GridNode[_gridSizeX, _gridSizeY];
             NpcList = new List<IEntity>();
             ThingList = new List<IEntity>();
+            MobList = new List<IEntity>();
+            ZoneBoundaries = new Dictionary<string, List<Vector3>>();
             var worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
             BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
         }
+
+
 
         private Vector3 GetBottomLeftNodeFromGridWorldSize()
         {
@@ -168,6 +180,26 @@ namespace Pathfinder
             MapGrid[gridNode.GridX, gridNode.GridY].Unknown = false;
         }
 
+        public void AddZoneBoundary(string ZonesTo, Vector3 worldPoint)
+        {
+            List<Vector3> zoneBoundaries;
+
+            if (ZoneBoundaries != null)
+            {
+                if (ZoneBoundaries.ContainsKey(ZonesTo))
+                {
+                    zoneBoundaries = ZoneBoundaries[ZonesTo];
+                    zoneBoundaries.Add(worldPoint);
+                    ZoneBoundaries[ZonesTo] = zoneBoundaries;
+                    return;
+                }
+            }
+            
+            zoneBoundaries = new List<Vector3>();
+            zoneBoundaries.Add(worldPoint);
+            ZoneBoundaries.Add(ZonesTo, zoneBoundaries);
+        }
+
         public void AddNpc(NPC npc)
         {
             npc.MapName = MapName;
@@ -283,10 +315,15 @@ x = obstacle";
 
         public List<IEntity> NpcList { get; set; }
         public List<IEntity> ThingList { get; set; }
+        public List<IEntity> MobList { get; set; }
+        public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
         public GridNode[,] MapGrid;
         public List<GridNode> UnknownNodes => MapGrid?.Cast<GridNode>().ToList().FindAll(n => n.Unknown == true);
 
+
         private float NodeRadius { get; set; } = 0.5f;
         private float NodeDiameter => NodeRadius * 2;
+
+
     }
 }
