@@ -70,6 +70,7 @@
         <Compile Include="UnitTests\GridMathTests.cs"/>
         <Compile Include="UnitTests\GridTests.cs"/>
         <Compile Include="UnitTests\JsonSerializerTests.cs"/>
+        <Compile Include="UnitTests\NavigatorTests.cs"/>
         <Compile Include="UnitTests\NodeTests.cs"/>
         <Compile Include="UnitTests\PathfindingTests.cs"/>
         <Compile Include="UnitTests\PrintPathTests.cs"/>

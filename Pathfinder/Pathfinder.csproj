@@ -48,27 +48,28 @@
       <Reference Include="System.Xml"/>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FilePersister.cs" />
+      <Compile Include="FilePersister.cs"/>
       <Compile Include="FileTextPersister.cs"/>
-    <Compile Include="Grid.cs" />
-    <Compile Include="GridFactory.cs" />
-    <Compile Include="Heap.cs" />
-    <Compile Include="GridMath.cs" />
-    <Compile Include="IEntity.cs" />
-    <Compile Include="INodePrinter.cs" />
-    <Compile Include="GridNode.cs" />
-    <Compile Include="IPersister.cs" />
+      <Compile Include="Grid.cs"/>
+      <Compile Include="GridFactory.cs"/>
+      <Compile Include="Heap.cs"/>
+      <Compile Include="GridMath.cs"/>
+      <Compile Include="IEntity.cs"/>
+      <Compile Include="INodePrinter.cs"/>
+      <Compile Include="GridNode.cs"/>
+      <Compile Include="IPersister.cs"/>
       <Compile Include="ISerializer.cs"/>
-    <Compile Include="NPC.cs" />
-    <Compile Include="Pathfinding.cs" />
-    <Compile Include="PrintCoordinates.cs" />
-    <Compile Include="PrintKnown.cs" />
-    <Compile Include="PrintWalkable.cs" />
-    <Compile Include="PrintPath.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
+      <Compile Include="Navigator.cs"/>
+      <Compile Include="NPC.cs"/>
+      <Compile Include="Pathfinding.cs"/>
+      <Compile Include="PrintCoordinates.cs"/>
+      <Compile Include="PrintKnown.cs"/>
+      <Compile Include="PrintWalkable.cs"/>
+      <Compile Include="PrintPath.cs"/>
+      <Compile Include="Properties\AssemblyInfo.cs"/>
+      <Compile Include="Properties\Resources.Designer.cs">
+          <AutoGen>True</AutoGen>
+          <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>

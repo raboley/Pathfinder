@@ -64,6 +64,6 @@ namespace Pathfinder
         public string DefaultExtension { get; set; } = "txt";
         public string FileName { get; set; }
         public string FilePath { get; set; } = Directory.GetCurrentDirectory();
-        public string FullPath => Path.Combine(FilePath, FileName);
+        public string FullPath => Path.Combine(FilePath, FileName + "." + DefaultExtension);
     }
 }

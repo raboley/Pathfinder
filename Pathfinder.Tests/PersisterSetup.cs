@@ -21,7 +21,7 @@ namespace Pathfinder.Tests
             var persister = new FileTextPersister();
             string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
             string parentDirectory = Directory.GetParent(grandParentDirectory).FullName;
-            persister.FilePath = Path.Combine(parentDirectory, "fixtures", persister.DefaultExtension);
+            persister.FilePath = Path.Combine(parentDirectory, "fixtures");
             persister.FileName = GetCurrentMethodName();
             return persister;
         }

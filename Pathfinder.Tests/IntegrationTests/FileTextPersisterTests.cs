@@ -18,6 +18,7 @@ namespace Pathfinder.Tests.IntegrationTests
 -------------------
 ";
             var persister = PersisterSetup.SetupTestFileTextPersister();
+            persister.FileName = PersisterSetup.GetCurrentMethodName();
             persister.Save(want);
 
             string got = persister.Load<string>();
