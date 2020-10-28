@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Security.Policy;
 
 namespace Pathfinder
 {
@@ -45,7 +44,7 @@ namespace Pathfinder
         {
             grid.NpcList = new List<NPC>();
             grid.ThingList = new List<NPC>();
-            grid.MobList = new List<Mob>();
+            grid.MobList = new List<NPC>();
             grid.ZoneBoundaries = new Dictionary<string, List<Vector3>>();
         }
 
@@ -54,7 +53,7 @@ namespace Pathfinder
             MapGrid = new GridNode[_gridSizeX, _gridSizeY];
             NpcList = new List<NPC>();
             ThingList = new List<NPC>();
-            MobList = new List<Mob>();
+            MobList = new List<NPC>();
             ZoneBoundaries = new Dictionary<string, List<Vector3>>();
             var worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
             BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
@@ -192,7 +191,7 @@ namespace Pathfinder
                     return;
                 }
             }
-            
+
             zoneBoundaries = new List<Vector3>();
             zoneBoundaries.Add(worldPoint);
             ZoneBoundaries.Add(ZonesTo, zoneBoundaries);

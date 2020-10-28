@@ -459,7 +459,6 @@ x = obstacle
                 new GridNode(new Vector3(-1, 0, 0)),
                 new GridNode(new Vector3(-1, 0, 1)),
                 new GridNode(new Vector3(0, 0, -1)),
-                new GridNode(new Vector3(0, 0, 0)) {Unknown = false},
                 new GridNode(new Vector3(0, 0, 1)),
                 new GridNode(new Vector3(1, 0, -1)),
                 new GridNode(new Vector3(1, 0, 0)),
