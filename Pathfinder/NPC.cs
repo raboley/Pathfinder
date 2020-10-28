@@ -4,11 +4,6 @@ namespace Pathfinder
 {
     public class NPC : IEntity
     {
-        public NPC(string name)
-        {
-            Name = name;
-        }
-
         public NPC(string name, Vector3 position)
         {
             Name = name;

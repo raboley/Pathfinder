@@ -70,7 +70,7 @@ namespace Pathfinder.Tests
             }
         }
 
-        public static void AssertListEntitiesEqual(List<IEntity> want, List<IEntity> got)
+        public static void AssertListEntitiesEqual(List<NPC> want, List<NPC> got)
         {
             Assert.Equal(want.Count, got.Count);
 

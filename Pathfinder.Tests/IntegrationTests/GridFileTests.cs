@@ -36,5 +36,19 @@ namespace Pathfinder.Tests.IntegrationTests
 
             GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
         }
+
+        // Don't run this unless you have time to kill.
+        // [Fact]
+        // public void PrintOutBastokMap()
+        // {
+        //     var gridManager = GridFactorySetup.SetupGridFactory();
+        //     var grid = gridManager.LoadGrid("Bastok_Mines");
+        //
+        //     string bastok = grid.PrintKnown();
+        //     var persister = PersisterSetup.SetupTestFileTextPersister();
+        //     persister.MapName = "bastok_map";
+        //     persister.DefaultExtension = "txt";
+        //     persister.Save(bastok);
+        // }
     }
 }

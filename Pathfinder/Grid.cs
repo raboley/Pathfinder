@@ -43,24 +43,22 @@ namespace Pathfinder
 
         private static void SetupAllLists(Grid grid)
         {
-            grid.NpcList = new List<IEntity>();
-            grid.ThingList = new List<IEntity>();
+            grid.NpcList = new List<NPC>();
+            grid.ThingList = new List<NPC>();
+            grid.MobList = new List<Mob>();
             grid.ZoneBoundaries = new Dictionary<string, List<Vector3>>();
-            grid.MobList = new List<IEntity>();
         }
 
         public void BuildGridMap()
         {
             MapGrid = new GridNode[_gridSizeX, _gridSizeY];
-            NpcList = new List<IEntity>();
-            ThingList = new List<IEntity>();
-            MobList = new List<IEntity>();
+            NpcList = new List<NPC>();
+            ThingList = new List<NPC>();
+            MobList = new List<Mob>();
             ZoneBoundaries = new Dictionary<string, List<Vector3>>();
             var worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
             BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
         }
-
-
 
         private Vector3 GetBottomLeftNodeFromGridWorldSize()
         {
@@ -206,7 +204,7 @@ namespace Pathfinder
             NpcList.Add(npc);
         }
 
-        public void AddInanimateObject(IEntity entity)
+        public void AddInanimateObject(NPC entity)
         {
             entity.MapName = MapName;
             ThingList.Add(entity);
@@ -313,17 +311,14 @@ x = obstacle";
         private int _gridSizeX, _gridSizeY;
 
 
-        public List<IEntity> NpcList { get; set; }
-        public List<IEntity> ThingList { get; set; }
-        public List<IEntity> MobList { get; set; }
+        public List<NPC> NpcList { get; set; }
+        public List<NPC> ThingList { get; set; }
+        public List<NPC> MobList { get; set; }
         public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
         public GridNode[,] MapGrid;
         public List<GridNode> UnknownNodes => MapGrid?.Cast<GridNode>().ToList().FindAll(n => n.Unknown == true);
 
-
         private float NodeRadius { get; set; } = 0.5f;
         private float NodeDiameter => NodeRadius * 2;
-
-
     }
 }

@@ -437,7 +437,7 @@ x = obstacle
         public void AddNpcAddsToList()
         {
             var grid = GridSetup.SetupSmallGrid();
-            var want = new List<IEntity>();
+            var want = new List<NPC>();
 
             var npc = new NPC("rabbit", Vector3.One) {MapName = grid.MapName};
             want.Add(npc);
@@ -479,7 +479,7 @@ x = obstacle
             }
         }
 
-        private static void AssertNpcListEqual(List<IEntity> want, List<IEntity> got)
+        private static void AssertNpcListEqual(List<NPC> want, List<NPC> got)
         {
             Assert.Equal(want.Count, got.Count);
             for (int i = 0; i < want.Count; i++)
