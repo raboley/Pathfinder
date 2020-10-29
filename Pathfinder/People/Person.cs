@@ -10,6 +10,13 @@ namespace Pathfinder.People
             Position = position;
         }
 
+        public Person(string name, Vector3 position, int id)
+        {
+            Name = name;
+            Position = position;
+            Id = id;
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; }
