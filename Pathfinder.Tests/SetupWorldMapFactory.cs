@@ -8,7 +8,7 @@ namespace Pathfinder.Tests
         public static GridFactory SetupGridFactory()
         {
             var gridFactory = new GridFactory();
-            var persister = PersisterSetup.SetupTestFilePersister();
+            var persister = SetupPersister.SetupTestFilePersister();
             gridFactory.Persister = persister;
             gridFactory.DefaultGridSize = new Vector2(3f, 3f);
             return gridFactory;

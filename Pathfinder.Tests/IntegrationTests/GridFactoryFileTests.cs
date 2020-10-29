@@ -11,7 +11,7 @@ namespace Pathfinder.Tests.IntegrationTests
         {
             var want = GridSetup.SetupSmallGrid();
             var gridFactory = GridFactorySetup.SetupGridFactory();
-            string mapName = PersisterSetup.GetCurrentMethodName();
+            string mapName = SetupPersister.GetCurrentMethodName();
 
             // Uncomment to make golden file if grid changes.
             gridFactory.Persister.MapName = mapName;
@@ -36,7 +36,7 @@ namespace Pathfinder.Tests.IntegrationTests
         {
             var want = GridSetup.SetupSmallGrid();
             var gridFactory = GridFactorySetup.SetupGridFactory();
-            string mapName = PersisterSetup.GetCurrentMethodName();
+            string mapName = SetupPersister.GetCurrentMethodName();
             want.MapName = mapName;
 
             // Uncomment to make golden file if grid changes.

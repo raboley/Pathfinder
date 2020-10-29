@@ -5,7 +5,7 @@ using Pathfinder.Persistence;
 
 namespace Pathfinder.Tests
 {
-    public class PersisterSetup
+    public class SetupPersister
     {
         public static FilePersister SetupTestFilePersister()
         {

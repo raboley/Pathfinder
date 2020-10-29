@@ -60,6 +60,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="IntegrationTests\WorldMapNodeFileTests.cs"/>
         <Compile Include="SetupWorldMapFactory.cs"/>
         <Compile Include="SetupWorldMap.cs"/>
         <Compile Include="IntegrationTests\FileTextPersisterTests.cs"/>

@@ -47,7 +47,7 @@ namespace Pathfinder.Tests.IntegrationTests
         //     var grid = gridManager.LoadGrid("Bastok_Mines");
         //
         //     string bastok = grid.PrintKnown();
-        //     var persister = PersisterSetup.SetupTestFileTextPersister();
+        //     var persister = SetupPersister.SetupTestFileTextPersister();
         //     persister.MapName = "bastok_map";
         //     persister.DefaultExtension = "txt";
         //     persister.Save(bastok);

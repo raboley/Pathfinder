@@ -18,8 +18,8 @@ namespace Pathfinder.Tests.IntegrationTests
 |     |  ?  |     |
 -------------------
 ";
-            var persister = PersisterSetup.SetupTestFileTextPersister();
-            persister.FileName = PersisterSetup.GetCurrentMethodName();
+            var persister = SetupPersister.SetupTestFileTextPersister();
+            persister.FileName = SetupPersister.GetCurrentMethodName();
             persister.Save(want);
 
             string got = persister.Load<string>();
