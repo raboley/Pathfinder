@@ -12,8 +12,8 @@ namespace Pathfinder.Tests.UnitTests
         public void CreateGridCanGenerateGridFromCorner()
         {
             // Arrange
-            var want = new GridNode[1, 1];
-            want[0, 0] = new GridNode(Vector3.Zero);
+            var want = new WorldMapNode[1, 1];
+            want[0, 0] = new WorldMapNode(Vector3.Zero);
 
             // Act
             var grid = Grid.NewGridFromVector2(Vector2.One);
@@ -99,7 +99,7 @@ namespace Pathfinder.Tests.UnitTests
         {
             var grid = GridSetup.SetupSmallGrid();
             var position = new Vector3(x, 0, y);
-            var want = new GridNode(position, false);
+            var want = new WorldMapNode(position, false);
 
             grid.AddUnWalkableNode(position);
             var got = grid.MapGrid[gridX, gridY];
@@ -455,16 +455,16 @@ x = obstacle
         [Fact]
         public void GetUnknownNodes()
         {
-            var want = new List<GridNode>
+            var want = new List<WorldMapNode>
             {
-                new GridNode(new Vector3(-1, 0, -1)),
-                new GridNode(new Vector3(-1, 0, 0)),
-                new GridNode(new Vector3(-1, 0, 1)),
-                new GridNode(new Vector3(0, 0, -1)),
-                new GridNode(new Vector3(0, 0, 1)),
-                new GridNode(new Vector3(1, 0, -1)),
-                new GridNode(new Vector3(1, 0, 0)),
-                new GridNode(new Vector3(1, 0, 1))
+                new WorldMapNode(new Vector3(-1, 0, -1)),
+                new WorldMapNode(new Vector3(-1, 0, 0)),
+                new WorldMapNode(new Vector3(-1, 0, 1)),
+                new WorldMapNode(new Vector3(0, 0, -1)),
+                new WorldMapNode(new Vector3(0, 0, 1)),
+                new WorldMapNode(new Vector3(1, 0, -1)),
+                new WorldMapNode(new Vector3(1, 0, 0)),
+                new WorldMapNode(new Vector3(1, 0, 1))
             };
 
             var grid = GridSetup.SetupSmallGrid();

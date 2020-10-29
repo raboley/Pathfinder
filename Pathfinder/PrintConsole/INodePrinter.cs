@@ -4,11 +4,11 @@ namespace Pathfinder.PrintConsole
 {
     public interface INodePrinter
     {
-        string PrintNode(GridNode gridNode);
+        string PrintNode(WorldMapNode worldMapNode);
     }
 
     /// <summary>
-    ///     Contains the implementation for an INodePrinter that will print if a gridNode is walkable or not.
+    ///     Contains the implementation for an INodePrinter that will print if a worldMapNode is walkable or not.
     /// </summary>
     public abstract class BasePrinter : INodePrinter
     {
@@ -16,17 +16,17 @@ namespace Pathfinder.PrintConsole
         public string ObstacleNode { get; } = "  x  " + NodeSeparator;
         public static string NodeSeparator { get; } = "|";
 
-        public virtual string PrintNode(GridNode gridNode)
+        public virtual string PrintNode(WorldMapNode worldMapNode)
         {
-            if (NotWalkable(gridNode))
+            if (NotWalkable(worldMapNode))
                 return ObstacleNode;
 
             return WalkableNode;
         }
 
-        private static bool NotWalkable(GridNode gridNode)
+        private static bool NotWalkable(WorldMapNode worldMapNode)
         {
-            return !gridNode.Walkable;
+            return !worldMapNode.Walkable;
         }
     }
 }

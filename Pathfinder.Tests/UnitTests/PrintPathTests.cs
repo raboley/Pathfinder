@@ -10,7 +10,7 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void TestPrintPathPrintsObstacleWhenPresent()
         {
-            var node = new GridNode(Vector3.One, false);
+            var node = new WorldMapNode(Vector3.One, false);
             var printer = new PrintPath();
             string want = printer.ObstacleNode;
 
@@ -23,7 +23,7 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void TestPrintPathPrintsWalkable()
         {
-            var node = new GridNode(Vector3.One);
+            var node = new WorldMapNode(Vector3.One);
             var printer = new PrintPath();
             string want = printer.WalkableNode;
 
@@ -36,7 +36,7 @@ namespace Pathfinder.Tests.UnitTests
         public void TestPrintPathPrintsStart()
         {
             var pathStart = Vector3.One;
-            var node = new GridNode(pathStart);
+            var node = new WorldMapNode(pathStart);
             var printer = new PrintPath {Start = pathStart};
             string want = printer.StartNode;
 
@@ -49,7 +49,7 @@ namespace Pathfinder.Tests.UnitTests
         public void TestPrintPathPrintsEnd()
         {
             var pathEnd = Vector3.One;
-            var node = new GridNode(pathEnd);
+            var node = new WorldMapNode(pathEnd);
             var printer = new PrintPath {End = pathEnd};
             string want = printer.EndNode;
 
@@ -62,7 +62,7 @@ namespace Pathfinder.Tests.UnitTests
         public void TestPrintPathPrintsWaypoint()
         {
             var pathWaypoint = Vector3.One;
-            var node = new GridNode(pathWaypoint);
+            var node = new WorldMapNode(pathWaypoint);
             var printer = new PrintPath {Path = new[] {pathWaypoint}};
             string want = printer.WaypointNode;
 

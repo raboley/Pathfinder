@@ -40,8 +40,8 @@ namespace Pathfinder.Pathing
 
             if (startGridNode.Walkable && targetGridNode.Walkable)
             {
-                var openSet = new Heap<GridNode>(Grid.MaxSize);
-                var closedSet = new HashSet<GridNode>();
+                var openSet = new Heap<WorldMapNode>(Grid.MaxSize);
+                var closedSet = new HashSet<WorldMapNode>();
 
                 openSet.Add(startGridNode);
 
@@ -87,12 +87,12 @@ namespace Pathfinder.Pathing
             return waypoints;
         }
 
-        private Vector3[] RetracePath(GridNode startGridNode, GridNode endGridNode)
+        private Vector3[] RetracePath(WorldMapNode startWorldMapNode, WorldMapNode endWorldMapNode)
         {
-            var path = new List<GridNode>();
-            var currentGridNode = endGridNode;
+            var path = new List<WorldMapNode>();
+            var currentGridNode = endWorldMapNode;
 
-            while (currentGridNode != startGridNode)
+            while (currentGridNode != startWorldMapNode)
             {
                 path.Add(currentGridNode);
                 currentGridNode = currentGridNode.Parent;
@@ -103,7 +103,7 @@ namespace Pathfinder.Pathing
             return waypoints;
         }
 
-        private Vector3[] SimplifyPath(List<GridNode> path)
+        private Vector3[] SimplifyPath(List<WorldMapNode> path)
         {
             var waypoints = new List<Vector3>();
             var directionOld = Vector2.Zero;
@@ -120,10 +120,10 @@ namespace Pathfinder.Pathing
             return waypoints.ToArray();
         }
 
-        private int GetDistance(GridNode gridNodeA, GridNode gridNodeB)
+        private int GetDistance(WorldMapNode worldMapNodeA, WorldMapNode worldMapNodeB)
         {
-            int dstX = Math.Abs(gridNodeA.GridX - gridNodeB.GridX);
-            int dstY = Math.Abs(gridNodeA.GridY - gridNodeB.GridY);
+            int dstX = Math.Abs(worldMapNodeA.GridX - worldMapNodeB.GridX);
+            int dstY = Math.Abs(worldMapNodeA.GridY - worldMapNodeB.GridY);
 
             if (dstX > dstY) return 14 * dstY + 10 * (dstX - dstY);
 

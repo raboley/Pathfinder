@@ -13,7 +13,7 @@ namespace Pathfinder.WorldMap
     {
         private float _gridCenterX, _gridCenterY, _gridCenterZ;
         private int _gridSizeX, _gridSizeY;
-        public GridNode[,] MapGrid;
+        public WorldMapNode[,] MapGrid;
 
 
         public string MapName { get; set; }
@@ -52,7 +52,7 @@ namespace Pathfinder.WorldMap
         public List<Person> ThingList { get; set; }
         public List<Person> MobList { get; set; }
         public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
-        public List<GridNode> UnknownNodes => MapGrid?.Cast<GridNode>().ToList().FindAll(n => n.Unknown);
+        public List<WorldMapNode> UnknownNodes => MapGrid?.Cast<WorldMapNode>().ToList().FindAll(n => n.Unknown);
 
         private float NodeRadius { get; set; } = 0.5f;
         private float NodeDiameter => NodeRadius * 2;
@@ -80,7 +80,7 @@ namespace Pathfinder.WorldMap
 
         private static void BuildGridMap(Grid grid)
         {
-            grid.MapGrid = new GridNode[grid._gridSizeX, grid._gridSizeY];
+            grid.MapGrid = new WorldMapNode[grid._gridSizeX, grid._gridSizeY];
             SetupAllLists(grid);
             var worldBottomLeft = grid.GetBottomLeftNodeFromGridWorldSize();
             grid.BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
@@ -96,7 +96,7 @@ namespace Pathfinder.WorldMap
 
         public void BuildGridMap()
         {
-            MapGrid = new GridNode[_gridSizeX, _gridSizeY];
+            MapGrid = new WorldMapNode[_gridSizeX, _gridSizeY];
             NpcList = new List<Person>();
             ThingList = new List<Person>();
             MobList = new List<Person>();
@@ -126,7 +126,7 @@ namespace Pathfinder.WorldMap
                 var worldPoint = worldBottomLeft
                                  + VectorRight() * (x * NodeDiameter + NodeRadius)
                                  + VectorForward() * (y * NodeDiameter + NodeRadius);
-                var gridNode = new GridNode(worldPoint);
+                var gridNode = new WorldMapNode(worldPoint);
                 gridNode.GridX = x;
                 gridNode.GridY = y;
                 MapGrid[x, y] = gridNode;
@@ -150,17 +150,17 @@ namespace Pathfinder.WorldMap
             return grid;
         }
 
-        public List<GridNode> GetNeighbours(GridNode gridNode)
+        public List<WorldMapNode> GetNeighbours(WorldMapNode worldMapNode)
         {
-            var neighbours = new List<GridNode>();
+            var neighbours = new List<WorldMapNode>();
 
             for (int x = -1; x <= 1; x++)
             for (int y = -1; y <= 1; y++)
             {
                 if (x == 0 && y == 0) continue;
 
-                int checkX = gridNode.GridX + x;
-                int checkY = gridNode.GridY + y;
+                int checkX = worldMapNode.GridX + x;
+                int checkY = worldMapNode.GridY + y;
 
                 if (checkX >= 0 && checkX < _gridSizeX && checkY >= 0 && checkY < _gridSizeY)
                     neighbours.Add(MapGrid[checkX, checkY]);
@@ -177,7 +177,7 @@ namespace Pathfinder.WorldMap
         /// </summary>
         /// <param name="worldPosition"></param>
         /// <returns></returns>
-        public GridNode GetNodeFromWorldPoint(Vector3 worldPosition)
+        public WorldMapNode GetNodeFromWorldPoint(Vector3 worldPosition)
         {
             int x = GetGridPosX(worldPosition.X);
             // Note: Since in 3D space Y is height, and don't traverse the world via the height, this should be Z.

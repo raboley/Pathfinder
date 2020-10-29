@@ -4,20 +4,20 @@ using System.Numerics;
 namespace Pathfinder.WorldMap
 {
     [Serializable]
-    public class GridNode : IHeapItem<GridNode>
+    public class WorldMapNode : IHeapItem<WorldMapNode>
     {
         [NonSerialized] public int GCost;
 
         public int GridX;
         public int GridY;
         [NonSerialized] public int HCost;
-        [NonSerialized] public GridNode Parent;
+        [NonSerialized] public WorldMapNode Parent;
 
         public float X;
         public float Y;
         public float Z;
 
-        public GridNode(Vector3 worldPos, bool _walkable = true, bool unknown = true)
+        public WorldMapNode(Vector3 worldPos, bool _walkable = true, bool unknown = true)
         {
             Walkable = _walkable;
             WorldPosition = worldPos;
@@ -44,10 +44,10 @@ namespace Pathfinder.WorldMap
         public int HeapIndex { get; set; }
 
 
-        public int CompareTo(GridNode gridNodeToCompare)
+        public int CompareTo(WorldMapNode worldMapNodeToCompare)
         {
-            int compare = FCost.CompareTo(gridNodeToCompare.FCost);
-            if (compare == 0) compare = HCost.CompareTo(gridNodeToCompare.HCost);
+            int compare = FCost.CompareTo(worldMapNodeToCompare.FCost);
+            if (compare == 0) compare = HCost.CompareTo(worldMapNodeToCompare.HCost);
 
             return -compare;
         }

@@ -6,12 +6,12 @@ namespace Pathfinder.PrintConsole
     {
         public string UnknownNode { get; } = "  ?  " + NodeSeparator;
 
-        public override string PrintNode(GridNode gridNode)
+        public override string PrintNode(WorldMapNode worldMapNode)
         {
-            if (gridNode.Unknown)
+            if (worldMapNode.Unknown)
                 return UnknownNode;
 
-            return base.PrintNode(gridNode);
+            return base.PrintNode(worldMapNode);
         }
     }
 }
