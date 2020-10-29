@@ -619,3 +619,7 @@ modules.xml
 # Ionide (cross platform F# VS Code tools) working folder
 
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains+all,csharp,visualstudio,visualstudiocode
+/Pathfinder.Tests/fixtures/LoadGridOrCreateNewLoadsGridIfExists.json
+/Pathfinder.Tests/fixtures/SaveCanPersistTextToFile.txt
+/Pathfinder.Tests/fixtures/TestCanLoadGridFromFile.golden
+/Pathfinder.Tests/fixtures/TestGridFactoryCanGetGridFromFile.json
