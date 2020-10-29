@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Pathfinder.People;
+using Pathfinder.Persistence;
+using Pathfinder.PrintConsole;
 
-namespace Pathfinder
+namespace Pathfinder.WorldMap
 {
     [Serializable]
     public class Grid
@@ -45,9 +48,9 @@ namespace Pathfinder
         public int MaxSize => _gridSizeX * _gridSizeY;
 
 
-        public List<NPC> NpcList { get; set; }
-        public List<NPC> ThingList { get; set; }
-        public List<NPC> MobList { get; set; }
+        public List<Person> NpcList { get; set; }
+        public List<Person> ThingList { get; set; }
+        public List<Person> MobList { get; set; }
         public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
         public List<GridNode> UnknownNodes => MapGrid?.Cast<GridNode>().ToList().FindAll(n => n.Unknown);
 
@@ -85,18 +88,18 @@ namespace Pathfinder
 
         private static void SetupAllLists(Grid grid)
         {
-            grid.NpcList = new List<NPC>();
-            grid.ThingList = new List<NPC>();
-            grid.MobList = new List<NPC>();
+            grid.NpcList = new List<Person>();
+            grid.ThingList = new List<Person>();
+            grid.MobList = new List<Person>();
             grid.ZoneBoundaries = new Dictionary<string, List<Vector3>>();
         }
 
         public void BuildGridMap()
         {
             MapGrid = new GridNode[_gridSizeX, _gridSizeY];
-            NpcList = new List<NPC>();
-            ThingList = new List<NPC>();
-            MobList = new List<NPC>();
+            NpcList = new List<Person>();
+            ThingList = new List<Person>();
+            MobList = new List<Person>();
             ZoneBoundaries = new Dictionary<string, List<Vector3>>();
             var worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
             BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
@@ -229,13 +232,13 @@ namespace Pathfinder
             ZoneBoundaries.Add(ZonesTo, zoneBoundaries);
         }
 
-        public void AddNpc(NPC npc)
+        public void AddNpc(Person person)
         {
-            npc.MapName = MapName;
-            NpcList.Add(npc);
+            person.MapName = MapName;
+            NpcList.Add(person);
         }
 
-        public void AddInanimateObject(NPC entity)
+        public void AddInanimateObject(Person entity)
         {
             entity.MapName = MapName;
             ThingList.Add(entity);

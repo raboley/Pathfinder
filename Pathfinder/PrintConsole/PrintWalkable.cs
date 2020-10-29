@@ -1,4 +1,4 @@
-namespace Pathfinder
+namespace Pathfinder.PrintConsole
 {
     public class PrintWalkable : BasePrinter
     {

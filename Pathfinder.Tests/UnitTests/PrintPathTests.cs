@@ -1,4 +1,6 @@
 using System.Numerics;
+using Pathfinder.PrintConsole;
+using Pathfinder.WorldMap;
 using Xunit;
 
 namespace Pathfinder.Tests.UnitTests

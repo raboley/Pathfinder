@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Pathfinder.Persistence;
 
 namespace Pathfinder.Tests
 {

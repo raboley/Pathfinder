@@ -1,6 +1,7 @@
 using System.Numerics;
+using Pathfinder.Pathing;
 
-namespace Pathfinder
+namespace Pathfinder.Travel
 {
     public class Navigator
     {

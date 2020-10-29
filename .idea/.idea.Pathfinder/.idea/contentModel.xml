@@ -16,7 +16,7 @@
         </e>
         <e p="People" t="Include">
           <e p="IEntity.cs" t="Include" />
-          <e p="NPC.cs" t="Include" />
+          <e p="Person.cs" t="Include" />
         </e>
         <e p="Persistence" t="Include">
           <e p="FilePersister.cs" t="Include" />
@@ -36,7 +36,7 @@
           <e p="Resources.resx" t="Include" />
         </e>
         <e p="Travel" t="Include">
-          <e p="Navigator.cs" t="Include" />
+          <e p="Traveler.cs" t="Include" />
         </e>
         <e p="WorldMap" t="Include">
           <e p="Heap.cs" t="Include" />
@@ -64,13 +64,13 @@
         <e p="SetupWorldMap.cs" t="Include" />
         <e p="SetupWorldMapFactory.cs" t="Include" />
         <e p="UnitTests" t="Include">
-          <e p="GridTests.cs" t="Include" />
           <e p="JsonSerializerTests.cs" t="Include" />
-          <e p="NavigatorTests.cs" t="Include" />
           <e p="PathfinderMathTests.cs" t="Include" />
           <e p="PathfindingTests.cs" t="Include" />
           <e p="PrintPathTests.cs" t="Include" />
+          <e p="TravelerTests.cs" t="Include" />
           <e p="WorldMapNodeTests.cs" t="Include" />
+          <e p="WorldMapTests.cs" t="Include" />
         </e>
       </e>
     </e>

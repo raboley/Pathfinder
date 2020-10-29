@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.Numerics;
+using Pathfinder.Pathing;
+using Pathfinder.People;
+using Pathfinder.WorldMap;
 using Xunit;
 
 namespace Pathfinder.Tests
@@ -67,7 +70,7 @@ namespace Pathfinder.Tests
             for (var i = 0; i < want.Count; i++) Assert.Equal(want[i], got[i]);
         }
 
-        public static void AssertListEntitiesEqual(List<NPC> want, List<NPC> got)
+        public static void AssertListEntitiesEqual(List<Person> want, List<Person> got)
         {
             Assert.Equal(want.Count, got.Count);
 

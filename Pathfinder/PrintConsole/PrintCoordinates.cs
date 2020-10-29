@@ -1,4 +1,6 @@
-namespace Pathfinder
+using Pathfinder.WorldMap;
+
+namespace Pathfinder.PrintConsole
 {
     public class PrintCoordinates : BasePrinter
     {

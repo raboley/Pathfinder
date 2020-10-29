@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace Pathfinder
+namespace Pathfinder.WorldMap
 {
     [Serializable]
     public class GridNode : IHeapItem<GridNode>

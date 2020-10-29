@@ -1,7 +1,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace Pathfinder
+namespace Pathfinder.Persistence
 {
     public class FilePersister : IPersister
     {

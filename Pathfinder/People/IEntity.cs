@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Pathfinder
+namespace Pathfinder.People
 {
     public interface IEntity
     {

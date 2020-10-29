@@ -1,6 +1,7 @@
 using System.Numerics;
+using Pathfinder.Persistence;
 
-namespace Pathfinder
+namespace Pathfinder.WorldMap
 {
     public class GridFactory
     {

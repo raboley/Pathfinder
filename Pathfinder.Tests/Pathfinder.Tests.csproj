@@ -68,9 +68,9 @@
         <Compile Include="SetupPersister.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="UnitTests\PathfinderMathTests.cs"/>
-        <Compile Include="UnitTests\GridTests.cs"/>
+        <Compile Include="UnitTests\WorldMapTests.cs"/>
         <Compile Include="UnitTests\JsonSerializerTests.cs"/>
-        <Compile Include="UnitTests\NavigatorTests.cs"/>
+        <Compile Include="UnitTests\TravelerTests.cs"/>
         <Compile Include="UnitTests\WorldMapNodeTests.cs"/>
         <Compile Include="UnitTests\PathfindingTests.cs"/>
         <Compile Include="UnitTests\PrintPathTests.cs"/>

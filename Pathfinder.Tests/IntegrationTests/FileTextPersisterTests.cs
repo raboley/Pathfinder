@@ -1,4 +1,5 @@
 using System;
+using Pathfinder.Persistence;
 using Xunit;
 
 namespace Pathfinder.Tests.IntegrationTests

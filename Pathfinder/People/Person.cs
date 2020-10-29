@@ -1,16 +1,16 @@
 using System.Numerics;
 
-namespace Pathfinder
+namespace Pathfinder.People
 {
-    public class NPC : IEntity
+    public class Person : IEntity
     {
-        public NPC(string name, Vector3 position)
+        public Person(string name, Vector3 position)
         {
             Name = name;
             Position = position;
         }
 
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
         public Vector3 Position { get; set; }

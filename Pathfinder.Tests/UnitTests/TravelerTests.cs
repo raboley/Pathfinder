@@ -1,4 +1,6 @@
 using System.Numerics;
+using Pathfinder.Pathing;
+using Pathfinder.Travel;
 using Xunit;
 
 namespace Pathfinder.Tests.UnitTests

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using Pathfinder.People;
+using Pathfinder.WorldMap;
 using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
@@ -437,14 +439,14 @@ x = obstacle
         public void AddNpcAddsToList()
         {
             var grid = GridSetup.SetupSmallGrid();
-            var want = new List<NPC>();
+            var want = new List<Person>();
 
-            var npc = new NPC("rabbit", Vector3.One) {MapName = grid.MapName};
+            var npc = new Person("rabbit", Vector3.One) {MapName = grid.MapName};
             want.Add(npc);
-            // want.Add(new NPC("bull"));
-            // want.Add(new NPC("frog"));
+            // want.Add(new Person("bull"));
+            // want.Add(new Person("frog"));
 
-            grid.AddNpc(new NPC("rabbit", Vector3.One));
+            grid.AddNpc(new Person("rabbit", Vector3.One));
             var got = grid.NpcList;
 
             AssertNpcListEqual(want, got);
@@ -478,7 +480,7 @@ x = obstacle
             }
         }
 
-        private static void AssertNpcListEqual(List<NPC> want, List<NPC> got)
+        private static void AssertNpcListEqual(List<Person> want, List<Person> got)
         {
             Assert.Equal(want.Count, got.Count);
             for (var i = 0; i < want.Count; i++)

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Pathfinder
+namespace Pathfinder.Persistence
 {
     public class FileTextPersister
     {

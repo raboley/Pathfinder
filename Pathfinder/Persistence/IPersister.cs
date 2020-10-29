@@ -1,4 +1,4 @@
-namespace Pathfinder
+namespace Pathfinder.Persistence
 {
     public interface IPersister
     {

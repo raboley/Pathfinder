@@ -1,7 +1,8 @@
 using System.Linq;
 using System.Numerics;
+using Pathfinder.WorldMap;
 
-namespace Pathfinder
+namespace Pathfinder.PrintConsole
 {
     public class PrintPath : BasePrinter
     {
