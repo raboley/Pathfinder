@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PathfinderMath.cs"/>
     <Compile Include="Pathing\Pathfinding.cs"/>
     <Compile Include="People\IEntity.cs"/>
     <Compile Include="People\NPC.cs"/>
@@ -65,10 +66,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Travel\Navigator.cs"/>
-    <Compile Include="WorldMap\Grid.cs"/>
-    <Compile Include="WorldMap\GridFactory.cs"/>
-    <Compile Include="WorldMap\GridMath.cs"/>
-    <Compile Include="WorldMap\GridNode.cs"/>
+    <Compile Include="WorldMap\WorldMap.cs"/>
+    <Compile Include="WorldMap\WorldMapFactory.cs"/>
+    <Compile Include="WorldMap\WorldMapNode.cs"/>
     <Compile Include="WorldMap\Heap.cs"/>
   </ItemGroup>
   <ItemGroup>

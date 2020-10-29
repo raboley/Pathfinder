@@ -10,6 +10,7 @@
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Pathfinder.csproj" t="IncludeRecursive" />
+        <e p="PathfinderMath.cs" t="Include" />
         <e p="Pathing" t="Include">
           <e p="Pathfinding.cs" t="Include" />
         </e>
@@ -38,11 +39,10 @@
           <e p="Navigator.cs" t="Include" />
         </e>
         <e p="WorldMap" t="Include">
-          <e p="Grid.cs" t="Include" />
-          <e p="GridFactory.cs" t="Include" />
-          <e p="GridMath.cs" t="Include" />
-          <e p="GridNode.cs" t="Include" />
           <e p="Heap.cs" t="Include" />
+          <e p="WorldMap.cs" t="Include" />
+          <e p="WorldMapFactory.cs" t="Include" />
+          <e p="WorldMapNode.cs" t="Include" />
         </e>
       </e>
       <e p="Pathfinder.sln" t="IncludeFlat" />
