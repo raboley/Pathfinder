@@ -47,5 +47,33 @@ namespace Pathfinder.Tests.UnitTests
             Assert.Equal(wantY, got.Y);
             Assert.Equal(wantZ, got.Z);
         }
+
+        [Fact]
+        public void ZeroCreatesAnAllZeroPoint()
+        {
+            const int wantX = 0;
+            const int wantY = 0;
+            const int wantZ = 0;
+
+            var got = WorldPoint.Zero;
+
+            Assert.Equal(wantX, got.X);
+            Assert.Equal(wantY, got.Y);
+            Assert.Equal(wantZ, got.Z);
+        }
+
+        [Fact]
+        public void OneCreatesAnAllOneWorldPoint()
+        {
+            const int wantX = 1;
+            const int wantY = 1;
+            const int wantZ = 1;
+
+            var got = WorldPoint.One;
+
+            Assert.Equal(wantX, got.X);
+            Assert.Equal(wantY, got.Y);
+            Assert.Equal(wantZ, got.Z);
+        }
     }
 }

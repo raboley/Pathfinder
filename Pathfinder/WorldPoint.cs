@@ -7,6 +7,8 @@ namespace Pathfinder
         public int X { get; set; }
         public int Y { get; set; }
         public int Z { get; set; }
+        public static WorldPoint Zero => new WorldPoint(0, 0, 0);
+        public static WorldPoint One => new WorldPoint(1, 1, 1);
 
         public WorldPoint(int x, int y, int z)
         {
