@@ -47,30 +47,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FilePersister.cs" />
-    <Compile Include="FileTextPersister.cs" />
-    <Compile Include="Grid.cs" />
-    <Compile Include="GridFactory.cs" />
-    <Compile Include="Heap.cs" />
-    <Compile Include="GridMath.cs" />
-    <Compile Include="IEntity.cs" />
-    <Compile Include="INodePrinter.cs" />
-    <Compile Include="GridNode.cs" />
-    <Compile Include="IPersister.cs" />
-    <Compile Include="ISerializer.cs" />
-    <Compile Include="Navigator.cs" />
-    <Compile Include="NPC.cs" />
-    <Compile Include="Pathfinding.cs" />
-    <Compile Include="PrintCoordinates.cs" />
-    <Compile Include="PrintKnown.cs" />
-    <Compile Include="PrintWalkable.cs" />
-    <Compile Include="PrintPath.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Map\Grid.cs"/>
+    <Compile Include="Map\GridFactory.cs"/>
+    <Compile Include="Map\GridMath.cs"/>
+    <Compile Include="Map\GridNode.cs"/>
+    <Compile Include="Map\Heap.cs"/>
+    <Compile Include="Pathing\Pathfinding.cs"/>
+    <Compile Include="People\IEntity.cs"/>
+    <Compile Include="People\NPC.cs"/>
+    <Compile Include="Persistence\FilePersister.cs"/>
+    <Compile Include="Persistence\FileTextPersister.cs"/>
+    <Compile Include="Persistence\IPersister.cs"/>
+    <Compile Include="PrintConsole\INodePrinter.cs"/>
+    <Compile Include="PrintConsole\PrintCoordinates.cs"/>
+    <Compile Include="PrintConsole\PrintKnown.cs"/>
+    <Compile Include="PrintConsole\PrintPath.cs"/>
+    <Compile Include="PrintConsole\PrintWalkable.cs"/>
+    <Compile Include="Properties\AssemblyInfo.cs"/>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Travel\Navigator.cs"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

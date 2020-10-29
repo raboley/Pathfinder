@@ -5,8 +5,6 @@ namespace Pathfinder
 {
     public class FilePersister : IPersister
     {
-        public ISerializer Serializer;
-
         public FilePersister()
         {
         }
