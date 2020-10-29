@@ -441,12 +441,10 @@ x = obstacle
             var grid = GridSetup.SetupSmallGrid();
             var want = new List<Person>();
 
-            var npc = new Person("rabbit", Vector3.One) {MapName = grid.MapName};
+            var npc = new Person(3, "rabbit", Vector3.One) {MapName = grid.MapName};
             want.Add(npc);
-            // want.Add(new Person("bull"));
-            // want.Add(new Person("frog"));
 
-            grid.AddNpc(new Person("rabbit", Vector3.One));
+            grid.AddNpc(new Person(3, "rabbit", Vector3.One));
             var got = grid.NpcList;
 
             AssertNpcListEqual(want, got);

@@ -4,13 +4,7 @@ namespace Pathfinder.People
 {
     public class Person : IEntity
     {
-        public Person(string name, Vector3 position)
-        {
-            Name = name;
-            Position = position;
-        }
-
-        public Person(string name, Vector3 position, int id)
+        public Person(int id, string name, Vector3 position)
         {
             Name = name;
             Position = position;

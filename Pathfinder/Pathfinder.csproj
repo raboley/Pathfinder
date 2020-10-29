@@ -47,31 +47,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PathfinderMath.cs"/>
-    <Compile Include="Pathing\Pathfinding.cs"/>
-    <Compile Include="People\IEntity.cs"/>
-    <Compile Include="People\PeopleManager.cs"/>
-    <Compile Include="People\Person.cs"/>
-    <Compile Include="Persistence\FilePersister.cs"/>
-    <Compile Include="Persistence\FileTextPersister.cs"/>
-    <Compile Include="Persistence\IPersister.cs"/>
-    <Compile Include="PrintConsole\INodePrinter.cs"/>
-    <Compile Include="PrintConsole\PrintCoordinates.cs"/>
-    <Compile Include="PrintConsole\PrintKnown.cs"/>
-    <Compile Include="PrintConsole\PrintPath.cs"/>
-    <Compile Include="PrintConsole\PrintWalkable.cs"/>
-    <Compile Include="Properties\AssemblyInfo.cs"/>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Travel\Traveler.cs"/>
-    <Compile Include="WorldMap\WorldMap.cs"/>
-    <Compile Include="WorldMap\WorldMapFactory.cs"/>
-    <Compile Include="WorldMap\WorldMapNode.cs"/>
-    <Compile Include="WorldMap\Heap.cs"/>
-    <Compile Include="WorldPoint.cs"/>
+      <Compile Include="IActor.cs"/>
+      <Compile Include="PathfinderMath.cs"/>
+      <Compile Include="Pathing\Pathfinding.cs"/>
+      <Compile Include="People\IEntity.cs"/>
+      <Compile Include="People\PeopleManager.cs"/>
+      <Compile Include="People\Person.cs"/>
+      <Compile Include="Persistence\FilePersister.cs"/>
+      <Compile Include="Persistence\FileTextPersister.cs"/>
+      <Compile Include="Persistence\IPersister.cs"/>
+      <Compile Include="PrintConsole\INodePrinter.cs"/>
+      <Compile Include="PrintConsole\PrintCoordinates.cs"/>
+      <Compile Include="PrintConsole\PrintKnown.cs"/>
+      <Compile Include="PrintConsole\PrintPath.cs"/>
+      <Compile Include="PrintConsole\PrintWalkable.cs"/>
+      <Compile Include="Properties\AssemblyInfo.cs"/>
+      <Compile Include="Properties\Resources.Designer.cs">
+          <AutoGen>True</AutoGen>
+          <DesignTime>True</DesignTime>
+          <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+      <Compile Include="Travel\Traveler.cs"/>
+      <Compile Include="Watcher.cs"/>
+      <Compile Include="WorldMap\WorldMap.cs"/>
+      <Compile Include="WorldMap\WorldMapFactory.cs"/>
+      <Compile Include="WorldMap\WorldMapNode.cs"/>
+      <Compile Include="WorldMap\Heap.cs"/>
+      <Compile Include="WorldPoint.cs"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

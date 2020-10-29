@@ -24,9 +24,9 @@ namespace Pathfinder.Tests.UnitTests
         {
             var people = new ObservableCollection<Person>
             {
-                new Person("Sparky", Vector3.One)
+                new Person(1, "Sparky", Vector3.One)
             };
-            var personToAdd = new Person("Sparky", Vector3.One);
+            var personToAdd = new Person(1, "Sparky", Vector3.One);
 
             var peopleManager = new PeopleManager();
             peopleManager.AddPerson(personToAdd);
@@ -37,7 +37,7 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void CanGetPersonInPeople()
         {
-            var want = new Person("Sparky", Vector3.One, 2);
+            var want = new Person(2, "Sparky", Vector3.One);
 
             var people = SetupPeopleCollection();
 
@@ -53,12 +53,12 @@ namespace Pathfinder.Tests.UnitTests
         {
             var people = new ObservableCollection<Person>
             {
-                new Person("Sparky", Vector3.One, 1)
+                new Person(1, "Sparky", Vector3.One)
             };
-            var personToModify = new Person("Sparky", Vector3.One, 1);
+            var personToModify = new Person(1, "Sparky", Vector3.One);
 
             var peopleManager = new PeopleManager
-                {People = new ObservableCollection<Person> {new Person("Sparky", Vector3.Zero, 1)}};
+                {People = new ObservableCollection<Person> {new Person(1, "Sparky", Vector3.Zero)}};
             peopleManager.UpdatePerson(personToModify);
 
             AssertPeopleEqual(people, peopleManager.People);
@@ -80,7 +80,7 @@ namespace Pathfinder.Tests.UnitTests
         public void PeopleIsInPeopleReturnsFalseWhenDoesntExist()
         {
             var want = false;
-            var person = new Person("not in people", Vector3.One, 99);
+            var person = new Person(99, "not in people", Vector3.One);
             var people = SetupPeopleCollection();
 
             var peopleManager = new PeopleManager {People = people};
@@ -93,15 +93,15 @@ namespace Pathfinder.Tests.UnitTests
         public void InsertWhenTryingToAddPersonWhoDoesntExist()
         {
             var people = SetupPeopleCollection();
-            var person = new Person("Toby", Vector3.One, 3);
+            var person = new Person(3, "Toby", Vector3.One);
             people.Add(person);
 
             var peopleManager = new PeopleManager
             {
                 People = new ObservableCollection<Person>
                 {
-                    new Person("Jim", Vector3.Zero, 1),
-                    new Person("Sparky", Vector3.One, 2)
+                    new Person(1, "Jim", Vector3.Zero),
+                    new Person(2, "Sparky", Vector3.One)
                 }
             };
             peopleManager.AddOrUpdatePerson(person);
@@ -118,21 +118,21 @@ namespace Pathfinder.Tests.UnitTests
             {
                 People = new ObservableCollection<Person>
                 {
-                    new Person("Jim", Vector3.One, 1),
-                    new Person("Sparky", Vector3.One, 2)
+                    new Person(1, "Jim", Vector3.One),
+                    new Person(2, "Sparky", Vector3.One)
                 }
             };
-            peopleManager.AddOrUpdatePerson(new Person("Jim", Vector3.Zero, 1));
+            peopleManager.AddOrUpdatePerson(new Person(1, "Jim", Vector3.Zero));
 
             AssertPeopleEqual(people, peopleManager.People);
         }
 
-        private static ObservableCollection<Person> SetupPeopleCollection()
+        public static ObservableCollection<Person> SetupPeopleCollection()
         {
             var people = new ObservableCollection<Person>
             {
-                new Person("Jim", Vector3.Zero, 1),
-                new Person("Sparky", Vector3.One, 2)
+                new Person(1, "Jim", Vector3.Zero),
+                new Person(2, "Sparky", Vector3.One)
             };
             return people;
         }

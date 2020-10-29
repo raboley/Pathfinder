@@ -7,6 +7,7 @@
       <e p="packages" t="ExcludeRecursive" />
       <e p="Pathfinder" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="IActor.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Pathfinder.csproj" t="IncludeRecursive" />
@@ -39,6 +40,7 @@
         <e p="Travel" t="Include">
           <e p="Traveler.cs" t="Include" />
         </e>
+        <e p="Watcher.cs" t="Include" />
         <e p="WorldMap" t="Include">
           <e p="Heap.cs" t="Include" />
           <e p="WorldMap.cs" t="Include" />
@@ -73,7 +75,9 @@
           <e p="PeopleManagerTests.cs" t="Include" />
           <e p="PersonTests.cs" t="Include" />
           <e p="PrintPathTests.cs" t="Include" />
+          <e p="SpyActor.cs" t="Include" />
           <e p="TravelerTests.cs" t="Include" />
+          <e p="WatcherTests.cs" t="Include" />
           <e p="WorldMapNodeTests.cs" t="Include" />
           <e p="WorldMapTests.cs" t="Include" />
           <e p="WorldPointTests.cs" t="Include" />

@@ -9,22 +9,14 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void ConstructorCreatesPerson()
         {
+            const int wantId = 1;
             const string wantName = "Bob";
             var wantPosition = Vector3.One;
-            var got = new Person(wantName, wantPosition);
+
+            var got = new Person(wantId, wantName, wantPosition);
 
             Assert.Equal(wantName, got.Name);
             Assert.Equal(wantPosition, got.Position);
-        }
-
-        [Fact]
-        public void CanAddIdToPerson()
-        {
-            var want = 12;
-            var got = new Person("Suzy", Vector3.One);
-            got.Id = want;
-
-            Assert.Equal(want, got.Id);
         }
     }
 }

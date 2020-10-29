@@ -71,6 +71,8 @@
         <Compile Include="UnitTests\PathfinderMathTests.cs"/>
         <Compile Include="UnitTests\PeopleManagerTests.cs"/>
         <Compile Include="UnitTests\PersonTests.cs"/>
+        <Compile Include="UnitTests\SpyActor.cs"/>
+        <Compile Include="UnitTests\WatcherTests.cs"/>
         <Compile Include="UnitTests\WorldMapTests.cs"/>
         <Compile Include="UnitTests\JsonSerializerTests.cs"/>
         <Compile Include="UnitTests\TravelerTests.cs"/>
