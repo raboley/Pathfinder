@@ -4,13 +4,13 @@ namespace Pathfinder
 {
     public class Navigator
     {
+        public Pathfinding Pathfinder { get; set; }
+        public Vector3 Position { get; set; }
+
         public Vector3[] WalkToWaypoint(Vector3 waypoint)
         {
             var path = Pathfinder.FindWaypoints(Position, waypoint);
-            foreach (var point in path)
-            {
-                Pathfinder.Grid.AddKnownNode(point);
-            }
+            foreach (var point in path) Pathfinder.Grid.AddKnownNode(point);
 
             Position = waypoint;
             return path;
@@ -25,8 +25,5 @@ namespace Pathfinder
                 // WalkToWaypoint(unknownNode.WorldPosition);
             }
         }
-
-        public Pathfinding Pathfinder { get; set; }
-        public Vector3 Position { get; set; }
     }
 }

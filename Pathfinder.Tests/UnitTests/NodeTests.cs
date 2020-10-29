@@ -9,10 +9,10 @@ namespace Pathfinder.Tests.UnitTests
         public void CanCreateNodeFromVector3()
         {
             // Arrange
-            Vector3 position = new Vector3(1.0f);
+            var position = new Vector3(1.0f);
 
             // Act
-            GridNode gridNode = new GridNode(position);
+            var gridNode = new GridNode(position);
 
             // Assert
             Assert.Equal(true, gridNode.Walkable);

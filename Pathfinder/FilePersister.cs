@@ -5,6 +5,8 @@ namespace Pathfinder
 {
     public class FilePersister : IPersister
     {
+        public ISerializer Serializer;
+
         public FilePersister()
         {
         }
@@ -14,11 +16,16 @@ namespace Pathfinder
             FileName = fileName;
         }
 
+        public string DefaultExtension { get; set; } = "map";
+        public string FileName { get; set; }
+        public string FilePath { get; set; } = Directory.GetCurrentDirectory();
+        public string FullPath => Path.Combine(FilePath, FileName);
+
         public void Save<T>(T serializableData)
         {
-            JsonSerializer jsonSerializer = new JsonSerializer();
+            var jsonSerializer = new JsonSerializer();
 
-            using (StreamWriter streamWriter = new StreamWriter(FullPath))
+            using (var streamWriter = new StreamWriter(FullPath))
             using (JsonWriter jsonTextWriter = new JsonTextWriter(streamWriter))
             {
                 jsonSerializer.Serialize(jsonTextWriter, serializableData);
@@ -27,9 +34,9 @@ namespace Pathfinder
 
         public T Load<T>()
         {
-            JsonSerializer jsonSerializer = new JsonSerializer();
+            var jsonSerializer = new JsonSerializer();
 
-            using (StreamReader streamReader = new StreamReader(FullPath))
+            using (var streamReader = new StreamReader(FullPath))
             using (JsonReader jsonReader = new JsonTextReader(streamReader))
             {
                 return jsonSerializer.Deserialize<T>(jsonReader);
@@ -52,11 +59,5 @@ namespace Pathfinder
             bool fileExists = File.Exists(FullPath);
             return fileExists;
         }
-
-        public string DefaultExtension { get; set; } = "map";
-        public string FileName { get; set; }
-        public string FilePath { get; set; } = Directory.GetCurrentDirectory();
-        public string FullPath => Path.Combine(FilePath, FileName);
-        public ISerializer Serializer;
     }
 }

@@ -28,25 +28,25 @@ namespace Pathfinder
 
         public Vector3[] FindWaypoints(Vector3 startPos, Vector3 targetPos)
         {
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
 
-            Vector3[] waypoints = new Vector3[0];
-            bool pathSuccess = false;
+            var waypoints = new Vector3[0];
+            var pathSuccess = false;
 
-            GridNode startGridNode = Grid.GetNodeFromWorldPoint(startPos);
-            GridNode targetGridNode = Grid.GetNodeFromWorldPoint(targetPos);
+            var startGridNode = Grid.GetNodeFromWorldPoint(startPos);
+            var targetGridNode = Grid.GetNodeFromWorldPoint(targetPos);
 
             if (startGridNode.Walkable && targetGridNode.Walkable)
             {
-                Heap<GridNode> openSet = new Heap<GridNode>(Grid.MaxSize);
-                HashSet<GridNode> closedSet = new HashSet<GridNode>();
+                var openSet = new Heap<GridNode>(Grid.MaxSize);
+                var closedSet = new HashSet<GridNode>();
 
                 openSet.Add(startGridNode);
 
                 while (openSet.Count > 0)
                 {
-                    GridNode currentGridNode = openSet.RemoveFirst();
+                    var currentGridNode = openSet.RemoveFirst();
                     closedSet.Add(currentGridNode);
 
 
@@ -58,12 +58,9 @@ namespace Pathfinder
                         break;
                     }
 
-                    foreach (GridNode neighbour in Grid.GetNeighbours(currentGridNode))
+                    foreach (var neighbour in Grid.GetNeighbours(currentGridNode))
                     {
-                        if (!neighbour.Walkable || closedSet.Contains(neighbour))
-                        {
-                            continue;
-                        }
+                        if (!neighbour.Walkable || closedSet.Contains(neighbour)) continue;
 
                         int newMovementCostToNeighbour =
                             currentGridNode.GCost + GetDistance(currentGridNode, neighbour);
@@ -83,19 +80,16 @@ namespace Pathfinder
                 }
             }
 
-            if (!pathSuccess)
-            {
-                return null;
-            }
+            if (!pathSuccess) return null;
 
             waypoints = RetracePath(startGridNode, targetGridNode);
             return waypoints;
         }
 
-        Vector3[] RetracePath(GridNode startGridNode, GridNode endGridNode)
+        private Vector3[] RetracePath(GridNode startGridNode, GridNode endGridNode)
         {
-            List<GridNode> path = new List<GridNode>();
-            GridNode currentGridNode = endGridNode;
+            var path = new List<GridNode>();
+            var currentGridNode = endGridNode;
 
             while (currentGridNode != startGridNode)
             {
@@ -103,24 +97,21 @@ namespace Pathfinder
                 currentGridNode = currentGridNode.Parent;
             }
 
-            Vector3[] waypoints = SimplifyPath(path);
+            var waypoints = SimplifyPath(path);
             Array.Reverse(waypoints);
             return waypoints;
         }
 
-        Vector3[] SimplifyPath(List<GridNode> path)
+        private Vector3[] SimplifyPath(List<GridNode> path)
         {
-            List<Vector3> waypoints = new List<Vector3>();
-            Vector2 directionOld = Vector2.Zero;
+            var waypoints = new List<Vector3>();
+            var directionOld = Vector2.Zero;
 
-            for (int i = 1; i < path.Count; i++)
+            for (var i = 1; i < path.Count; i++)
             {
-                Vector2 directionNew =
+                var directionNew =
                     new Vector2(path[i - 1].GridX - path[i].GridX, path[i - 1].GridY - path[i].GridY);
-                if (directionNew != directionOld)
-                {
-                    waypoints.Add(path[i].WorldPosition);
-                }
+                if (directionNew != directionOld) waypoints.Add(path[i].WorldPosition);
 
                 directionOld = directionNew;
             }
@@ -128,15 +119,12 @@ namespace Pathfinder
             return waypoints.ToArray();
         }
 
-        int GetDistance(GridNode gridNodeA, GridNode gridNodeB)
+        private int GetDistance(GridNode gridNodeA, GridNode gridNodeB)
         {
             int dstX = Math.Abs(gridNodeA.GridX - gridNodeB.GridX);
             int dstY = Math.Abs(gridNodeA.GridY - gridNodeB.GridY);
 
-            if (dstX > dstY)
-            {
-                return 14 * dstY + 10 * (dstX - dstY);
-            }
+            if (dstX > dstY) return 14 * dstY + 10 * (dstX - dstY);
 
             return 14 * dstX + 10 * (dstY - dstX);
         }

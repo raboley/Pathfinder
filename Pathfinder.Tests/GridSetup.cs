@@ -64,10 +64,7 @@ namespace Pathfinder.Tests
         public static void AssertListGridNodesEqual(IReadOnlyList<GridNode> want, List<GridNode> got)
         {
             Assert.Equal(want.Count, got.Count);
-            for (var i = 0; i < want.Count; i++)
-            {
-                Assert.Equal(want[i], got[i]);
-            }
+            for (var i = 0; i < want.Count; i++) Assert.Equal(want[i], got[i]);
         }
 
         public static void AssertListEntitiesEqual(List<NPC> want, List<NPC> got)
@@ -113,12 +110,8 @@ namespace Pathfinder.Tests
         {
             Assert.Equal(want.Length, got.Length);
             for (var i = 0; i <= want.GetUpperBound(0); i++)
-            {
-                for (var j = 0; j <= want.GetUpperBound(1); j++)
-                {
-                    AssertNodeFromGridsEqual(want, got, i, j);
-                }
-            }
+            for (var j = 0; j <= want.GetUpperBound(1); j++)
+                AssertNodeFromGridsEqual(want, got, i, j);
         }
 
         private static void AssertNodeFromGridsEqual(GridNode[,] want, GridNode[,] got, int i, int j)

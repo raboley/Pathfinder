@@ -10,7 +10,7 @@ namespace Pathfinder.Tests.UnitTests
         {
             Vector3[] want =
             {
-                new Vector3(1f, 0f, 1f),
+                new Vector3(1f, 0f, 1f)
             };
             var goal = new Vector3(2f);
 
@@ -28,10 +28,7 @@ namespace Pathfinder.Tests.UnitTests
 
             Assert.Equal(goal, navigator.Position);
             Assert.Equal(want.Length, traveledPath.Length);
-            for (int i = 0; i < want.Length; i++)
-            {
-                Assert.Equal(want[i], traveledPath[i]);
-            }
+            for (var i = 0; i < want.Length; i++) Assert.Equal(want[i], traveledPath[i]);
         }
 
         [Fact]

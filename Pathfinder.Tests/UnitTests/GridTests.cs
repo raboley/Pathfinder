@@ -345,7 +345,7 @@ x = obstacle
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, -1),
                 new Vector3(1, 0, 0),
-                new Vector3(-1, 0, 1),
+                new Vector3(-1, 0, 1)
             };
             var startPos = new Vector3(-2, 0, -2);
             var endPos = new Vector3(-2, 0, 1);
@@ -462,7 +462,7 @@ x = obstacle
                 new GridNode(new Vector3(0, 0, 1)),
                 new GridNode(new Vector3(1, 0, -1)),
                 new GridNode(new Vector3(1, 0, 0)),
-                new GridNode(new Vector3(1, 0, 1)),
+                new GridNode(new Vector3(1, 0, 1))
             };
 
             var grid = GridSetup.SetupSmallGrid();
@@ -481,7 +481,7 @@ x = obstacle
         private static void AssertNpcListEqual(List<NPC> want, List<NPC> got)
         {
             Assert.Equal(want.Count, got.Count);
-            for (int i = 0; i < want.Count; i++)
+            for (var i = 0; i < want.Count; i++)
             {
                 Assert.Equal(want[i].Name, got[i].Name);
                 Assert.Equal(want[i].MapName, got[i].MapName);

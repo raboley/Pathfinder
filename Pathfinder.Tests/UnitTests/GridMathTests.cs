@@ -7,8 +7,8 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void ConvertFromFloatToIntCanRoundAndConvertCorrectly()
         {
-            int expected = 1;
-            float startingFloat = 0.51f;
+            var expected = 1;
+            var startingFloat = 0.51f;
 
             int actual = GridMath.ConvertFromFloatToInt(startingFloat);
 
@@ -18,8 +18,8 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void ConvertFromFloatToIntRoundsDownWhenLessThanFive()
         {
-            int expected = 0;
-            float startingFloat = 0.4999f;
+            var expected = 0;
+            var startingFloat = 0.4999f;
 
             int actual = GridMath.ConvertFromFloatToInt(startingFloat);
 
@@ -52,7 +52,7 @@ namespace Pathfinder.Tests.UnitTests
         public void ClampTurnsNegativeNumberToZero()
         {
             float number = -1;
-            float want = 0f;
+            var want = 0f;
 
             float got = GridMath.Clamp(number, 0, 1);
 
@@ -63,7 +63,7 @@ namespace Pathfinder.Tests.UnitTests
         public void ClampTurnsPositiveNumberToOne()
         {
             float number = 1;
-            float want = 1f;
+            var want = 1f;
 
             float got = GridMath.Clamp(number, 0, 1);
 

@@ -8,13 +8,58 @@ namespace Pathfinder
     [Serializable]
     public class Grid
     {
+        private float _gridCenterX, _gridCenterY, _gridCenterZ;
+        private int _gridSizeX, _gridSizeY;
+        public GridNode[,] MapGrid;
+
+
+        public string MapName { get; set; }
+
+        public Vector2 GridWorldSize
+        {
+            get => new Vector2(_gridSizeX * 1f, _gridSizeY * 1f);
+            set
+            {
+                if (NodeDiameter == 0)
+                    throw new Exception(
+                        "NodeRadius must be set prior to initializing the GridWorldSize. Otherwise Divide by " +
+                        "zero error when trying to figure out the size wold size.");
+
+                _gridSizeX = GridMath.ConvertFromFloatToInt(value.X / NodeDiameter);
+                _gridSizeY = GridMath.ConvertFromFloatToInt(value.Y / NodeDiameter);
+            }
+        }
+
+        public Vector3 GridCenter
+        {
+            get => new Vector3(_gridCenterX, _gridCenterY, _gridCenterZ);
+            set
+            {
+                _gridCenterX = value.X;
+                _gridCenterY = value.Y;
+                _gridCenterZ = value.Z;
+            }
+        }
+
+
+        public int MaxSize => _gridSizeX * _gridSizeY;
+
+
+        public List<NPC> NpcList { get; set; }
+        public List<NPC> ThingList { get; set; }
+        public List<NPC> MobList { get; set; }
+        public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
+        public List<GridNode> UnknownNodes => MapGrid?.Cast<GridNode>().ToList().FindAll(n => n.Unknown);
+
+        private float NodeRadius { get; set; } = 0.5f;
+        private float NodeDiameter => NodeRadius * 2;
+
         /// <summary>
-        /// Initializes a new Grid object and builds a MapGrid of size gridSize.
-        /// The MapGrid will be a 2D array incrementing from bottom left of the grid (most negative)
-        /// to top right (most positive). The MapGrid consists of Nodes that will have a GridX and GridY which is
-        /// their address in the MapGrid, and a WorldPosition which is the Vector3 address of the point in the world.
-        /// 
-        /// For example in a grid sized Vector2(3, 3)
+        ///     Initializes a new Grid object and builds a MapGrid of size gridSize.
+        ///     The MapGrid will be a 2D array incrementing from bottom left of the grid (most negative)
+        ///     to top right (most positive). The MapGrid consists of Nodes that will have a GridX and GridY which is
+        ///     their address in the MapGrid, and a WorldPosition which is the Vector3 address of the point in the world.
+        ///     For example in a grid sized Vector2(3, 3)
         ///     the center point Node will have a WorldPosition of Vector3(0, 0, 0)
         ///     but, the GridX would be 1, and GridY would be 1
         ///     so, to address the center in the GridMap it would be GridMap[1,1]
@@ -24,9 +69,7 @@ namespace Pathfinder
         /// <returns></returns>
         public static Grid NewGridFromVector2(Vector2 gridSize, float nodeRadius = 0.5f)
         {
-            var grid = new Grid();
-            grid.NodeRadius = nodeRadius;
-            grid.GridWorldSize = gridSize;
+            var grid = new Grid {NodeRadius = nodeRadius, GridWorldSize = gridSize};
             BuildGridMap(grid);
 
             return grid;
@@ -61,40 +104,38 @@ namespace Pathfinder
 
         private Vector3 GetBottomLeftNodeFromGridWorldSize()
         {
-            var biggestX = vectorRight() * GridWorldSize.X / 2;
-            var biggestY = vectorForward() * GridWorldSize.Y / 2;
+            var biggestX = VectorRight() * GridWorldSize.X / 2;
+            var biggestY = VectorForward() * GridWorldSize.Y / 2;
             var worldBottomLeft = GridCenter - biggestX - biggestY;
             return worldBottomLeft;
         }
 
         /// <summary>
-        /// Starting from the bottom left, increment x and y up until we reach the appropriate world sizes for both coords.
-        /// This works because by starting at the most negative, we can then just build up till we reach the most positive.
+        ///     Starting from the bottom left, increment x and y up until we reach the appropriate world sizes for both coords.
+        ///     This works because by starting at the most negative, we can then just build up till we reach the most positive.
         /// </summary>
         /// <param name="worldBottomLeft"></param>
         private void BuildMapGridFromBottomLeftToTopRight(Vector3 worldBottomLeft)
         {
-            for (int x = 0; x < _gridSizeX; x++)
+            for (var x = 0; x < _gridSizeX; x++)
+            for (var y = 0; y < _gridSizeY; y++)
             {
-                for (int y = 0; y < _gridSizeY; y++)
-                {
-                    Vector3 worldPoint = worldBottomLeft
-                                         + vectorRight() * (x * NodeDiameter + NodeRadius)
-                                         + vectorForward() * (y * NodeDiameter + NodeRadius);
-                    GridNode gridNode = new GridNode(worldPoint, true);
-                    gridNode.GridX = x;
-                    gridNode.GridY = y;
-                    MapGrid[x, y] = gridNode;
-                }
+                var worldPoint = worldBottomLeft
+                                 + VectorRight() * (x * NodeDiameter + NodeRadius)
+                                 + VectorForward() * (y * NodeDiameter + NodeRadius);
+                var gridNode = new GridNode(worldPoint);
+                gridNode.GridX = x;
+                gridNode.GridY = y;
+                MapGrid[x, y] = gridNode;
             }
         }
 
-        private Vector3 vectorRight()
+        private Vector3 VectorRight()
         {
             return new Vector3(1f, 0f, 0f);
         }
 
-        private Vector3 vectorForward()
+        private Vector3 VectorForward()
         {
             return new Vector3(0f, 0f, 1f);
         }
@@ -108,25 +149,18 @@ namespace Pathfinder
 
         public List<GridNode> GetNeighbours(GridNode gridNode)
         {
-            List<GridNode> neighbours = new List<GridNode>();
+            var neighbours = new List<GridNode>();
 
             for (int x = -1; x <= 1; x++)
+            for (int y = -1; y <= 1; y++)
             {
-                for (int y = -1; y <= 1; y++)
-                {
-                    if (x == 0 && y == 0)
-                    {
-                        continue;
-                    }
+                if (x == 0 && y == 0) continue;
 
-                    int checkX = gridNode.GridX + x;
-                    int checkY = gridNode.GridY + y;
+                int checkX = gridNode.GridX + x;
+                int checkY = gridNode.GridY + y;
 
-                    if (checkX >= 0 && checkX < _gridSizeX && checkY >= 0 && checkY < _gridSizeY)
-                    {
-                        neighbours.Add(MapGrid[checkX, checkY]);
-                    }
-                }
+                if (checkX >= 0 && checkX < _gridSizeX && checkY >= 0 && checkY < _gridSizeY)
+                    neighbours.Add(MapGrid[checkX, checkY]);
             }
 
             return neighbours;
@@ -134,9 +168,9 @@ namespace Pathfinder
 
 
         /// <summary>
-        /// Because our 2D array Grid starts at negative and goes to positive, and you can't have a negative index,
-        /// we basically take the value from the world, and if it is negative it must be in the bottom half of the 
-        /// array, and if it is positive it is the top half. So we have to move the index to all be in the positives.
+        ///     Because our 2D array Grid starts at negative and goes to positive, and you can't have a negative index,
+        ///     we basically take the value from the world, and if it is negative it must be in the bottom half of the
+        ///     array, and if it is positive it is the top half. So we have to move the index to all be in the positives.
         /// </summary>
         /// <param name="worldPosition"></param>
         /// <returns></returns>
@@ -182,7 +216,6 @@ namespace Pathfinder
             List<Vector3> zoneBoundaries;
 
             if (ZoneBoundaries != null)
-            {
                 if (ZoneBoundaries.ContainsKey(ZonesTo))
                 {
                     zoneBoundaries = ZoneBoundaries[ZonesTo];
@@ -190,7 +223,6 @@ namespace Pathfinder
                     ZoneBoundaries[ZonesTo] = zoneBoundaries;
                     return;
                 }
-            }
 
             zoneBoundaries = new List<Vector3>();
             zoneBoundaries.Add(worldPoint);
@@ -210,7 +242,7 @@ namespace Pathfinder
         }
 
         /// <summary>
-        /// Returns a string representation of the current MapGrid's walkable and not walkable Nodes.
+        ///     Returns a string representation of the current MapGrid's walkable and not walkable Nodes.
         /// </summary>
         public string Print()
         {
@@ -221,7 +253,7 @@ namespace Pathfinder
 
         public string PrintWithCoords()
         {
-            string columnTop = "--------";
+            var columnTop = "--------";
             INodePrinter printer = new PrintCoordinates();
             string printedGrid = PrintMap(printer, columnTop: columnTop);
             return printedGrid;
@@ -271,53 +303,5 @@ x = obstacle";
 
             return result;
         }
-
-
-        public string MapName { get; set; }
-
-        public Vector2 GridWorldSize
-        {
-            get => new Vector2(_gridSizeX * 1f, _gridSizeY * 1f);
-            set
-            {
-                if (NodeDiameter == 0)
-                {
-                    throw new Exception(
-                        "NodeRadius must be set prior to initializing the GridWorldSize. Otherwise Divide by " +
-                        "zero error when trying to figure out the size wold size.");
-                }
-
-                _gridSizeX = GridMath.ConvertFromFloatToInt(value.X / NodeDiameter);
-                _gridSizeY = GridMath.ConvertFromFloatToInt(value.Y / NodeDiameter);
-            }
-        }
-
-        public Vector3 GridCenter
-        {
-            get => new Vector3(_gridCenterX, _gridCenterY, _gridCenterZ);
-            set
-            {
-                _gridCenterX = value.X;
-                _gridCenterY = value.Y;
-                _gridCenterZ = value.Z;
-            }
-        }
-
-        private float _gridCenterX, _gridCenterY, _gridCenterZ;
-
-
-        public int MaxSize => _gridSizeX * _gridSizeY;
-        private int _gridSizeX, _gridSizeY;
-
-
-        public List<NPC> NpcList { get; set; }
-        public List<NPC> ThingList { get; set; }
-        public List<NPC> MobList { get; set; }
-        public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
-        public GridNode[,] MapGrid;
-        public List<GridNode> UnknownNodes => MapGrid?.Cast<GridNode>().ToList().FindAll(n => n.Unknown == true);
-
-        private float NodeRadius { get; set; } = 0.5f;
-        private float NodeDiameter => NodeRadius * 2;
     }
 }

@@ -27,17 +27,17 @@ namespace Pathfinder.Tests.UnitTests
             // arrange
             var pathfinding = SetupForPathfinding();
 
-            Vector3[] want = new[]
+            Vector3[] want =
             {
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, 0),
-                new Vector3(0, 0, 1),
+                new Vector3(0, 0, 1)
             };
             var startPos = new Vector3(-2, 0, -2);
             var endPos = new Vector3(1, 0, 2);
 
             // act 
-            Vector3[] got = pathfinding.FindWaypoints(startPos, endPos);
+            var got = pathfinding.FindWaypoints(startPos, endPos);
 
             // assert
             Assert.Equal(want, got);
@@ -72,20 +72,20 @@ namespace Pathfinder.Tests.UnitTests
             pathfinding.Grid.AddUnWalkableNode(new Vector3(-4, 0, 0));
 
 
-            var example = pathfinding.Grid.Print();
+            string example = pathfinding.Grid.Print();
 
-            Vector3[] want = new[]
+            Vector3[] want =
             {
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, -1),
                 new Vector3(1, 0, 0),
-                new Vector3(-1, 0, 1),
+                new Vector3(-1, 0, 1)
             };
             var startPos = new Vector3(-2, 0, -2);
             var endPos = new Vector3(-2, 0, 1);
 
             // act 
-            Vector3[] got = pathfinding.FindWaypoints(startPos, endPos);
+            var got = pathfinding.FindWaypoints(startPos, endPos);
 
             // assert
             Assert.Equal(want, got);
@@ -93,7 +93,7 @@ namespace Pathfinder.Tests.UnitTests
 
         private static Pathfinding SetupForPathfinding()
         {
-            Pathfinding pathfinding = new Pathfinding();
+            var pathfinding = new Pathfinding();
             var grid = Grid.NewGridFromVector2(new Vector2(5, 5));
             pathfinding.Grid = grid;
             return pathfinding;

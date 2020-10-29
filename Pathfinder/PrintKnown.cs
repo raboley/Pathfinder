@@ -2,6 +2,8 @@ namespace Pathfinder
 {
     public class PrintKnown : BasePrinter
     {
+        public string UnknownNode { get; } = "  ?  " + NodeSeparator;
+
         public override string PrintNode(GridNode gridNode)
         {
             if (gridNode.Unknown)
@@ -9,7 +11,5 @@ namespace Pathfinder
 
             return base.PrintNode(gridNode);
         }
-
-        public string UnknownNode { get; } = "  ?  " + NodeSeparator;
     }
 }

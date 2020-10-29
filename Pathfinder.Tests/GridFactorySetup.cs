@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace Pathfinder.Tests
 {
-    static internal class GridFactorySetup
+    internal static class GridFactorySetup
     {
         public static GridFactory SetupGridFactory()
         {

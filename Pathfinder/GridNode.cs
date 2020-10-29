@@ -6,14 +6,16 @@ namespace Pathfinder
     [Serializable]
     public class GridNode : IHeapItem<GridNode>
     {
-        public bool Unknown { get; set; }
-        public bool Walkable { get; set; }
-        public int HeapIndex { get; set; }
-
-
         [NonSerialized] public int GCost;
+
+        public int GridX;
+        public int GridY;
         [NonSerialized] public int HCost;
         [NonSerialized] public GridNode Parent;
+
+        public float X;
+        public float Y;
+        public float Z;
 
         public GridNode(Vector3 worldPos, bool _walkable = true, bool unknown = true)
         {
@@ -22,11 +24,11 @@ namespace Pathfinder
             Unknown = unknown;
         }
 
+        public bool Unknown { get; set; }
+        public bool Walkable { get; set; }
 
-        public int FCost
-        {
-            get { return GCost + HCost; }
-        }
+
+        public int FCost => GCost + HCost;
 
         public Vector3 WorldPosition
         {
@@ -39,23 +41,15 @@ namespace Pathfinder
             }
         }
 
+        public int HeapIndex { get; set; }
+
 
         public int CompareTo(GridNode gridNodeToCompare)
         {
             int compare = FCost.CompareTo(gridNodeToCompare.FCost);
-            if (compare == 0)
-            {
-                compare = HCost.CompareTo(gridNodeToCompare.HCost);
-            }
+            if (compare == 0) compare = HCost.CompareTo(gridNodeToCompare.HCost);
 
             return -compare;
         }
-
-        public int GridX;
-        public int GridY;
-
-        public float X;
-        public float Y;
-        public float Z;
     }
 }

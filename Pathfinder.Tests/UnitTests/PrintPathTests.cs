@@ -10,9 +10,9 @@ namespace Pathfinder.Tests.UnitTests
         {
             var node = new GridNode(Vector3.One, false);
             var printer = new PrintPath();
-            var want = printer.ObstacleNode;
+            string want = printer.ObstacleNode;
 
-            var got = printer.PrintNode(node);
+            string got = printer.PrintNode(node);
 
             Assert.Equal(want, got);
         }
@@ -21,11 +21,11 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void TestPrintPathPrintsWalkable()
         {
-            var node = new GridNode(Vector3.One, true);
+            var node = new GridNode(Vector3.One);
             var printer = new PrintPath();
-            var want = printer.WalkableNode;
+            string want = printer.WalkableNode;
 
-            var got = printer.PrintNode(node);
+            string got = printer.PrintNode(node);
 
             Assert.Equal(want, got);
         }
@@ -34,11 +34,11 @@ namespace Pathfinder.Tests.UnitTests
         public void TestPrintPathPrintsStart()
         {
             var pathStart = Vector3.One;
-            var node = new GridNode(pathStart, true);
+            var node = new GridNode(pathStart);
             var printer = new PrintPath {Start = pathStart};
-            var want = printer.StartNode;
+            string want = printer.StartNode;
 
-            var got = printer.PrintNode(node);
+            string got = printer.PrintNode(node);
 
             Assert.Equal(want, got);
         }
@@ -47,11 +47,11 @@ namespace Pathfinder.Tests.UnitTests
         public void TestPrintPathPrintsEnd()
         {
             var pathEnd = Vector3.One;
-            var node = new GridNode(pathEnd, true);
+            var node = new GridNode(pathEnd);
             var printer = new PrintPath {End = pathEnd};
-            var want = printer.EndNode;
+            string want = printer.EndNode;
 
-            var got = printer.PrintNode(node);
+            string got = printer.PrintNode(node);
 
             Assert.Equal(want, got);
         }
@@ -60,11 +60,11 @@ namespace Pathfinder.Tests.UnitTests
         public void TestPrintPathPrintsWaypoint()
         {
             var pathWaypoint = Vector3.One;
-            var node = new GridNode(pathWaypoint, true);
+            var node = new GridNode(pathWaypoint);
             var printer = new PrintPath {Path = new[] {pathWaypoint}};
-            var want = printer.WaypointNode;
+            string want = printer.WaypointNode;
 
-            var got = printer.PrintNode(node);
+            string got = printer.PrintNode(node);
 
             Assert.Equal(want, got);
         }

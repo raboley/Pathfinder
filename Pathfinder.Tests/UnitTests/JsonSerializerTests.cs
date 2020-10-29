@@ -11,7 +11,7 @@ namespace Pathfinder.Tests.UnitTests
             var want = GridSetup.SetupSmallGrid();
 
             string json = JsonConvert.SerializeObject(want);
-            Grid got = JsonConvert.DeserializeObject<Grid>(json);
+            var got = JsonConvert.DeserializeObject<Grid>(json);
 
             GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
         }
