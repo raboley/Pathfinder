@@ -60,18 +60,18 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="GridFactorySetup.cs"/>
-        <Compile Include="GridSetup.cs"/>
+        <Compile Include="SetupWorldMapFactory.cs"/>
+        <Compile Include="SetupWorldMap.cs"/>
         <Compile Include="IntegrationTests\FileTextPersisterTests.cs"/>
         <Compile Include="IntegrationTests\GridFactoryFileTests.cs"/>
         <Compile Include="IntegrationTests\GridFileTests.cs"/>
-        <Compile Include="PersisterSetup.cs"/>
+        <Compile Include="SetupPersister.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="UnitTests\GridMathTests.cs"/>
+        <Compile Include="UnitTests\PathfinderMathTests.cs"/>
         <Compile Include="UnitTests\GridTests.cs"/>
         <Compile Include="UnitTests\JsonSerializerTests.cs"/>
         <Compile Include="UnitTests\NavigatorTests.cs"/>
-        <Compile Include="UnitTests\NodeTests.cs"/>
+        <Compile Include="UnitTests\WorldMapNodeTests.cs"/>
         <Compile Include="UnitTests\PathfindingTests.cs"/>
         <Compile Include="UnitTests\PrintPathTests.cs"/>
     </ItemGroup>
