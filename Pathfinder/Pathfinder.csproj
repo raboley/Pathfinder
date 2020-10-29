@@ -50,6 +50,7 @@
     <Compile Include="PathfinderMath.cs"/>
     <Compile Include="Pathing\Pathfinding.cs"/>
     <Compile Include="People\IEntity.cs"/>
+    <Compile Include="People\PeopleManager.cs"/>
     <Compile Include="People\Person.cs"/>
     <Compile Include="Persistence\FilePersister.cs"/>
     <Compile Include="Persistence\FileTextPersister.cs"/>

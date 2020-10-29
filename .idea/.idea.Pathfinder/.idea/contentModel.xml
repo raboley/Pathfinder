@@ -16,6 +16,7 @@
         </e>
         <e p="People" t="Include">
           <e p="IEntity.cs" t="Include" />
+          <e p="PeopleManager.cs" t="Include" />
           <e p="Person.cs" t="Include" />
         </e>
         <e p="Persistence" t="Include">
@@ -69,6 +70,7 @@
           <e p="JsonSerializerTests.cs" t="Include" />
           <e p="PathfinderMathTests.cs" t="Include" />
           <e p="PathfindingTests.cs" t="Include" />
+          <e p="PeopleManagerTests.cs" t="Include" />
           <e p="PersonTests.cs" t="Include" />
           <e p="PrintPathTests.cs" t="Include" />
           <e p="TravelerTests.cs" t="Include" />
