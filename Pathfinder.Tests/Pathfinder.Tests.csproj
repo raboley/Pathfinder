@@ -74,6 +74,7 @@
         <Compile Include="UnitTests\WorldMapNodeTests.cs"/>
         <Compile Include="UnitTests\PathfindingTests.cs"/>
         <Compile Include="UnitTests\PrintPathTests.cs"/>
+        <Compile Include="UnitTests\WorldPointTests.cs"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Pathfinder\Pathfinder.csproj">

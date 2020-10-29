@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
 {
-    public class NodeTests
+    public class WorldMapNodeTests
     {
         [Fact]
         public void CanCreateNodeFromVector3()

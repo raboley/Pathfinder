@@ -44,6 +44,7 @@
           <e p="WorldMapFactory.cs" t="Include" />
           <e p="WorldMapNode.cs" t="Include" />
         </e>
+        <e p="WorldPoint.cs" t="Include" />
       </e>
       <e p="Pathfinder.sln" t="IncludeFlat" />
       <e p="Pathfinder.Tests" t="IncludeRecursive">
@@ -71,6 +72,7 @@
           <e p="TravelerTests.cs" t="Include" />
           <e p="WorldMapNodeTests.cs" t="Include" />
           <e p="WorldMapTests.cs" t="Include" />
+          <e p="WorldPointTests.cs" t="Include" />
         </e>
       </e>
     </e>

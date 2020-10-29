@@ -70,6 +70,7 @@
     <Compile Include="WorldMap\WorldMapFactory.cs"/>
     <Compile Include="WorldMap\WorldMapNode.cs"/>
     <Compile Include="WorldMap\Heap.cs"/>
+    <Compile Include="WorldPoint.cs"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

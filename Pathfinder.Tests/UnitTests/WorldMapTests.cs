@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
 {
-    public class GridTests
+    public class WorldMapTests
     {
         [Fact]
         public void CreateGridCanGenerateGridFromCorner()
