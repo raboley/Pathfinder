@@ -3,19 +3,26 @@ using Pathfinder.Pathing;
 
 namespace Pathfinder.Travel
 {
-    public class Navigator
+    public class Traveler
     {
         public Pathfinding Pathfinder { get; set; }
         public Vector3 Position { get; set; }
 
-        public Vector3[] WalkToWaypoint(Vector3 waypoint)
+        public Vector3[] PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint)
         {
             var path = Pathfinder.FindWaypoints(Position, waypoint);
-            foreach (var point in path) Pathfinder.Grid.AddKnownNode(point);
+            foreach (var point in path) WalkToPosition(point);
 
             Position = waypoint;
             return path;
         }
+
+
+        private void WalkToPosition(Vector3 targetPosition)
+        {
+            Pathfinder.Grid.AddKnownNode(targetPosition);
+        }
+
 
         public void DiscoverAllNodes()
         {
@@ -23,7 +30,7 @@ namespace Pathfinder.Travel
             {
                 var getToKnowNode = new Vector3(unknownNode.X, unknownNode.Y, unknownNode.Z);
                 Pathfinder.Grid.AddKnownNode(getToKnowNode);
-                // WalkToWaypoint(unknownNode.WorldPosition);
+                // PathfindAndWalkToFarAwayWorldMapPosition(unknownNode.WorldPosition);
             }
         }
     }

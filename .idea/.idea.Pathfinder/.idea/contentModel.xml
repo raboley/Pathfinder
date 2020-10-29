@@ -69,6 +69,7 @@
           <e p="JsonSerializerTests.cs" t="Include" />
           <e p="PathfinderMathTests.cs" t="Include" />
           <e p="PathfindingTests.cs" t="Include" />
+          <e p="PersonTests.cs" t="Include" />
           <e p="PrintPathTests.cs" t="Include" />
           <e p="TravelerTests.cs" t="Include" />
           <e p="WorldMapNodeTests.cs" t="Include" />
