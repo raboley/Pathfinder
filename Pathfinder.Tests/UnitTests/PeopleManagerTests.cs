@@ -71,7 +71,7 @@ namespace Pathfinder.Tests.UnitTests
             var people = SetupPeopleCollection();
 
             var peopleManager = new PeopleManager {People = people};
-            var got = peopleManager.PersonIsInPeople(people[0]);
+            bool got = peopleManager.PersonIsInPeople(people[0]);
 
             Assert.Equal(want, got);
         }
@@ -84,11 +84,30 @@ namespace Pathfinder.Tests.UnitTests
             var people = SetupPeopleCollection();
 
             var peopleManager = new PeopleManager {People = people};
-            var got = peopleManager.PersonIsInPeople(person);
+            bool got = peopleManager.PersonIsInPeople(person);
 
             Assert.Equal(want, got);
         }
 
+        [Fact]
+        public void InsertWhenTryingToAddPersonWhoDoesntExist()
+        {
+            var people = SetupPeopleCollection();
+            var person = new Person("Toby", Vector3.One, 3);
+            people.Add(person);
+
+            var peopleManager = new PeopleManager
+            {
+                People = new ObservableCollection<Person>
+                {
+                    new Person("Jim", Vector3.Zero, 1),
+                    new Person("Sparky", Vector3.One, 2)
+                }
+            };
+            peopleManager.AddOrUpdatePerson(person);
+
+            AssertPeopleEqual(people, peopleManager.People);
+        }
 
         [Fact]
         public void UpdateWhenTwoPeopleWithSameIdTryToGetAdded()
@@ -121,10 +140,7 @@ namespace Pathfinder.Tests.UnitTests
         private static void AssertPeopleEqual(IReadOnlyList<Person> want, ObservableCollection<Person> got)
         {
             Assert.Equal(want.Count, got.Count);
-            for (var i = 0; i < want.Count; i++)
-            {
-                AssertPersonEqual(want[i], got[i]);
-            }
+            for (var i = 0; i < want.Count; i++) AssertPersonEqual(want[i], got[i]);
         }
 
         private static void AssertPersonEqual(Person want, Person got)
