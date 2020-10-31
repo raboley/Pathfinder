@@ -1,13 +1,12 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Pathfinder.People;
 
 namespace Pathfinder
 {
-    public class Watcher
+    public class Watcher<T>
     {
-        public Watcher(ObservableCollection<Person> collection, IActor actor)
+        public Watcher(ObservableCollection<T> collection, IActor actor)
         {
             Collection = collection;
             Actor = actor;
@@ -15,14 +14,16 @@ namespace Pathfinder
             collection.CollectionChanged += Changed;
 
             if (collection.Count > 0)
-                foreach (var item in collection)
+                foreach (var unknown in collection)
+                {
+                    var item = (INotifyPropertyChanged) unknown;
                     item.PropertyChanged += ItemChanged;
+                }
         }
 
-        public ObservableCollection<Person> Collection { get; set; }
+        public ObservableCollection<T> Collection { get; set; }
         public IActor Actor { get; set; }
 
-        // TODO: Move this to the watcher class.
         public void Changed(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
@@ -40,7 +41,6 @@ namespace Pathfinder
             }
         }
 
-        // TODO: Move this to the watcher class.
         // Updates are more complicated:
         // https://stackoverflow.com/questions/901921/observablecollection-and-item-propertychanged
         public void ItemChanged(object sender, PropertyChangedEventArgs e)

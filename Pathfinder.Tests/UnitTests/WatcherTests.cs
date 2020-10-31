@@ -12,7 +12,7 @@ namespace Pathfinder.Tests.UnitTests
             var peopleCollection = PeopleManagerTests.SetupPeopleCollection();
             var spyActor = new SpyActor();
             var peopleManager = new PeopleManager {People = peopleCollection};
-            var watcher = new Watcher(peopleManager.People, spyActor);
+            var watcher = new Watcher<Person>(peopleManager.People, spyActor);
             var want = PeopleManagerTests.SetupPeopleCollection();
 
             for (var i = 0; i < want.Count; i++) Assert.Equal(want[i], watcher.Collection[i]);
@@ -56,7 +56,7 @@ namespace Pathfinder.Tests.UnitTests
             var peopleCollection = PeopleManagerTests.SetupPeopleCollection();
             var spyActor = new SpyActor();
             peopleManager = new PeopleManager {People = peopleCollection};
-            var watcher = new Watcher(peopleManager.People, spyActor);
+            var watcher = new Watcher<Person>(peopleManager.People, spyActor);
             return spyActor;
         }
     }
