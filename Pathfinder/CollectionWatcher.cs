@@ -45,7 +45,7 @@ namespace Pathfinder
         // https://stackoverflow.com/questions/901921/observablecollection-and-item-propertychanged
         public void ItemChanged(object sender, PropertyChangedEventArgs e)
         {
-            Actor.Updated();
+            Actor.Updated(sender, e);
         }
     }
 }

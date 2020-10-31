@@ -45,26 +45,26 @@ namespace Pathfinder.Tests
             return grid;
         }
 
-        public static List<WorldMapNode> GetNeighborsListForEdgeNode()
+        public static List<Node> GetNeighborsListForEdgeNode()
         {
-            var want = new List<WorldMapNode>
+            var want = new List<Node>
             {
-                new WorldMapNode(new Vector3(0, 0, 0)),
-                new WorldMapNode(new Vector3(0, 0, 1)),
-                new WorldMapNode(new Vector3(1, 0, 0))
+                new Node(new Vector3(0, 0, 0)),
+                new Node(new Vector3(0, 0, 1)),
+                new Node(new Vector3(1, 0, 0))
             };
-            // want.Add(new WorldMapNode(new Vector3(-1, 0, -1)));
-            // want.Add(new WorldMapNode(new Vector3(-1, 0, 0)));
-            // want.Add(new WorldMapNode(new Vector3(-1, 0, 1)));
-            // want.Add(new WorldMapNode(new Vector3(0, 0, -1)));
-            // want.Add(new WorldMapNode(new Vector3(0, 0, 1)));
-            // want.Add(new WorldMapNode(new Vector3(1, 0, -1)));
-            // want.Add(new WorldMapNode(new Vector3(1, 0, 0)));
-            // want.Add(new WorldMapNode(new Vector3(1, 0, 1)));
+            // want.Add(new Node(new Vector3(-1, 0, -1)));
+            // want.Add(new Node(new Vector3(-1, 0, 0)));
+            // want.Add(new Node(new Vector3(-1, 0, 1)));
+            // want.Add(new Node(new Vector3(0, 0, -1)));
+            // want.Add(new Node(new Vector3(0, 0, 1)));
+            // want.Add(new Node(new Vector3(1, 0, -1)));
+            // want.Add(new Node(new Vector3(1, 0, 0)));
+            // want.Add(new Node(new Vector3(1, 0, 1)));
             return want;
         }
 
-        public static void AssertListGridNodesEqual(IReadOnlyList<WorldMapNode> want, List<WorldMapNode> got)
+        public static void AssertListGridNodesEqual(IReadOnlyList<Node> want, List<Node> got)
         {
             Assert.Equal(want.Count, got.Count);
             for (var i = 0; i < want.Count; i++) Assert.Equal(want[i], got[i]);
@@ -82,18 +82,18 @@ namespace Pathfinder.Tests
             }
         }
 
-        public static WorldMapNode[,] SetupThreeByThreeGrid()
+        public static Node[,] SetupThreeByThreeGrid()
         {
-            var want = new WorldMapNode[3, 3];
-            want[0, 0] = new WorldMapNode(new Vector3(-1f, 0, -1f));
-            want[0, 1] = new WorldMapNode(new Vector3(-1f, 0f, 0f));
-            want[0, 2] = new WorldMapNode(new Vector3(-1f, 0f, 1f));
-            want[1, 0] = new WorldMapNode(new Vector3(0f, 0f, -1f));
-            want[1, 1] = new WorldMapNode(new Vector3(0f, 0f, 0f));
-            want[1, 2] = new WorldMapNode(new Vector3(0f, 0f, 1f));
-            want[2, 0] = new WorldMapNode(new Vector3(1f, 0f, -1f));
-            want[2, 1] = new WorldMapNode(new Vector3(1f, 0f, 0f));
-            want[2, 2] = new WorldMapNode(new Vector3(1f, 0f, 1f));
+            var want = new Node[3, 3];
+            want[0, 0] = new Node(new Vector3(-1f, 0, -1f));
+            want[0, 1] = new Node(new Vector3(-1f, 0f, 0f));
+            want[0, 2] = new Node(new Vector3(-1f, 0f, 1f));
+            want[1, 0] = new Node(new Vector3(0f, 0f, -1f));
+            want[1, 1] = new Node(new Vector3(0f, 0f, 0f));
+            want[1, 2] = new Node(new Vector3(0f, 0f, 1f));
+            want[2, 0] = new Node(new Vector3(1f, 0f, -1f));
+            want[2, 1] = new Node(new Vector3(1f, 0f, 0f));
+            want[2, 2] = new Node(new Vector3(1f, 0f, 1f));
             return want;
         }
 
@@ -109,7 +109,7 @@ namespace Pathfinder.Tests
             AssertListEntitiesEqual(want.ThingList, want.ThingList);
         }
 
-        public static void AssertGridMapEqual(WorldMapNode[,] want, WorldMapNode[,] got)
+        public static void AssertGridMapEqual(Node[,] want, Node[,] got)
         {
             Assert.Equal(want.Length, got.Length);
             for (var i = 0; i <= want.GetUpperBound(0); i++)
@@ -117,7 +117,7 @@ namespace Pathfinder.Tests
                 AssertNodeFromGridsEqual(want, got, i, j);
         }
 
-        private static void AssertNodeFromGridsEqual(WorldMapNode[,] want, WorldMapNode[,] got, int i, int j)
+        private static void AssertNodeFromGridsEqual(Node[,] want, Node[,] got, int i, int j)
         {
             Assert.Equal(want[i, j].WorldPosition, got[i, j].WorldPosition);
             Assert.Equal(want[i, j].Walkable, got[i, j].Walkable);

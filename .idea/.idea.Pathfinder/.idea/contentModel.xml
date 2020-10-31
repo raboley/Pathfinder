@@ -10,6 +10,7 @@
         <e p="CollectionWatcher.cs" t="Include" />
         <e p="IActor.cs" t="Include" />
         <e p="ItemsChangedObservableCollection.cs" t="Include" />
+        <e p="KnownNodeActor.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Pathfinder.csproj" t="IncludeRecursive" />
@@ -27,6 +28,7 @@
           <e p="FileTextPersister.cs" t="Include" />
           <e p="IPersister.cs" t="Include" />
         </e>
+        <e p="Point.cs" t="Include" />
         <e p="PrintConsole" t="Include">
           <e p="INodePrinter.cs" t="Include" />
           <e p="PrintCoordinates.cs" t="Include" />
@@ -46,11 +48,10 @@
         <e p="Watcher.cs" t="Include" />
         <e p="WorldMap" t="Include">
           <e p="Heap.cs" t="Include" />
+          <e p="Node.cs" t="Include" />
           <e p="WorldMap.cs" t="Include" />
           <e p="WorldMapFactory.cs" t="Include" />
-          <e p="WorldMapNode.cs" t="Include" />
         </e>
-        <e p="WorldPoint.cs" t="Include" />
       </e>
       <e p="Pathfinder.sln" t="IncludeFlat" />
       <e p="Pathfinder.Tests" t="IncludeRecursive">
@@ -75,6 +76,8 @@
         <e p="UnitTests" t="Include">
           <e p="CollectionWatcherTests.cs" t="Include" />
           <e p="JsonSerializerTests.cs" t="Include" />
+          <e p="KnownNodeActorTests.cs" t="Include" />
+          <e p="NodeTests.cs" t="Include" />
           <e p="PathfinderMathTests.cs" t="Include" />
           <e p="PathfindingTests.cs" t="Include" />
           <e p="PeopleManagerTests.cs" t="Include" />
@@ -82,7 +85,6 @@
           <e p="PrintPathTests.cs" t="Include" />
           <e p="TravelerTests.cs" t="Include" />
           <e p="WatcherTests.cs" t="Include" />
-          <e p="WorldMapNodeTests.cs" t="Include" />
           <e p="WorldMapTests.cs" t="Include" />
           <e p="WorldPointTests.cs" t="Include" />
           <e p="WorldTests.cs" t="Include" />

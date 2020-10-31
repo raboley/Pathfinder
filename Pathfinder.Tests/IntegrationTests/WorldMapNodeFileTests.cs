@@ -9,15 +9,15 @@ namespace Pathfinder.Tests.IntegrationTests
         [Fact]
         public void TestCanSaveToFile()
         {
-            var want = new WorldMapNode(Vector3.One);
+            var want = new Node(Vector3.One);
             var persister = SetupPersister.SetupTestFilePersister();
 
             persister.Save(want);
 
-            WorldMapNode got;
+            Node got;
             try
             {
-                got = persister.Load<WorldMapNode>();
+                got = persister.Load<Node>();
             }
             finally
             {

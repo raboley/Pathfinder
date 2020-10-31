@@ -6,10 +6,10 @@ namespace Pathfinder.PrintConsole
     {
         private const string _coordSeparator = ",";
 
-        public override string PrintNode(WorldMapNode worldMapNode)
+        public override string PrintNode(Node node)
         {
-            float x = worldMapNode.WorldPosition.X;
-            float y = worldMapNode.WorldPosition.Z;
+            float x = node.WorldPosition.X;
+            float y = node.WorldPosition.Z;
             string xNode = x.ToString().PadLeft(3, ' ');
             string yNode = y.ToString().PadRight(3, ' ');
 

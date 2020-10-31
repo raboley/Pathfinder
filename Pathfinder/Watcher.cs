@@ -18,7 +18,7 @@ namespace Pathfinder
 
         public void ItemChanged(object sender, PropertyChangedEventArgs e)
         {
-            Actor.Updated();
+            Actor.Updated(sender, e);
         }
     }
 }

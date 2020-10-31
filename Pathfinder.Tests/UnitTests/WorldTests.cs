@@ -1,6 +1,5 @@
 using System.Numerics;
 using Pathfinder.Pathing;
-using Pathfinder.People;
 using Pathfinder.Travel;
 using Xunit;
 
@@ -25,40 +24,56 @@ namespace Pathfinder.Tests.UnitTests
 -------------------------------
 ";
             // start the watcher and map
-            var peopleCollection = PeopleManagerTests.SetupPeopleCollection();
-            var spyActor = new SpyActor();
-            var peopleManager = new PeopleManager {People = peopleCollection};
-            var watcher = new CollectionWatcher<Person>(peopleManager.People, spyActor);
-
-            // Do something else
-            Vector3[] want =
-            {
-                new Vector3(1f, 0f, 1f),
-                new Vector3(2f, 0f, 2f)
-            };
-            var goal = new Vector3(2, 0, 2);
-
             var grid = GridSetup.SetupMediumGrid();
+            var actor = new KnownNodeActor(grid);
+
+            // Walk a Path
+            var startPos = new Vector3(-2, 0, -2);
+            var endPos = new Vector3(2, 0, 2);
+            Vector3[] path =
+            {
+                startPos,
+                new Vector3(-1f, 0f, -1f),
+                new Vector3(0),
+                new Vector3(1f, 0f, 1f),
+                endPos
+            };
 
             var pathfinding = new Pathfinding();
             pathfinding.Grid = grid;
 
             var navigator = new Traveler();
+            var watcher = new Watcher(navigator, actor);
             navigator.Position = new Vector3(-2, 0, -2);
             navigator.Pathfinder = pathfinding;
 
-            var got = navigator.PathfindAndWalkToFarAwayWorldMapPosition(goal);
+            // Walked path
+            navigator.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
+            var got = navigator.PositionHistory.ToArray();
+            AssertVectorArrayEqual(path, got);
 
+            // Visual Representation
             string actualUnknonws = grid.PrintKnown();
-            // string printedPath = grid.PrintPath(got);
-
             Assert.Equal(expectedUnknowns, actualUnknonws);
-            Assert.Equal(goal, navigator.Position);
-            Assert.Equal(want.Length, got.Length);
-            for (var i = 0; i < want.Length; i++) Assert.Equal(want[i], got[i]);
 
-            // check that the updated map has fewer unknown nodes
-            Assert.Equal(want.Length, grid.UnknownNodes.Count);
+            // Unknown Nodes correct
+            var expectedGrid = GridSetup.SetupMediumGrid();
+            foreach (var position in path)
+            {
+                expectedGrid.AddKnownNode(position);
+            }
+
+            Assert.Equal(expectedGrid.UnknownNodes.Count, grid.UnknownNodes.Count);
+            Assert.Equal(expectedGrid.UnknownNodes, grid.UnknownNodes);
+        }
+
+        private static void AssertVectorArrayEqual(Vector3[] path, Vector3[] got)
+        {
+            Assert.Equal(path.Length, got.Length);
+            for (int i = 0; i < path.Length; i++)
+            {
+                Assert.Equal(path[i], got[i]);
+            }
         }
     }
 }

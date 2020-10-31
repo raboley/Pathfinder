@@ -49,6 +49,7 @@
   <ItemGroup>
       <Compile Include="IActor.cs"/>
       <Compile Include="ItemsChangedObservableCollection.cs"/>
+      <Compile Include="KnownNodeActor.cs"/>
       <Compile Include="PathfinderMath.cs"/>
       <Compile Include="Pathing\Pathfinding.cs"/>
       <Compile Include="People\IEntity.cs"/>
@@ -74,9 +75,9 @@
       <Compile Include="Watcher.cs"/>
       <Compile Include="WorldMap\WorldMap.cs"/>
       <Compile Include="WorldMap\WorldMapFactory.cs"/>
-      <Compile Include="WorldMap\WorldMapNode.cs"/>
+      <Compile Include="WorldMap\Node.cs"/>
       <Compile Include="WorldMap\Heap.cs"/>
-      <Compile Include="WorldPoint.cs"/>
+      <Compile Include="Point.cs"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

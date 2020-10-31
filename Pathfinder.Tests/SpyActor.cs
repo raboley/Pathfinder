@@ -1,6 +1,7 @@
+using System.ComponentModel;
+
 namespace Pathfinder
 {
-    // TODO: Move this to Spy Actor and Make an interface
     // Implementation found at:
     // https://dotnetcodr.com/2015/05/29/getting-notified-when-collection-changes-with-observablecollection-in-c-net/
     public class SpyActor : IActor
@@ -19,7 +20,7 @@ namespace Pathfinder
             CalledTimesRemove++;
         }
 
-        public void Updated()
+        public void Updated(object sender, PropertyChangedEventArgs e)
         {
             CalledTimesUpdate++;
         }

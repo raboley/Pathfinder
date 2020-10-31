@@ -40,8 +40,8 @@ namespace Pathfinder.Pathing
 
             if (startGridNode.Walkable && targetGridNode.Walkable)
             {
-                var openSet = new Heap<WorldMapNode>(Grid.MaxSize);
-                var closedSet = new HashSet<WorldMapNode>();
+                var openSet = new Heap<Node>(Grid.MaxSize);
+                var closedSet = new HashSet<Node>();
 
                 openSet.Add(startGridNode);
 
@@ -87,23 +87,23 @@ namespace Pathfinder.Pathing
             return waypoints;
         }
 
-        private Vector3[] RetracePath(WorldMapNode startWorldMapNode, WorldMapNode endWorldMapNode)
+        private Vector3[] RetracePath(Node startNode, Node endNode)
         {
-            var path = new List<WorldMapNode>();
-            var currentGridNode = endWorldMapNode;
+            var path = new List<Node>();
+            var currentGridNode = endNode;
 
-            while (currentGridNode != startWorldMapNode)
+            while (currentGridNode != startNode)
             {
                 path.Add(currentGridNode);
                 currentGridNode = currentGridNode.Parent;
             }
 
-            var waypoints = SimplifyPath(startWorldMapNode.WorldPosition, endWorldMapNode.WorldPosition, path);
+            var waypoints = SimplifyPath(startNode.WorldPosition, endNode.WorldPosition, path);
             Array.Reverse(waypoints);
             return waypoints;
         }
 
-        private Vector3[] SimplifyPath(Vector3 start, Vector3 end, List<WorldMapNode> path)
+        private Vector3[] SimplifyPath(Vector3 start, Vector3 end, List<Node> path)
         {
             var waypoints = new List<Vector3>();
             var directionOld = Vector2.Zero;
@@ -123,10 +123,10 @@ namespace Pathfinder.Pathing
             return waypoints.ToArray();
         }
 
-        private int GetDistance(WorldMapNode worldMapNodeA, WorldMapNode worldMapNodeB)
+        private int GetDistance(Node nodeA, Node nodeB)
         {
-            int dstX = Math.Abs(worldMapNodeA.GridX - worldMapNodeB.GridX);
-            int dstY = Math.Abs(worldMapNodeA.GridY - worldMapNodeB.GridY);
+            int dstX = Math.Abs(nodeA.GridX - nodeB.GridX);
+            int dstY = Math.Abs(nodeA.GridY - nodeB.GridY);
 
             if (dstX > dstY) return 14 * dstY + 10 * (dstX - dstY);
 

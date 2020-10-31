@@ -16,25 +16,25 @@ namespace Pathfinder.PrintConsole
 
         public string EndNode { get; set; } = "  e  " + NodeSeparator;
 
-        public override string PrintNode(WorldMapNode worldMapNode)
+        public override string PrintNode(Node node)
         {
-            if (worldMapNode.WorldPosition == Start)
+            if (node.WorldPosition == Start)
                 return StartNode;
 
-            if (worldMapNode.WorldPosition == End)
+            if (node.WorldPosition == End)
                 return EndNode;
 
-            if (isWaypoint(worldMapNode))
+            if (isWaypoint(node))
                 return WaypointNode;
 
-            return base.PrintNode(worldMapNode);
+            return base.PrintNode(node);
         }
 
-        private bool isWaypoint(WorldMapNode worldMapNode)
+        private bool isWaypoint(Node node)
         {
             if (Path != null)
                 if (Path.Length > 0)
-                    if (Path.Contains(worldMapNode.WorldPosition))
+                    if (Path.Contains(node.WorldPosition))
                         return true;
 
             return false;

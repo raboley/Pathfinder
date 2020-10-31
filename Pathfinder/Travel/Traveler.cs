@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,7 @@ namespace Pathfinder.Travel
 {
     public class Traveler : INotifyPropertyChanged
     {
+        public readonly Queue<Vector3> PositionHistory = new Queue<Vector3>();
         private Vector3 _position;
         public Pathfinding Pathfinder { get; set; }
 
@@ -18,6 +20,8 @@ namespace Pathfinder.Travel
             {
                 if (value.Equals(_position)) return;
                 _position = value;
+                PositionHistory.Enqueue(value);
+                if (PositionHistory.Count >= 15) PositionHistory.Dequeue();
                 OnPropertyChanged();
             }
         }
@@ -40,9 +44,11 @@ namespace Pathfinder.Travel
                 int x = GetNewXorY(Position.X, targetPosition.X);
                 int y = GetNewXorY(Position.Z, targetPosition.Z);
 
-                Position = new Vector3(x, 0, y);
+                var position = new Vector3(x, 0, y);
+                Position = position;
             }
         }
+
 
         private int GetNewXorY(float current, float target)
         {
