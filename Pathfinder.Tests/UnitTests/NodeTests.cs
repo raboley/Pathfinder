@@ -1,4 +1,5 @@
-﻿using Pathfinder.WorldMap;
+﻿using System.Numerics;
+using Pathfinder.WorldMap;
 using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
@@ -8,7 +9,7 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void CanCreateNodeFromPoint()
         {
-            var position = Point.One;
+            var position = Vector3.One;
 
             var gridNode = new Node(position);
 
