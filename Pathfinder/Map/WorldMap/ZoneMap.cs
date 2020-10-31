@@ -6,10 +6,10 @@ using Pathfinder.People;
 using Pathfinder.Persistence;
 using Pathfinder.PrintConsole;
 
-namespace Pathfinder.WorldMap
+namespace Pathfinder.Map.WorldMap
 {
     [Serializable]
-    public class Grid
+    public class ZoneMap
     {
         private float _gridCenterX, _gridCenterY, _gridCenterZ;
         private int _gridSizeX, _gridSizeY;
@@ -58,11 +58,11 @@ namespace Pathfinder.WorldMap
         private float NodeDiameter => NodeRadius * 2;
 
         /// <summary>
-        ///     Initializes a new Grid object and builds a MapGrid of size gridSize.
-        ///     The MapGrid will be a 2D array incrementing from bottom left of the grid (most negative)
+        ///     Initializes a new ZoneMap object and builds a MapGrid of size gridSize.
+        ///     The MapGrid will be a 2D array incrementing from bottom left of the zoneMap (most negative)
         ///     to top right (most positive). The MapGrid consists of Nodes that will have a GridX and GridY which is
         ///     their address in the MapGrid, and a WorldPosition which is the Vector3 address of the point in the world.
-        ///     For example in a grid sized Vector2(3, 3)
+        ///     For example in a zoneMap sized Vector2(3, 3)
         ///     the center point Node will have a WorldPosition of Vector3(0, 0, 0)
         ///     but, the GridX would be 1, and GridY would be 1
         ///     so, to address the center in the GridMap it would be GridMap[1,1]
@@ -70,28 +70,28 @@ namespace Pathfinder.WorldMap
         /// <param name="gridSize"></param>
         /// <param name="nodeRadius"></param>
         /// <returns></returns>
-        public static Grid NewGridFromVector2(Vector2 gridSize, float nodeRadius = 0.5f)
+        public static ZoneMap NewGridFromVector2(Vector2 gridSize, float nodeRadius = 0.5f)
         {
-            var grid = new Grid {NodeRadius = nodeRadius, GridWorldSize = gridSize};
+            var grid = new ZoneMap {NodeRadius = nodeRadius, GridWorldSize = gridSize};
             BuildGridMap(grid);
 
             return grid;
         }
 
-        private static void BuildGridMap(Grid grid)
+        private static void BuildGridMap(ZoneMap zoneMap)
         {
-            grid.MapGrid = new Node[grid._gridSizeX, grid._gridSizeY];
-            SetupAllLists(grid);
-            var worldBottomLeft = grid.GetBottomLeftNodeFromGridWorldSize();
-            grid.BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
+            zoneMap.MapGrid = new Node[zoneMap._gridSizeX, zoneMap._gridSizeY];
+            SetupAllLists(zoneMap);
+            var worldBottomLeft = zoneMap.GetBottomLeftNodeFromGridWorldSize();
+            zoneMap.BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
         }
 
-        private static void SetupAllLists(Grid grid)
+        private static void SetupAllLists(ZoneMap zoneMap)
         {
-            grid.NpcList = new List<Person>();
-            grid.ThingList = new List<Person>();
-            grid.MobList = new List<Person>();
-            grid.ZoneBoundaries = new Dictionary<string, List<Vector3>>();
+            zoneMap.NpcList = new List<Person>();
+            zoneMap.ThingList = new List<Person>();
+            zoneMap.MobList = new List<Person>();
+            zoneMap.ZoneBoundaries = new Dictionary<string, List<Vector3>>();
         }
 
         public void BuildGridMap()
@@ -144,9 +144,9 @@ namespace Pathfinder.WorldMap
         }
 
 
-        public static Grid GetGridMap(string mapName, IPersister persister)
+        public static ZoneMap GetGridMap(string mapName, IPersister persister)
         {
-            var grid = persister.Load<Grid>();
+            var grid = persister.Load<ZoneMap>();
             return grid;
         }
 
@@ -171,7 +171,7 @@ namespace Pathfinder.WorldMap
 
 
         /// <summary>
-        ///     Because our 2D array Grid starts at negative and goes to positive, and you can't have a negative index,
+        ///     Because our 2D array ZoneMap starts at negative and goes to positive, and you can't have a negative index,
         ///     we basically take the value from the world, and if it is negative it must be in the bottom half of the
         ///     array, and if it is positive it is the top half. So we have to move the index to all be in the positives.
         /// </summary>

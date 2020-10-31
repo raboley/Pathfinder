@@ -1,4 +1,4 @@
-using Pathfinder.WorldMap;
+using Pathfinder.Map.WorldMap;
 
 namespace Pathfinder.PrintConsole
 {

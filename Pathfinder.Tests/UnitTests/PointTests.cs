@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
 {
-    public class WorldPointTests
+    public class PointTests
     {
         [Fact]
         public void DefaultConstructorCreatesTypeWithAllPropsAccessible()

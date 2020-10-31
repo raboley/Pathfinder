@@ -67,10 +67,10 @@ namespace Pathfinder.Travel
 
         public void DiscoverAllNodes()
         {
-            foreach (var unknownNode in Pathfinder.Grid.UnknownNodes)
+            foreach (var unknownNode in Pathfinder.ZoneMap.UnknownNodes)
             {
                 var getToKnowNode = new Vector3(unknownNode.X, unknownNode.Y, unknownNode.Z);
-                Pathfinder.Grid.AddKnownNode(getToKnowNode);
+                Pathfinder.ZoneMap.AddKnownNode(getToKnowNode);
                 // PathfindAndWalkToFarAwayWorldMapPosition(unknownNode.WorldPosition);
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pathfinder.WorldMap
+namespace Pathfinder.Map.WorldMap
 {
     public class Heap<T> where T : IHeapItem<T>
     {

@@ -50,6 +50,10 @@
       <Compile Include="IActor.cs"/>
       <Compile Include="ItemsChangedObservableCollection.cs"/>
       <Compile Include="KnownNodeActor.cs"/>
+      <Compile Include="Map\WorldMap\Heap.cs"/>
+      <Compile Include="Map\WorldMap\Node.cs"/>
+      <Compile Include="Map\WorldMap\ZoneMap.cs"/>
+      <Compile Include="Map\WorldMap\ZoneMapFactory.cs"/>
       <Compile Include="PathfinderMath.cs"/>
       <Compile Include="Pathing\Pathfinding.cs"/>
       <Compile Include="People\IEntity.cs"/>
@@ -73,10 +77,6 @@
       <Compile Include="Travel\Traveler.cs"/>
       <Compile Include="CollectionWatcher.cs"/>
       <Compile Include="Watcher.cs"/>
-      <Compile Include="WorldMap\WorldMap.cs"/>
-      <Compile Include="WorldMap\WorldMapFactory.cs"/>
-      <Compile Include="WorldMap\Node.cs"/>
-      <Compile Include="WorldMap\Heap.cs"/>
       <Compile Include="Point.cs"/>
   </ItemGroup>
   <ItemGroup>

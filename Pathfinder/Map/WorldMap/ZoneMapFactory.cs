@@ -1,9 +1,9 @@
 using System.Numerics;
 using Pathfinder.Persistence;
 
-namespace Pathfinder.WorldMap
+namespace Pathfinder.Map.WorldMap
 {
-    public class GridFactory
+    public class ZoneMapFactory
     {
         private float _defaultGridCenterX;
         private float _defaultGridCenterY;
@@ -35,19 +35,19 @@ namespace Pathfinder.WorldMap
             }
         }
 
-        public Grid LoadGrid(string mapName)
+        public ZoneMap LoadGrid(string mapName)
         {
             Persister.MapName = mapName;
-            var grid = Persister.Load<Grid>();
+            var grid = Persister.Load<ZoneMap>();
             return grid;
         }
 
-        public Grid LoadGridOrCreateNew(string mapName)
+        public ZoneMap LoadGridOrCreateNew(string mapName)
         {
             Persister.MapName = mapName;
             if (Persister.Exists()) return LoadGrid(mapName);
 
-            var grid = new Grid();
+            var grid = new ZoneMap();
             grid.MapName = mapName;
             grid.GridCenter = DefaultGridCenter;
             grid.GridWorldSize = DefaultGridSize;

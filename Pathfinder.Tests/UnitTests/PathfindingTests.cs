@@ -1,6 +1,6 @@
 using System.Numerics;
+using Pathfinder.Map.WorldMap;
 using Pathfinder.Pathing;
-using Pathfinder.WorldMap;
 using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
@@ -69,14 +69,14 @@ namespace Pathfinder.Tests.UnitTests
 
             var pathfinding = SetupForPathfinding();
 
-            pathfinding.Grid.AddUnWalkableNode(Vector3.Zero);
-            pathfinding.Grid.AddUnWalkableNode(new Vector3(-1, 0, 0));
-            pathfinding.Grid.AddUnWalkableNode(new Vector3(-2, 0, 0));
-            pathfinding.Grid.AddUnWalkableNode(new Vector3(-3, 0, 0));
-            pathfinding.Grid.AddUnWalkableNode(new Vector3(-4, 0, 0));
+            pathfinding.ZoneMap.AddUnWalkableNode(Vector3.Zero);
+            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-1, 0, 0));
+            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-2, 0, 0));
+            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-3, 0, 0));
+            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-4, 0, 0));
 
 
-            string example = pathfinding.Grid.Print();
+            string example = pathfinding.ZoneMap.Print();
 
             var startPos = new Vector3(-2, 0, -2);
             var endPos = new Vector3(-2, 0, 1);
@@ -100,8 +100,8 @@ namespace Pathfinder.Tests.UnitTests
         private static Pathfinding SetupForPathfinding()
         {
             var pathfinding = new Pathfinding();
-            var grid = Grid.NewGridFromVector2(new Vector2(5, 5));
-            pathfinding.Grid = grid;
+            var grid = ZoneMap.NewGridFromVector2(new Vector2(5, 5));
+            pathfinding.ZoneMap = grid;
             return pathfinding;
         }
     }

@@ -24,7 +24,7 @@ namespace Pathfinder.Tests.UnitTests
             var grid = GridSetup.SetupMediumGrid();
 
             var pathfinding = new Pathfinding();
-            pathfinding.Grid = grid;
+            pathfinding.ZoneMap = grid;
 
             var navigator = new Traveler();
             navigator.Position = startPos;
@@ -52,7 +52,7 @@ namespace Pathfinder.Tests.UnitTests
 ";
             var grid = GridSetup.SetupSmallGrid();
             var pathfinding = new Pathfinding();
-            pathfinding.Grid = grid;
+            pathfinding.ZoneMap = grid;
 
             var navigator = new Traveler();
             navigator.Position = Vector3.One;
@@ -61,7 +61,7 @@ namespace Pathfinder.Tests.UnitTests
             navigator.DiscoverAllNodes();
 
 
-            Assert.Empty(navigator.Pathfinder.Grid.UnknownNodes);
+            Assert.Empty(navigator.Pathfinder.ZoneMap.UnknownNodes);
 
             string got = grid.PrintKnown();
             Assert.Equal(want, got);

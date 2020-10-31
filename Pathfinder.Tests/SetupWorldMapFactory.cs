@@ -1,13 +1,13 @@
 using System.Numerics;
-using Pathfinder.WorldMap;
+using Pathfinder.Map.WorldMap;
 
 namespace Pathfinder.Tests
 {
     internal static class GridFactorySetup
     {
-        public static GridFactory SetupGridFactory()
+        public static ZoneMapFactory SetupGridFactory()
         {
-            var gridFactory = new GridFactory();
+            var gridFactory = new ZoneMapFactory();
             var persister = SetupPersister.SetupTestFilePersister();
             gridFactory.Persister = persister;
             gridFactory.DefaultGridSize = new Vector2(3f, 3f);

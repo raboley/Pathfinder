@@ -40,7 +40,7 @@ namespace Pathfinder.Tests.UnitTests
             };
 
             var pathfinding = new Pathfinding();
-            pathfinding.Grid = grid;
+            pathfinding.ZoneMap = grid;
 
             var navigator = new Traveler();
             var watcher = new Watcher(navigator, actor);

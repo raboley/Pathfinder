@@ -13,7 +13,7 @@ namespace Pathfinder.Tests.IntegrationTests
             var gridFactory = GridFactorySetup.SetupGridFactory();
             string mapName = SetupPersister.GetCurrentMethodName();
 
-            // Uncomment to make golden file if grid changes.
+            // Uncomment to make golden file if zoneMap changes.
             gridFactory.Persister.MapName = mapName;
             gridFactory.Persister.Save(want);
 
@@ -39,7 +39,7 @@ namespace Pathfinder.Tests.IntegrationTests
             string mapName = SetupPersister.GetCurrentMethodName();
             want.MapName = mapName;
 
-            // Uncomment to make golden file if grid changes.
+            // Uncomment to make golden file if zoneMap changes.
             gridFactory.Persister.MapName = mapName;
             gridFactory.Persister.Save(want);
 

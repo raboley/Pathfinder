@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using Pathfinder.WorldMap;
+using Pathfinder.Map.WorldMap;
 using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
@@ -12,7 +12,7 @@ namespace Pathfinder.Tests.UnitTests
             var want = GridSetup.SetupSmallGrid();
 
             string json = JsonConvert.SerializeObject(want);
-            var got = JsonConvert.DeserializeObject<Grid>(json);
+            var got = JsonConvert.DeserializeObject<ZoneMap>(json);
 
             GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
         }

@@ -1,18 +1,18 @@
 using System.ComponentModel;
 using System.Diagnostics;
+using Pathfinder.Map.WorldMap;
 using Pathfinder.Travel;
-using Pathfinder.WorldMap;
 
 namespace Pathfinder
 {
     public class KnownNodeActor : IActor
     {
-        public KnownNodeActor(Grid grid)
+        public KnownNodeActor(ZoneMap zoneMap)
         {
-            Grid = grid;
+            ZoneMap = zoneMap;
         }
 
-        public Grid Grid { get; set; }
+        public ZoneMap ZoneMap { get; set; }
 
         public void Added()
         {
@@ -30,7 +30,7 @@ namespace Pathfinder
             {
                 var traveler = sender as Traveler;
                 Debug.Assert(traveler != null, nameof(traveler) + " != null");
-                Grid.AddKnownNode(traveler.Position);
+                ZoneMap.AddKnownNode(traveler.Position);
             }
         }
     }

@@ -75,13 +75,13 @@
         <Compile Include="UnitTests\PersonTests.cs"/>
         <Compile Include="UnitTests\CollectionWatcherTests.cs"/>
         <Compile Include="UnitTests\WatcherTests.cs"/>
-        <Compile Include="UnitTests\WorldMapTests.cs"/>
+        <Compile Include="UnitTests\ZoneMapTests.cs"/>
         <Compile Include="UnitTests\JsonSerializerTests.cs"/>
         <Compile Include="UnitTests\TravelerTests.cs"/>
         <Compile Include="UnitTests\NodeTests.cs"/>
         <Compile Include="UnitTests\PathfindingTests.cs"/>
         <Compile Include="UnitTests\PrintPathTests.cs"/>
-        <Compile Include="UnitTests\WorldPointTests.cs"/>
+        <Compile Include="UnitTests\PointTests.cs"/>
         <Compile Include="UnitTests\WorldTests.cs"/>
     </ItemGroup>
     <ItemGroup>

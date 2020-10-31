@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using System.Numerics;
+using Pathfinder.Map.WorldMap;
 using Pathfinder.Pathing;
 using Pathfinder.People;
-using Pathfinder.WorldMap;
 using Xunit;
 
 namespace Pathfinder.Tests
 {
     public class GridSetup
     {
-        public static string _smallGridZoneName = "Small Grid";
+        public static string _smallGridZoneName = "Small ZoneMap";
 
-        public static void AssertPointNotWalkable(Grid grid, Vector3 position)
+        public static void AssertPointNotWalkable(ZoneMap zoneMap, Vector3 position)
         {
-            var node = grid.GetNodeFromWorldPoint(position);
+            var node = zoneMap.GetNodeFromWorldPoint(position);
             Assert.Equal(node.WorldPosition, position);
             Assert.Equal(node.Walkable, false);
         }
@@ -21,27 +21,27 @@ namespace Pathfinder.Tests
         public static Pathfinding SetupForPathfinding()
         {
             var pathfinding = new Pathfinding();
-            var grid = Grid.NewGridFromVector2(new Vector2(5, 5));
-            pathfinding.Grid = grid;
+            var grid = ZoneMap.NewGridFromVector2(new Vector2(5, 5));
+            pathfinding.ZoneMap = grid;
             return pathfinding;
         }
 
-        public static Grid SetupSmallGrid()
+        public static ZoneMap SetupSmallGrid()
         {
-            var grid = Grid.NewGridFromVector2(new Vector2(3f, 3f));
+            var grid = ZoneMap.NewGridFromVector2(new Vector2(3f, 3f));
             grid.MapName = _smallGridZoneName;
             return grid;
         }
 
-        public static Grid SetupMediumGrid()
+        public static ZoneMap SetupMediumGrid()
         {
-            var grid = Grid.NewGridFromVector2(new Vector2(5f, 5f));
+            var grid = ZoneMap.NewGridFromVector2(new Vector2(5f, 5f));
             return grid;
         }
 
-        public static Grid SetupBigGrid()
+        public static ZoneMap SetupBigGrid()
         {
-            var grid = Grid.NewGridFromVector2(new Vector2(51f, 51f));
+            var grid = ZoneMap.NewGridFromVector2(new Vector2(51f, 51f));
             return grid;
         }
 
@@ -97,7 +97,7 @@ namespace Pathfinder.Tests
             return want;
         }
 
-        public static void AssertGridEqual(Grid want, Grid got)
+        public static void AssertGridEqual(ZoneMap want, ZoneMap got)
         {
             Assert.Equal(want.GridCenter, got.GridCenter);
             Assert.Equal(want.GridWorldSize, got.GridWorldSize);

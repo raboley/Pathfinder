@@ -11,6 +11,14 @@
         <e p="IActor.cs" t="Include" />
         <e p="ItemsChangedObservableCollection.cs" t="Include" />
         <e p="KnownNodeActor.cs" t="Include" />
+        <e p="Map" t="Include">
+          <e p="WorldMap" t="Include">
+            <e p="Heap.cs" t="Include" />
+            <e p="Node.cs" t="Include" />
+            <e p="ZoneMap.cs" t="Include" />
+            <e p="ZoneMapFactory.cs" t="Include" />
+          </e>
+        </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Pathfinder.csproj" t="IncludeRecursive" />
@@ -46,12 +54,6 @@
           <e p="Traveler.cs" t="Include" />
         </e>
         <e p="Watcher.cs" t="Include" />
-        <e p="WorldMap" t="Include">
-          <e p="Heap.cs" t="Include" />
-          <e p="Node.cs" t="Include" />
-          <e p="WorldMap.cs" t="Include" />
-          <e p="WorldMapFactory.cs" t="Include" />
-        </e>
       </e>
       <e p="Pathfinder.sln" t="IncludeFlat" />
       <e p="Pathfinder.Tests" t="IncludeRecursive">
@@ -82,12 +84,12 @@
           <e p="PathfindingTests.cs" t="Include" />
           <e p="PeopleManagerTests.cs" t="Include" />
           <e p="PersonTests.cs" t="Include" />
+          <e p="PointTests.cs" t="Include" />
           <e p="PrintPathTests.cs" t="Include" />
           <e p="TravelerTests.cs" t="Include" />
           <e p="WatcherTests.cs" t="Include" />
-          <e p="WorldMapTests.cs" t="Include" />
-          <e p="WorldPointTests.cs" t="Include" />
           <e p="WorldTests.cs" t="Include" />
+          <e p="ZoneMapTests.cs" t="Include" />
         </e>
       </e>
     </e>

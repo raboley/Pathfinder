@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using Pathfinder.Map.WorldMap;
 using Pathfinder.People;
-using Pathfinder.WorldMap;
 using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
 {
-    public class WorldMapTests
+    public class ZoneMapTests
     {
         [Fact]
         public void CreateGridCanGenerateGridFromCorner()
@@ -16,8 +16,8 @@ namespace Pathfinder.Tests.UnitTests
             want[0, 0] = new Node(Vector3.Zero);
 
             // Act
-            var grid = Grid.NewGridFromVector2(Vector2.One);
-            var got = grid.MapGrid;
+            var zoneMap = ZoneMap.NewGridFromVector2(Vector2.One);
+            var got = zoneMap.MapGrid;
 
             // Assert
             Assert.Equal(want.Length, got.Length);
@@ -31,7 +31,7 @@ namespace Pathfinder.Tests.UnitTests
             var want = GridSetup.SetupThreeByThreeGrid();
 
             // Act
-            var grid = Grid.NewGridFromVector2(new Vector2(3f, 3f));
+            var grid = ZoneMap.NewGridFromVector2(new Vector2(3f, 3f));
             var got = grid.MapGrid;
 
             // Assert
@@ -46,7 +46,7 @@ namespace Pathfinder.Tests.UnitTests
             var want = GridSetup.GetNeighborsListForEdgeNode();
 
             //Act
-            var grid = Grid.NewGridFromVector2(new Vector2(3f, 3f));
+            var grid = ZoneMap.NewGridFromVector2(new Vector2(3f, 3f));
             var got = grid.GetNeighbours(grid.MapGrid[2, 2]);
 
             //Assert
@@ -335,11 +335,11 @@ x = obstacle
 
             var pathfinding = GridSetup.SetupForPathfinding();
 
-            pathfinding.Grid.AddUnWalkableNode(Vector3.Zero);
-            pathfinding.Grid.AddUnWalkableNode(new Vector3(-1, 0, 0));
-            pathfinding.Grid.AddUnWalkableNode(new Vector3(-2, 0, 0));
-            pathfinding.Grid.AddUnWalkableNode(new Vector3(-3, 0, 0));
-            pathfinding.Grid.AddUnWalkableNode(new Vector3(-4, 0, 0));
+            pathfinding.ZoneMap.AddUnWalkableNode(Vector3.Zero);
+            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-1, 0, 0));
+            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-2, 0, 0));
+            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-3, 0, 0));
+            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-4, 0, 0));
 
 
             var path = new[]
@@ -353,7 +353,7 @@ x = obstacle
             };
 
             // act
-            string got = pathfinding.Grid.PrintPath(path);
+            string got = pathfinding.ZoneMap.PrintPath(path);
 
 
             // assert

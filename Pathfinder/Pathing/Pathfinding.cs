@@ -3,18 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
-using Pathfinder.WorldMap;
+using Pathfinder.Map.WorldMap;
 
 namespace Pathfinder.Pathing
 {
     public class Pathfinding
     {
-        public Grid Grid;
+        public ZoneMap ZoneMap;
 
         // PathRequestManager requestManager;
         // void Awake() {
         //     requestManager = GetComponent<PathRequestManager>();
-        //     MapGrid = GetComponent<Grid>();
+        //     MapGrid = GetComponent<ZoneMap>();
         // }
         //
         // public void StartFindPath(Vector3 startPos, Vector3 targetPos) {
@@ -35,12 +35,12 @@ namespace Pathfinder.Pathing
             var waypoints = new Vector3[0];
             var pathSuccess = false;
 
-            var startGridNode = Grid.GetNodeFromWorldPoint(startPos);
-            var targetGridNode = Grid.GetNodeFromWorldPoint(targetPos);
+            var startGridNode = ZoneMap.GetNodeFromWorldPoint(startPos);
+            var targetGridNode = ZoneMap.GetNodeFromWorldPoint(targetPos);
 
             if (startGridNode.Walkable && targetGridNode.Walkable)
             {
-                var openSet = new Heap<Node>(Grid.MaxSize);
+                var openSet = new Heap<Node>(ZoneMap.MaxSize);
                 var closedSet = new HashSet<Node>();
 
                 openSet.Add(startGridNode);
@@ -59,7 +59,7 @@ namespace Pathfinder.Pathing
                         break;
                     }
 
-                    foreach (var neighbour in Grid.GetNeighbours(currentGridNode))
+                    foreach (var neighbour in ZoneMap.GetNeighbours(currentGridNode))
                     {
                         if (!neighbour.Walkable || closedSet.Contains(neighbour)) continue;
 
