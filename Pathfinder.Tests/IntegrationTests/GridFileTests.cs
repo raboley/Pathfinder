@@ -1,5 +1,5 @@
 using System.IO;
-using Pathfinder.Map.WorldMap;
+using Pathfinder.Map;
 using Pathfinder.Persistence;
 using Xunit;
 

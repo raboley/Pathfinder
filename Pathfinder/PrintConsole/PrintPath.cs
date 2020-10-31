@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Numerics;
-using Pathfinder.Map.WorldMap;
+using Pathfinder.Map;
 
 namespace Pathfinder.PrintConsole
 {

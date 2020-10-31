@@ -50,10 +50,10 @@
       <Compile Include="IActor.cs"/>
       <Compile Include="ItemsChangedObservableCollection.cs"/>
       <Compile Include="KnownNodeActor.cs"/>
-      <Compile Include="Map\WorldMap\Heap.cs"/>
-      <Compile Include="Map\WorldMap\Node.cs"/>
-      <Compile Include="Map\WorldMap\ZoneMap.cs"/>
-      <Compile Include="Map\WorldMap\ZoneMapFactory.cs"/>
+      <Compile Include="Map\Heap.cs"/>
+      <Compile Include="Map\Node.cs"/>
+      <Compile Include="Map\ZoneMap.cs"/>
+      <Compile Include="Map\ZoneMapFactory.cs"/>
       <Compile Include="PathfinderMath.cs"/>
       <Compile Include="Pathing\Pathfinding.cs"/>
       <Compile Include="People\IEntity.cs"/>

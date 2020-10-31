@@ -1,7 +1,7 @@
 using System.Numerics;
 using Pathfinder.Persistence;
 
-namespace Pathfinder.Map.WorldMap
+namespace Pathfinder.Map
 {
     public class ZoneMapFactory
     {

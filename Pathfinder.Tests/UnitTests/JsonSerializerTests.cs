@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using Pathfinder.Map.WorldMap;
+using Pathfinder.Map;
 using Xunit;
 
 namespace Pathfinder.Tests.UnitTests

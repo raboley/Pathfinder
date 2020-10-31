@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Pathfinder.Annotations;
 using Pathfinder.Pathing;
+using Pathfinder.Properties;
 
 namespace Pathfinder.Travel
 {

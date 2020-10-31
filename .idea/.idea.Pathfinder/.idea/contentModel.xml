@@ -12,12 +12,10 @@
         <e p="ItemsChangedObservableCollection.cs" t="Include" />
         <e p="KnownNodeActor.cs" t="Include" />
         <e p="Map" t="Include">
-          <e p="WorldMap" t="Include">
-            <e p="Heap.cs" t="Include" />
-            <e p="Node.cs" t="Include" />
-            <e p="ZoneMap.cs" t="Include" />
-            <e p="ZoneMapFactory.cs" t="Include" />
-          </e>
+          <e p="Heap.cs" t="Include" />
+          <e p="Node.cs" t="Include" />
+          <e p="ZoneMap.cs" t="Include" />
+          <e p="ZoneMapFactory.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />

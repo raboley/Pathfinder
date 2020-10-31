@@ -1,5 +1,5 @@
 using System.Numerics;
-using Pathfinder.Map.WorldMap;
+using Pathfinder.Map;
 using Xunit;
 
 namespace Pathfinder.Tests.IntegrationTests

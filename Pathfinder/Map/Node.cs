@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace Pathfinder.Map.WorldMap
+namespace Pathfinder.Map
 {
     [Serializable]
     public class Node : IHeapItem<Node>, IEquatable<Node>

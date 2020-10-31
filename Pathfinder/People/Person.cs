@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Pathfinder.Annotations;
+using Pathfinder.Properties;
 
 namespace Pathfinder.People
 {

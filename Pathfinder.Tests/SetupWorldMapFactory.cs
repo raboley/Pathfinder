@@ -1,5 +1,5 @@
 using System.Numerics;
-using Pathfinder.Map.WorldMap;
+using Pathfinder.Map;
 
 namespace Pathfinder.Tests
 {

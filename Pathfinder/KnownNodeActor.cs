@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
-using Pathfinder.Map.WorldMap;
+using Pathfinder.Map;
 using Pathfinder.Travel;
 
 namespace Pathfinder

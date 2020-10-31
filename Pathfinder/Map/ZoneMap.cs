@@ -6,7 +6,7 @@ using Pathfinder.People;
 using Pathfinder.Persistence;
 using Pathfinder.PrintConsole;
 
-namespace Pathfinder.Map.WorldMap
+namespace Pathfinder.Map
 {
     [Serializable]
     public class ZoneMap
