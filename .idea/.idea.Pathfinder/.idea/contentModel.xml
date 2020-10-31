@@ -43,6 +43,7 @@
         <e p="Travel" t="Include">
           <e p="Traveler.cs" t="Include" />
         </e>
+        <e p="Watcher.cs" t="Include" />
         <e p="WorldMap" t="Include">
           <e p="Heap.cs" t="Include" />
           <e p="WorldMap.cs" t="Include" />
@@ -80,6 +81,7 @@
           <e p="PersonTests.cs" t="Include" />
           <e p="PrintPathTests.cs" t="Include" />
           <e p="TravelerTests.cs" t="Include" />
+          <e p="WatcherTests.cs" t="Include" />
           <e p="WorldMapNodeTests.cs" t="Include" />
           <e p="WorldMapTests.cs" t="Include" />
           <e p="WorldPointTests.cs" t="Include" />

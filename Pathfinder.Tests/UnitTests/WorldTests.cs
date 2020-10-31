@@ -11,25 +11,6 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void MappingThreadOpens()
         {
-            const string map = @"
-Visualization of the path
-s = start
-e = end
-w = waypoint
-x = obstacle
--------------------------------
-|     |     |     |     |  e  |
--------------------------------
-|     |     |     |  w  |     |
--------------------------------
-|     |     |     |     |     |
--------------------------------
-|     |     |     |     |     |
--------------------------------
-|  s  |     |     |     |     |
--------------------------------
-";
-
             const string expectedUnknowns = @"
 -------------------------------
 |  ?  |  ?  |  ?  |  ?  |     |

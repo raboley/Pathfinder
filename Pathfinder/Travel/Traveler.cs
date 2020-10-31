@@ -1,12 +1,28 @@
+using System.ComponentModel;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using Pathfinder.Annotations;
 using Pathfinder.Pathing;
 
 namespace Pathfinder.Travel
 {
-    public class Traveler
+    public class Traveler : INotifyPropertyChanged
     {
+        private Vector3 _position;
         public Pathfinding Pathfinder { get; set; }
-        public Vector3 Position { get; set; }
+
+        public Vector3 Position
+        {
+            get => _position;
+            set
+            {
+                if (value.Equals(_position)) return;
+                _position = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Vector3[] PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint)
         {
@@ -51,6 +67,12 @@ namespace Pathfinder.Travel
                 Pathfinder.Grid.AddKnownNode(getToKnowNode);
                 // PathfindAndWalkToFarAwayWorldMapPosition(unknownNode.WorldPosition);
             }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
