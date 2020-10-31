@@ -14,9 +14,10 @@ namespace Pathfinder.Tests.UnitTests
         {
             Vector3[] want =
             {
-                new Vector3(1f, 0f, 1f)
+                new Vector3(1f, 0f, 1f),
+                new Vector3(2f, 0f, 2f)
             };
-            var goal = new Vector3(2f);
+            var goal = new Vector3(2f, 0f, 2f);
 
             var grid = GridSetup.SetupMediumGrid();
 

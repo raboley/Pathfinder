@@ -98,15 +98,16 @@ namespace Pathfinder.Pathing
                 currentGridNode = currentGridNode.Parent;
             }
 
-            var waypoints = SimplifyPath(path);
+            var waypoints = SimplifyPath(path, endWorldMapNode.WorldPosition);
             Array.Reverse(waypoints);
             return waypoints;
         }
 
-        private Vector3[] SimplifyPath(List<WorldMapNode> path)
+        private Vector3[] SimplifyPath(List<WorldMapNode> path, Vector3 end)
         {
             var waypoints = new List<Vector3>();
             var directionOld = Vector2.Zero;
+            waypoints.Add(end);
 
             for (var i = 1; i < path.Count; i++)
             {

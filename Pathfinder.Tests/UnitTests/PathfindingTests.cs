@@ -33,7 +33,8 @@ namespace Pathfinder.Tests.UnitTests
             {
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, 0),
-                new Vector3(0, 0, 1)
+                new Vector3(0, 0, 1),
+                new Vector3(1, 0, 2)
             };
             var startPos = new Vector3(-2, 0, -2);
             var endPos = new Vector3(1, 0, 2);
@@ -81,7 +82,8 @@ namespace Pathfinder.Tests.UnitTests
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, -1),
                 new Vector3(1, 0, 0),
-                new Vector3(-1, 0, 1)
+                new Vector3(-1, 0, 1),
+                new Vector3(-2, 0, 1)
             };
             var startPos = new Vector3(-2, 0, -2);
             var endPos = new Vector3(-2, 0, 1);

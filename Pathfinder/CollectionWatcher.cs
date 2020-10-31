@@ -4,9 +4,9 @@ using System.ComponentModel;
 
 namespace Pathfinder
 {
-    public class Watcher<T>
+    public class CollectionWatcher<T>
     {
-        public Watcher(ObservableCollection<T> collection, IActor actor)
+        public CollectionWatcher(ObservableCollection<T> collection, IActor actor)
         {
             Collection = collection;
             Actor = actor;

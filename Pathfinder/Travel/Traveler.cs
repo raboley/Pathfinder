@@ -13,13 +13,13 @@ namespace Pathfinder.Travel
             var path = Pathfinder.FindWaypoints(Position, waypoint);
             foreach (var point in path) WalkToPosition(point);
 
-            Position = waypoint;
             return path;
         }
 
 
         private void WalkToPosition(Vector3 targetPosition)
         {
+            Position = targetPosition;
             Pathfinder.Grid.AddKnownNode(targetPosition);
         }
 

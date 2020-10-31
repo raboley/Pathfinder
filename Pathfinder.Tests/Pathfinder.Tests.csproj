@@ -68,11 +68,11 @@
         <Compile Include="IntegrationTests\GridFileTests.cs"/>
         <Compile Include="SetupPersister.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="SpyActor.cs"/>
         <Compile Include="UnitTests\PathfinderMathTests.cs"/>
         <Compile Include="UnitTests\PeopleManagerTests.cs"/>
         <Compile Include="UnitTests\PersonTests.cs"/>
-        <Compile Include="UnitTests\SpyActor.cs"/>
-        <Compile Include="UnitTests\WatcherTests.cs"/>
+        <Compile Include="UnitTests\CollectionWatcherTests.cs"/>
         <Compile Include="UnitTests\WorldMapTests.cs"/>
         <Compile Include="UnitTests\JsonSerializerTests.cs"/>
         <Compile Include="UnitTests\TravelerTests.cs"/>
@@ -80,6 +80,7 @@
         <Compile Include="UnitTests\PathfindingTests.cs"/>
         <Compile Include="UnitTests\PrintPathTests.cs"/>
         <Compile Include="UnitTests\WorldPointTests.cs"/>
+        <Compile Include="UnitTests\WorldTests.cs"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Pathfinder\Pathfinder.csproj">

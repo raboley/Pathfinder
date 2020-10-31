@@ -70,7 +70,7 @@
           <DependentUpon>Resources.resx</DependentUpon>
       </Compile>
       <Compile Include="Travel\Traveler.cs"/>
-      <Compile Include="Watcher.cs"/>
+      <Compile Include="CollectionWatcher.cs"/>
       <Compile Include="WorldMap\WorldMap.cs"/>
       <Compile Include="WorldMap\WorldMapFactory.cs"/>
       <Compile Include="WorldMap\WorldMapNode.cs"/>
