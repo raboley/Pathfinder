@@ -19,8 +19,27 @@ namespace Pathfinder.Travel
 
         private void WalkToPosition(Vector3 targetPosition)
         {
-            Position = targetPosition;
-            Pathfinder.Grid.AddKnownNode(targetPosition);
+            while (Position != targetPosition)
+            {
+                int x = GetNewXorY(Position.X, targetPosition.X);
+                int y = GetNewXorY(Position.Z, targetPosition.Z);
+
+                Position = new Vector3(x, 0, y);
+            }
+        }
+
+        private int GetNewXorY(float current, float target)
+        {
+            int currentInt = GridMath.ConvertFromFloatToInt(current);
+            int targetInt = GridMath.ConvertFromFloatToInt(target);
+
+            if (currentInt > targetInt)
+                return currentInt - 1;
+
+            if (currentInt < targetInt)
+                return currentInt + 1;
+
+            return currentInt;
         }
 
 

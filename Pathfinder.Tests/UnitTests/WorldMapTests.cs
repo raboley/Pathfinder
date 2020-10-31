@@ -344,16 +344,16 @@ x = obstacle
 
             var path = new[]
             {
+                new Vector3(-2, 0, -2),
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, -1),
                 new Vector3(1, 0, 0),
-                new Vector3(-1, 0, 1)
+                new Vector3(-1, 0, 1),
+                new Vector3(-2, 0, 1)
             };
-            var startPos = new Vector3(-2, 0, -2);
-            var endPos = new Vector3(-2, 0, 1);
 
             // act
-            string got = pathfinding.Grid.PrintPath(startPos, endPos, path);
+            string got = pathfinding.Grid.PrintPath(path);
 
 
             // assert

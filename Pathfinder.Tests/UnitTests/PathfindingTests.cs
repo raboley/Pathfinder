@@ -29,15 +29,16 @@ namespace Pathfinder.Tests.UnitTests
             // arrange
             var pathfinding = SetupForPathfinding();
 
+            var startPos = new Vector3(-2, 0, -2);
+            var endPos = new Vector3(1, 0, 2);
             Vector3[] want =
             {
+                startPos,
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, 0),
                 new Vector3(0, 0, 1),
-                new Vector3(1, 0, 2)
+                endPos
             };
-            var startPos = new Vector3(-2, 0, -2);
-            var endPos = new Vector3(1, 0, 2);
 
             // act 
             var got = pathfinding.FindWaypoints(startPos, endPos);
@@ -77,16 +78,17 @@ namespace Pathfinder.Tests.UnitTests
 
             string example = pathfinding.Grid.Print();
 
+            var startPos = new Vector3(-2, 0, -2);
+            var endPos = new Vector3(-2, 0, 1);
             Vector3[] want =
             {
+                startPos,
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, -1),
                 new Vector3(1, 0, 0),
                 new Vector3(-1, 0, 1),
-                new Vector3(-2, 0, 1)
+                endPos
             };
-            var startPos = new Vector3(-2, 0, -2);
-            var endPos = new Vector3(-2, 0, 1);
 
             // act 
             var got = pathfinding.FindWaypoints(startPos, endPos);

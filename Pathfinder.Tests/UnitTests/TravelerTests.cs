@@ -12,12 +12,14 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void NavigatorFindsPathToWaypoint()
         {
+            var startPos = new Vector3(-2, 0, -2);
+            var endPos = new Vector3(2, 0, 2);
             Vector3[] want =
             {
+                startPos,
                 new Vector3(1f, 0f, 1f),
-                new Vector3(2f, 0f, 2f)
+                endPos
             };
-            var goal = new Vector3(2f, 0f, 2f);
 
             var grid = GridSetup.SetupMediumGrid();
 
@@ -25,13 +27,13 @@ namespace Pathfinder.Tests.UnitTests
             pathfinding.Grid = grid;
 
             var navigator = new Traveler();
-            navigator.Position = new Vector3(-2f);
+            navigator.Position = startPos;
             navigator.Pathfinder = pathfinding;
 
-            var traveledPath = navigator.PathfindAndWalkToFarAwayWorldMapPosition(goal);
+            var traveledPath = navigator.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
 
 
-            Assert.Equal(goal, navigator.Position);
+            Assert.Equal(endPos, navigator.Position);
             Assert.Equal(want.Length, traveledPath.Length);
             for (var i = 0; i < want.Length; i++) Assert.Equal(want[i], traveledPath[i]);
         }

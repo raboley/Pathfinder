@@ -262,14 +262,16 @@ namespace Pathfinder.WorldMap
             return printedGrid;
         }
 
-        public string PrintPath(Vector3 startPos, Vector3 endPos, Vector3[] path)
+        public string PrintPath(Vector3[] path)
         {
-            var legend = @"
+            const string legend = @"
 Visualization of the path
 s = start
 e = end
 w = waypoint
 x = obstacle";
+            var startPos = path.FirstOrDefault();
+            var endPos = path.Last();
 
             var printer = new PrintPath {Start = startPos, End = endPos, Path = path};
             string printedGrid = PrintMap(printer, legend);

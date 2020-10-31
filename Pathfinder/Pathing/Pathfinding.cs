@@ -98,12 +98,12 @@ namespace Pathfinder.Pathing
                 currentGridNode = currentGridNode.Parent;
             }
 
-            var waypoints = SimplifyPath(path, endWorldMapNode.WorldPosition);
+            var waypoints = SimplifyPath(startWorldMapNode.WorldPosition, endWorldMapNode.WorldPosition, path);
             Array.Reverse(waypoints);
             return waypoints;
         }
 
-        private Vector3[] SimplifyPath(List<WorldMapNode> path, Vector3 end)
+        private Vector3[] SimplifyPath(Vector3 start, Vector3 end, List<WorldMapNode> path)
         {
             var waypoints = new List<Vector3>();
             var directionOld = Vector2.Zero;
@@ -117,6 +117,8 @@ namespace Pathfinder.Pathing
 
                 directionOld = directionNew;
             }
+
+            waypoints.Add(start);
 
             return waypoints.ToArray();
         }
