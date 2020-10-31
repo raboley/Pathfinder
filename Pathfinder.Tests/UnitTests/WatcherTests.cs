@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Numerics;
 using Pathfinder.People;
 using Xunit;
@@ -10,9 +9,11 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void WatcherTakesInCollection()
         {
-            var want = new ObservableCollection<string> {"one", "two", "three"};
-
-            var watcher = new Watcher<string> {Collection = want};
+            var peopleCollection = PeopleManagerTests.SetupPeopleCollection();
+            var spyActor = new SpyActor();
+            var peopleManager = new PeopleManager {People = peopleCollection};
+            var watcher = new Watcher(peopleManager.People, spyActor);
+            var want = PeopleManagerTests.SetupPeopleCollection();
 
             for (var i = 0; i < want.Count; i++) Assert.Equal(want[i], watcher.Collection[i]);
         }
@@ -20,13 +21,8 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void WatcherFiresAddedWhenCollectionGetsElementAdded()
         {
-            var want = new ObservableCollection<string> {"one", "two", "three"};
-            var spyActor = new SpyActor();
-            want.CollectionChanged += spyActor.Changed;
-
-            var watcher = new Watcher<string> {Collection = want, Actor = spyActor};
-
-            want.Add("Four");
+            var spyActor = SetupWatcher(out var peopleManager);
+            peopleManager.People.Add(new Person(99, "new guy", Vector3.Zero));
 
             Assert.Equal(1, spyActor.CalledTimesAdd);
         }
@@ -34,13 +30,8 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void WatcherFiresRemovedWhenCollectionGetsElementRemoved()
         {
-            var want = new ObservableCollection<string> {"one", "two", "three"};
-            var spyActor = new SpyActor();
-            want.CollectionChanged += spyActor.Changed;
-
-            var watcher = new Watcher<string> {Collection = want, Actor = spyActor};
-
-            want.RemoveAt(0);
+            var spyActor = SetupWatcher(out var peopleManager);
+            peopleManager.People.RemoveAt(0);
 
             Assert.Equal(1, spyActor.CalledTimesRemove);
         }
@@ -48,18 +39,25 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void WatcherFiresUpdatedWhenObjectUpdatedInPlace()
         {
-            var people = PeopleManagerTests.SetupPeopleCollection();
-            var spyActor = new SpyActor();
-            people.CollectionChanged += spyActor.Changed;
-            var peopleManager = new PeopleManager {People = people};
+            var spyActor = SetupWatcher(out var peopleManager);
 
-            var watcher = new Watcher<Person> {Collection = peopleManager.People, Actor = spyActor};
+            var want = new Person(1, "Jim", Vector3.One);
+            peopleManager.AddOrUpdatePerson(want);
+            var got = peopleManager.GetPerson(want);
 
-            peopleManager.AddOrUpdatePerson(new Person(1, "Jim", Vector3.Zero));
-
-            Assert.Equal(1, spyActor.CalledTimesUpdate);
+            Assert.Equal(want, got);
             Assert.Equal(0, spyActor.CalledTimesRemove);
             Assert.Equal(0, spyActor.CalledTimesAdd);
+            Assert.Equal(1, spyActor.CalledTimesUpdate);
+        }
+
+        private static SpyActor SetupWatcher(out PeopleManager peopleManager)
+        {
+            var peopleCollection = PeopleManagerTests.SetupPeopleCollection();
+            var spyActor = new SpyActor();
+            peopleManager = new PeopleManager {People = peopleCollection};
+            var watcher = new Watcher(peopleManager.People, spyActor);
+            return spyActor;
         }
     }
 }
