@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using Pathfinder.Map;
 using Pathfinder.People;
@@ -483,7 +482,7 @@ x = obstacle
             var zone = new Zone();
             zone.Map = SetupZoneMap.SetupSmallGrid();
             zone.AddBoundary("A", want, "B", want * -1);
-            var got = zone.Boundaries["B"].First().FromPosition;
+            var got = zone.Boundaries.Find(b => b.ToZone == "B").FromPosition;
 
             Assert.Equal(want, got);
         }

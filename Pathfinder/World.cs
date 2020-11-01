@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Pathfinder.Map;
 
@@ -11,9 +12,14 @@ namespace Pathfinder
         public List<Zone> GetNeighbors(Zone zone)
         {
             List<Zone> neighbors = new List<Zone>();
-            foreach (var zoneBoundaryDict in zone.Boundaries)
+            var allNeighborZoneNames = zone.Boundaries.Select(b => b.ToZone).ToList();
+            var distinctNeighborZoneNames = allNeighborZoneNames.GroupBy(x => x).Where(g => g.Count() == 1)
+                .SelectMany(g => g).ToList();
+
+
+            foreach (var zoneName in distinctNeighborZoneNames)
             {
-                neighbors.Add(GetZoneByName(zoneBoundaryDict.Key));
+                neighbors.Add(GetZoneByName(zoneName));
             }
 
             return neighbors;
@@ -57,29 +63,24 @@ namespace Pathfinder
         {
             var zone = new Zone();
             zone.Name = "A";
-            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
+            zone.Boundaries = new List<ZoneBoundary>
             {
-                ["B"] = new List<ZoneBoundary>
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        FromZone = "A",
-                        FromPosition = new Vector3(0, 0, -1),
-                        ToZone = "B",
-                        ToPosition = new Vector3(0, 0, 1)
-                    }
+                    FromZone = "A",
+                    FromPosition = new Vector3(0, 0, -1),
+                    ToZone = "B",
+                    ToPosition = new Vector3(0, 0, 1)
                 },
-                ["C"] = new List<ZoneBoundary>
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        FromZone = "A",
-                        FromPosition = new Vector3(1, 0, 0),
-                        ToZone = "C",
-                        ToPosition = new Vector3(-1, 0, 0)
-                    }
+                    FromZone = "A",
+                    FromPosition = new Vector3(1, 0, 0),
+                    ToZone = "C",
+                    ToPosition = new Vector3(-1, 0, 0)
                 }
             };
+            zone.Map = ZoneMap.TinyMap();
             return zone;
         }
 
@@ -87,36 +88,31 @@ namespace Pathfinder
         {
             var zone = new Zone();
             zone.Name = "B";
-            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
+            zone.Boundaries = new List<ZoneBoundary>
             {
-                ["A"] = new List<ZoneBoundary>
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        FromZone = "B",
-                        FromPosition = new Vector3(0, 0, 1),
-                        ToZone = "A",
-                        ToPosition = new Vector3(0, 0, -1),
-                    },
+                    FromZone = "B",
+                    FromPosition = new Vector3(0, 0, 1),
+                    ToZone = "A",
+                    ToPosition = new Vector3(0, 0, -1),
                 },
-                ["C"] = new List<ZoneBoundary>
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        FromZone = "B",
-                        FromPosition = new Vector3(1, 0, 1),
-                        ToZone = "C",
-                        ToPosition = new Vector3(-1, 0, -1)
-                    },
-                    new ZoneBoundary
-                    {
-                        FromZone = "B",
-                        FromPosition = new Vector3(1, 0, 0),
-                        ToZone = "C",
-                        ToPosition = new Vector3(-1, 0, 0)
-                    },
-                }
+                    FromZone = "B",
+                    FromPosition = new Vector3(1, 0, 1),
+                    ToZone = "C",
+                    ToPosition = new Vector3(-1, 0, -1)
+                },
+                new ZoneBoundary
+                {
+                    FromZone = "B",
+                    FromPosition = new Vector3(1, 0, 0),
+                    ToZone = "C",
+                    ToPosition = new Vector3(-1, 0, 0)
+                },
             };
+            zone.Map = ZoneMap.TinyMap();
             return zone;
         }
 
@@ -124,37 +120,30 @@ namespace Pathfinder
         {
             var zone = new Zone();
             zone.Name = "C";
-            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
+            zone.Boundaries = new List<ZoneBoundary>
             {
-                ["B"] = new List<ZoneBoundary>
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        FromZone = "C",
-                        FromPosition = new Vector3(-1, 0, -1),
-                        ToZone = "B",
-                        ToPosition = new Vector3(1, 0, 1),
-                    },
+                    FromZone = "C",
+                    FromPosition = new Vector3(-1, 0, -1),
+                    ToZone = "B",
+                    ToPosition = new Vector3(1, 0, 1),
                 },
-                ["A"] = new List<ZoneBoundary>
+
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        FromZone = "C",
-                        FromPosition = new Vector3(-1, 0, 0),
-                        ToZone = "A",
-                        ToPosition = new Vector3(1, 0, 0),
-                    },
+                    FromZone = "C",
+                    FromPosition = new Vector3(-1, 0, 0),
+                    ToZone = "A",
+                    ToPosition = new Vector3(1, 0, 0),
                 },
-                ["D"] = new List<ZoneBoundary>
+
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        FromZone = "C",
-                        FromPosition = new Vector3(1, 0, 0),
-                        ToZone = "D",
-                        ToPosition = new Vector3(-1, 0, 0)
-                    },
+                    FromZone = "C",
+                    FromPosition = new Vector3(1, 0, 0),
+                    ToZone = "D",
+                    ToPosition = new Vector3(-1, 0, 0)
                 },
             };
             return zone;
@@ -164,27 +153,22 @@ namespace Pathfinder
         {
             var zone = new Zone();
             zone.Name = "D";
-            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
+            zone.Boundaries = new List<ZoneBoundary>
             {
-                ["E"] = new List<ZoneBoundary>
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        FromZone = "D",
-                        FromPosition = new Vector3(1, 0, -1),
-                        ToZone = "E",
-                        ToPosition = new Vector3(-1, 0, 1),
-                    },
+                    FromZone = "D",
+                    FromPosition = new Vector3(1, 0, -1),
+                    ToZone = "E",
+                    ToPosition = new Vector3(-1, 0, 1),
                 },
-                ["C"] = new List<ZoneBoundary>
+
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        ToZone = "C",
-                        ToPosition = new Vector3(1, 0, 0),
-                        FromZone = "D",
-                        FromPosition = new Vector3(-1, 0, 0)
-                    },
+                    ToZone = "C",
+                    ToPosition = new Vector3(1, 0, 0),
+                    FromZone = "D",
+                    FromPosition = new Vector3(-1, 0, 0)
                 },
             };
             return zone;
@@ -194,17 +178,14 @@ namespace Pathfinder
         {
             var zone = new Zone();
             zone.Name = "E";
-            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
+            zone.Boundaries = new List<ZoneBoundary>
             {
-                ["D"] = new List<ZoneBoundary>
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        FromZone = "E",
-                        FromPosition = new Vector3(-1, 0, 1),
-                        ToZone = "D",
-                        ToPosition = new Vector3(1, 0, -1),
-                    },
+                    FromZone = "E",
+                    FromPosition = new Vector3(-1, 0, 1),
+                    ToZone = "D",
+                    ToPosition = new Vector3(1, 0, -1),
                 },
             };
             return zone;

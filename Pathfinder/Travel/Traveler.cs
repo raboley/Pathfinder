@@ -56,15 +56,7 @@ namespace Pathfinder.Travel
                 if (CurrentZone?.Boundaries == null)
                     return null;
 
-                var borderPoints = new List<Vector3>();
-
-                foreach (var dictionaryKeyValuePair in CurrentZone.Boundaries)
-                {
-                    var positions = dictionaryKeyValuePair.Value.Select(x => x.FromPosition).ToList();
-                    borderPoints.AddRange(positions);
-                }
-
-                return borderPoints;
+                return CurrentZone.Boundaries.Select(boundary => boundary.FromPosition).ToList();
             }
         }
 
@@ -90,17 +82,17 @@ namespace Pathfinder.Travel
                 Position = position;
             }
 
-            // // Teleport to the new zone if position is equal to a border zone position
-            // if (AllBorderZonePoints.Contains(Position))
-            // {
-            //     ZoneBoundary boundary = GetZoneBorderFromPoint(Position);
-            // }
+            // Teleport to the new zone if position is equal to a border zone position
+            if (AllBorderZonePoints.Contains(Position))
+            {
+                ZoneBoundary boundary = GetZoneBorderToNameFromPoint(Position);
+            }
         }
 
-        // private ZoneBoundary GetZoneBorderFromPoint(Vector3 position)
-        // {
-        //     return new ZoneBoundary();
-        // }
+        public ZoneBoundary GetZoneBorderToNameFromPoint(Vector3 position)
+        {
+            return CurrentZone.Boundaries.Find(b => b.FromPosition == position);
+        }
 
 
         private int GetNewXorY(float current, float target)
@@ -131,7 +123,7 @@ namespace Pathfinder.Travel
 
         private Vector3 GetBorderZonePosition(string zone)
         {
-            var borderZones = CurrentZone.Boundaries[zone];
+            var borderZones = CurrentZone.Boundaries.FindAll(b => b.ToZone == zone);
             return GetClosestZoneBorder(borderZones);
         }
 

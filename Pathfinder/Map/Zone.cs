@@ -7,8 +7,7 @@ namespace Pathfinder.Map
     {
         public string Name { get; set; }
 
-        public Dictionary<string, List<ZoneBoundary>> Boundaries { get; set; } =
-            new Dictionary<string, List<ZoneBoundary>>();
+        public List<ZoneBoundary> Boundaries { get; set; } = new List<ZoneBoundary>();
 
         public ZoneMap Map { get; set; }
         public int GCost { get; set; }
@@ -39,18 +38,9 @@ namespace Pathfinder.Map
             };
 
             if (Boundaries == null)
-                Boundaries = new Dictionary<string, List<ZoneBoundary>>();
+                Boundaries = new List<ZoneBoundary>();
 
-            if (Boundaries.ContainsKey(ZonesTo))
-            {
-                zoneBoundaries = Boundaries[ZonesTo];
-                zoneBoundaries.Add(zoneBoundary);
-                Boundaries[ZonesTo] = zoneBoundaries;
-                return;
-            }
-
-            zoneBoundaries = new List<ZoneBoundary> {zoneBoundary};
-            Boundaries.Add(ZonesTo, zoneBoundaries);
+            Boundaries.Add(zoneBoundary);
         }
 
 
@@ -67,17 +57,14 @@ namespace Pathfinder.Map
 ";
             var zone = new Zone();
             zone.Name = "bastok_mines";
-            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
+            zone.Boundaries = new List<ZoneBoundary>
             {
-                ["bastok_mines"] = new List<ZoneBoundary>
+                new ZoneBoundary
                 {
-                    new ZoneBoundary
-                    {
-                        FromZone = "bastok_mines",
-                        FromPosition = new Vector3(1, 0, 0),
-                        ToZone = "mob_zone",
-                        ToPosition = new Vector3(-1, 0, 0)
-                    }
+                    FromZone = "bastok_mines",
+                    FromPosition = new Vector3(1, 0, 0),
+                    ToZone = "mob_zone",
+                    ToPosition = new Vector3(-1, 0, 0)
                 }
             };
 

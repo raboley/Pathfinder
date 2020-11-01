@@ -76,6 +76,42 @@ namespace Pathfinder.Tests.UnitTests
             Assert.Equal(want, got);
         }
 
+        [Fact]
+        public void GetZoneBorderFromPointCanGetBorder()
+        {
+            const string targetZoneName = "B";
+            var want = World.ZoneA().Boundaries.Find(b => b.ToZone == targetZoneName);
+            var fromPosition = want.FromPosition;
+            var targetPosition = want.ToPosition;
+            var traveler = new Traveler
+            {
+                CurrentZone = World.ZoneA(),
+                Position = Vector3.Zero,
+                World = World.Sample(),
+            };
+            var got = traveler.GetZoneBorderToNameFromPoint(fromPosition);
+
+            Assert.Equal(want, got);
+        }
+
+        [Fact]
+        public void GoToZoneWillActuallyZoneTheTraveler()
+        {
+            const string targetZoneName = "B";
+            var targetPosition = World.ZoneA().Boundaries.Find(b => b.ToZone == targetZoneName).ToPosition;
+            var traveler = new Traveler
+            {
+                CurrentZone = World.ZoneA(),
+                Position = Vector3.Zero,
+                World = World.Sample(),
+            };
+            traveler.GoToZone(targetZoneName);
+
+
+            Assert.Equal(targetZoneName, traveler.CurrentZone.Name);
+            Assert.Equal(targetPosition, traveler.Position);
+        }
+
         [Fact(Skip = "Need to Have Passing border zone tests")]
         public void WalkThroughZonesTravelsThroughZones()
         {
