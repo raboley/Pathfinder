@@ -14,6 +14,8 @@
         <e p="Map" t="Include">
           <e p="Heap.cs" t="Include" />
           <e p="Node.cs" t="Include" />
+          <e p="Zone.cs" t="Include" />
+          <e p="ZoneBoundary.cs" t="Include" />
           <e p="ZoneMap.cs" t="Include" />
           <e p="ZoneMapFactory.cs" t="Include" />
         </e>
@@ -52,6 +54,7 @@
           <e p="Traveler.cs" t="Include" />
         </e>
         <e p="Watcher.cs" t="Include" />
+        <e p="World.cs" t="Include" />
       </e>
       <e p="Pathfinder.sln" t="IncludeFlat" />
       <e p="Pathfinder.Tests" t="IncludeRecursive">
@@ -88,6 +91,7 @@
           <e p="WatcherTests.cs" t="Include" />
           <e p="WorldTests.cs" t="Include" />
           <e p="ZoneMapTests.cs" t="Include" />
+          <e p="ZoneTests.cs" t="Include" />
         </e>
       </e>
     </e>

@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Pathfinder.Tests
 {
-    public class GridSetup
+    public class SetupZoneMap
     {
         public static string _smallGridZoneName = "Small ZoneMap";
 

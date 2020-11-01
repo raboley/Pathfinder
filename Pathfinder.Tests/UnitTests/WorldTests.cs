@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Numerics;
+using Pathfinder.Map;
 using Pathfinder.Pathing;
 using Pathfinder.Travel;
 using Xunit;
@@ -24,7 +26,7 @@ namespace Pathfinder.Tests.UnitTests
 -------------------------------
 ";
             // start the watcher and map
-            var grid = GridSetup.SetupMediumGrid();
+            var grid = SetupZoneMap.SetupMediumGrid();
             var actor = new KnownNodeActor(grid);
 
             // Walk a Path
@@ -57,7 +59,7 @@ namespace Pathfinder.Tests.UnitTests
             Assert.Equal(expectedUnknowns, actualUnknonws);
 
             // Unknown Nodes correct
-            var expectedGrid = GridSetup.SetupMediumGrid();
+            var expectedGrid = SetupZoneMap.SetupMediumGrid();
             foreach (var position in path)
             {
                 expectedGrid.AddKnownNode(position);
@@ -66,6 +68,42 @@ namespace Pathfinder.Tests.UnitTests
             Assert.Equal(expectedGrid.UnknownNodes.Count, grid.UnknownNodes.Count);
             Assert.Equal(expectedGrid.UnknownNodes, grid.UnknownNodes);
         }
+
+        [Fact]
+        public void CanGoToZone()
+        {
+            // Move to Zone boundary
+            var zoneMap = SetupZoneMap.SetupSmallGrid();
+            var want = new Vector3(1, 0, 1);
+            zoneMap.AddZoneBoundary("B", want);
+            var traveler = new Traveler();
+            var pathfinder = new Pathfinding();
+            pathfinder.ZoneMap = zoneMap;
+            traveler.Pathfinder = pathfinder;
+
+            traveler.Position = new Vector3(1, 0, -1);
+            traveler.GoToZone("B");
+            var got = traveler.Position;
+
+
+            Assert.Equal(want, got);
+        }
+
+        [Fact]
+        public void WorldCanInit()
+        {
+            var zones = new List<Zone> {Zone.BastokMines()};
+            var world = new World {Zones = zones};
+
+            Assert.Equal(zones, world.Zones);
+        }
+
+        // [Fact]
+        // public void ()
+        // {
+        //     
+        //     Assert.Equal(want, got);
+        // }
 
         private static void AssertVectorArrayEqual(Vector3[] path, Vector3[] got)
         {

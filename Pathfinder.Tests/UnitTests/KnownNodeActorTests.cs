@@ -9,7 +9,7 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void KnownNodeActorCanUpdateKnownNodes()
         {
-            var map = GridSetup.SetupSmallGrid();
+            var map = SetupZoneMap.SetupSmallGrid();
             var actor = new KnownNodeActor(map);
             var traveler = new Traveler();
             var watcher = new Watcher(traveler, actor);
@@ -17,14 +17,14 @@ namespace Pathfinder.Tests.UnitTests
             var newPos = new Vector3(1, 0, 1);
             traveler.Position = newPos;
 
-            var wantGrid = GridSetup.SetupSmallGrid();
+            var wantGrid = SetupZoneMap.SetupSmallGrid();
             wantGrid.AddKnownNode(newPos);
 
             var want = wantGrid.UnknownNodes;
             var got = map.UnknownNodes;
 
 
-            GridSetup.AssertListGridNodesEqual(want, got);
+            SetupZoneMap.AssertListGridNodesEqual(want, got);
         }
     }
 }

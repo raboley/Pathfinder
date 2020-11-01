@@ -83,6 +83,7 @@
         <Compile Include="UnitTests\PrintPathTests.cs"/>
         <Compile Include="UnitTests\PointTests.cs"/>
         <Compile Include="UnitTests\WorldTests.cs"/>
+        <Compile Include="UnitTests\ZoneTests.cs"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Pathfinder\Pathfinder.csproj">

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Pathfinder.Pathing;
@@ -25,6 +26,7 @@ namespace Pathfinder.Travel
                 OnPropertyChanged();
             }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -79,6 +81,19 @@ namespace Pathfinder.Travel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void GoToZone(string zone)
+        {
+            Vector3 pos = GetBorderZonePosition(zone);
+            if (pos == null)
+                throw new KeyNotFoundException("Don't know where zone: " + zone + " is.");
+            PathfindAndWalkToFarAwayWorldMapPosition(pos);
+        }
+
+        private Vector3 GetBorderZonePosition(string zone)
+        {
+            return Pathfinder.ZoneMap.ZoneBoundaries[zone].FirstOrDefault();
         }
     }
 }

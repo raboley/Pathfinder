@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Pathfinder.Map;
 using Pathfinder.People;
@@ -11,24 +12,21 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void CreateGridCanGenerateGridFromCorner()
         {
-            // Arrange
             var want = new Node[1, 1];
             want[0, 0] = new Node(Vector3.Zero);
 
-            // Act
             var zoneMap = ZoneMap.NewGridFromVector2(Vector2.One);
             var got = zoneMap.MapGrid;
 
-            // Assert
             Assert.Equal(want.Length, got.Length);
-            GridSetup.AssertGridMapEqual(want, got);
+            SetupZoneMap.AssertGridMapEqual(want, got);
         }
 
         [Fact]
         public void CanCreateGridWithMultipleNodes()
         {
             // Arrange
-            var want = GridSetup.SetupThreeByThreeGrid();
+            var want = SetupZoneMap.SetupThreeByThreeGrid();
 
             // Act
             var grid = ZoneMap.NewGridFromVector2(new Vector2(3f, 3f));
@@ -36,27 +34,27 @@ namespace Pathfinder.Tests.UnitTests
 
             // Assert
             Assert.Equal(want.Length, got.Length);
-            GridSetup.AssertGridMapEqual(want, got);
+            SetupZoneMap.AssertGridMapEqual(want, got);
         }
 
         [Fact]
         public void GetNeighboursCanGetNeighborsFromEdgeNode()
         {
             //Arrange
-            var want = GridSetup.GetNeighborsListForEdgeNode();
+            var want = SetupZoneMap.GetNeighborsListForEdgeNode();
 
             //Act
             var grid = ZoneMap.NewGridFromVector2(new Vector2(3f, 3f));
             var got = grid.GetNeighbours(grid.MapGrid[2, 2]);
 
             //Assert
-            GridSetup.AssertListGridNodesEqual(want, got);
+            SetupZoneMap.AssertListGridNodesEqual(want, got);
         }
 
         [Fact]
         public void NodeFromWorldPointCanGetANodeFromNegativeVector()
         {
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             var want = grid.MapGrid[0, 0];
 
             var got = grid.GetNodeFromWorldPoint(new Vector3(-1, 0, -1));
@@ -67,7 +65,7 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void NodeFromWorldPointCanGetANodeFromPositiveVector()
         {
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             var want = grid.MapGrid[2, 2];
 
             var got = grid.GetNodeFromWorldPoint(new Vector3(1, 0, 1));
@@ -78,7 +76,7 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void NodeFromWorldPointCanGetANodeFromBigGrid()
         {
-            var grid = GridSetup.SetupBigGrid();
+            var grid = SetupZoneMap.SetupBigGrid();
             var want = grid.MapGrid[30, 5];
 
             var got = grid.GetNodeFromWorldPoint(new Vector3(5, 0, -20));
@@ -97,7 +95,7 @@ namespace Pathfinder.Tests.UnitTests
         [InlineData(1, 1, 2, 2)]
         public void AddUnWalkableNodeUpdatesTheNode(float x, float y, int gridX, int gridY)
         {
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             var position = new Vector3(x, 0, y);
             var want = new Node(position, false);
 
@@ -120,7 +118,7 @@ namespace Pathfinder.Tests.UnitTests
 -------------------
 ";
 
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             string got = grid.Print();
             Assert.Equal(want, got);
         }
@@ -138,7 +136,7 @@ namespace Pathfinder.Tests.UnitTests
 -------------------------
 ";
 
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             string got = grid.PrintWithCoords();
             Assert.Equal(want, got);
         }
@@ -157,7 +155,7 @@ namespace Pathfinder.Tests.UnitTests
 ";
 
             // var MapGrid = SetupSmallGrid();
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             var pos1 = new Vector3(0, 0, 1);
             var pos2 = new Vector3(-1, 0, 1);
             var pos3 = new Vector3(-1, 0, 0);
@@ -168,9 +166,9 @@ namespace Pathfinder.Tests.UnitTests
             grid.AddUnWalkableNode(pos3);
             string got = grid.Print();
 
-            GridSetup.AssertPointNotWalkable(grid, pos1);
-            GridSetup.AssertPointNotWalkable(grid, pos2);
-            GridSetup.AssertPointNotWalkable(grid, pos3);
+            SetupZoneMap.AssertPointNotWalkable(grid, pos1);
+            SetupZoneMap.AssertPointNotWalkable(grid, pos2);
+            SetupZoneMap.AssertPointNotWalkable(grid, pos3);
 
             Assert.Equal(want, got);
         }
@@ -192,7 +190,7 @@ namespace Pathfinder.Tests.UnitTests
 -------------------------------
 ";
 
-            var grid = GridSetup.SetupMediumGrid();
+            var grid = SetupZoneMap.SetupMediumGrid();
             string got = grid.Print();
             Assert.Equal(want, got);
         }
@@ -306,7 +304,7 @@ namespace Pathfinder.Tests.UnitTests
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ";
 
-            var grid = GridSetup.SetupBigGrid();
+            var grid = SetupZoneMap.SetupBigGrid();
             string got = grid.Print();
             Assert.Equal(want, got);
         }
@@ -333,7 +331,7 @@ x = obstacle
 -------------------------------
 ";
 
-            var pathfinding = GridSetup.SetupForPathfinding();
+            var pathfinding = SetupZoneMap.SetupForPathfinding();
 
             pathfinding.ZoneMap.AddUnWalkableNode(Vector3.Zero);
             pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-1, 0, 0));
@@ -373,7 +371,7 @@ x = obstacle
 |  ?  |  ?  |  ?  |
 -------------------
 ";
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             string got = grid.PrintKnown();
 
             Assert.Equal(want, got);
@@ -391,7 +389,7 @@ x = obstacle
 |     |  ?  |     |
 -------------------
 ";
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
 
             grid.AddKnownNode(new Vector3(0, 0, 0));
             grid.AddKnownNode(new Vector3(1, 0, 0));
@@ -407,7 +405,7 @@ x = obstacle
         public void TestCanSetUnknownState()
         {
             const bool want = false;
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             grid.MapGrid[0, 0].Unknown = want;
             bool got = grid.MapGrid[0, 0].Unknown;
 
@@ -425,7 +423,7 @@ x = obstacle
         [InlineData(1, 1, 2, 2)]
         public void TestAddKnownNodes(float x, float y, int gridX, int gridY)
         {
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             var position = new Vector3(x, 0, y);
             const bool want = false;
 
@@ -438,7 +436,7 @@ x = obstacle
         [Fact]
         public void AddNpcAddsToList()
         {
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             var want = new List<Person>();
 
             var npc = new Person(3, "rabbit", Vector3.One) {MapName = grid.MapName};
@@ -465,7 +463,7 @@ x = obstacle
                 new Node(new Vector3(1, 0, 1))
             };
 
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             grid.MapGrid[1, 1].Unknown = false;
 
             var got = grid.UnknownNodes;
@@ -476,6 +474,18 @@ x = obstacle
                 Assert.Equal(want[i].WorldPosition, got[i].WorldPosition);
                 Assert.Equal(want[i].Unknown, got[i].Unknown);
             }
+        }
+
+        [Fact]
+        public void AddZoneBorder()
+        {
+            var zoneMap = SetupZoneMap.SetupSmallGrid();
+            var want = Vector3.One;
+
+            zoneMap.AddZoneBoundary("ZoneB", want);
+            var got = zoneMap.ZoneBoundaries["ZoneB"].First();
+
+            Assert.Equal(want, got);
         }
 
         private static void AssertNpcListEqual(List<Person> want, List<Person> got)

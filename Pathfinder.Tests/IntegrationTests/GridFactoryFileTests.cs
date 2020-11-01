@@ -9,7 +9,7 @@ namespace Pathfinder.Tests.IntegrationTests
         [Fact]
         public void TestGridFactoryCanGetGridFromFile()
         {
-            var want = GridSetup.SetupSmallGrid();
+            var want = SetupZoneMap.SetupSmallGrid();
             var gridFactory = GridFactorySetup.SetupGridFactory();
             string mapName = SetupPersister.GetCurrentMethodName();
 
@@ -19,13 +19,13 @@ namespace Pathfinder.Tests.IntegrationTests
 
             var got = gridFactory.LoadGrid(mapName);
 
-            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
+            SetupZoneMap.AssertGridMapEqual(want.MapGrid, got.MapGrid);
         }
 
         [Fact]
         public void TestLoadGridFailsIfFileNotExists()
         {
-            var want = GridSetup.SetupMediumGrid();
+            var want = SetupZoneMap.SetupMediumGrid();
             var gridFactory = GridFactorySetup.SetupGridFactory();
 
             Assert.Throws<FileNotFoundException>(() => gridFactory.LoadGrid(Path.GetRandomFileName()));
@@ -34,7 +34,7 @@ namespace Pathfinder.Tests.IntegrationTests
         [Fact]
         public void LoadGridOrCreateNewLoadsGridIfExists()
         {
-            var want = GridSetup.SetupSmallGrid();
+            var want = SetupZoneMap.SetupSmallGrid();
             var gridFactory = GridFactorySetup.SetupGridFactory();
             string mapName = SetupPersister.GetCurrentMethodName();
             want.MapName = mapName;
@@ -45,14 +45,14 @@ namespace Pathfinder.Tests.IntegrationTests
 
             var got = gridFactory.LoadGridOrCreateNew(mapName);
 
-            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
+            SetupZoneMap.AssertGridMapEqual(want.MapGrid, got.MapGrid);
             Assert.Equal(want.MapName, got.MapName);
         }
 
         [Fact]
         public void LoadGridOrCreateNewCreatesNewIfItDoesntExist()
         {
-            var want = GridSetup.SetupMediumGrid();
+            var want = SetupZoneMap.SetupMediumGrid();
             var gridFactory = GridFactorySetup.SetupGridFactory();
             gridFactory.DefaultGridSize = new Vector2(5f, 5f);
 
@@ -61,7 +61,7 @@ namespace Pathfinder.Tests.IntegrationTests
 
             var got = gridFactory.LoadGridOrCreateNew(mapName);
 
-            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
+            SetupZoneMap.AssertGridMapEqual(want.MapGrid, got.MapGrid);
             Assert.Equal(want.MapName, got.MapName);
         }
     }

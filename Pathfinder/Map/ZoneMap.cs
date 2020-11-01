@@ -308,5 +308,10 @@ x = obstacle";
 
             return result;
         }
+
+        public static ZoneMap TinyMap()
+        {
+            return NewGridFromVector2(new Vector2(3f, 3f));
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace Pathfinder.Tests.UnitTests
                 endPos
             };
 
-            var grid = GridSetup.SetupMediumGrid();
+            var grid = SetupZoneMap.SetupMediumGrid();
 
             var pathfinding = new Pathfinding();
             pathfinding.ZoneMap = grid;
@@ -50,7 +50,7 @@ namespace Pathfinder.Tests.UnitTests
 |     |     |     |
 -------------------
 ";
-            var grid = GridSetup.SetupSmallGrid();
+            var grid = SetupZoneMap.SetupSmallGrid();
             var pathfinding = new Pathfinding();
             pathfinding.ZoneMap = grid;
 

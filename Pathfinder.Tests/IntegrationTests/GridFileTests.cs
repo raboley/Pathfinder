@@ -10,7 +10,7 @@ namespace Pathfinder.Tests.IntegrationTests
         [Fact]
         public void TestCanSaveToFile()
         {
-            var want = GridSetup.SetupSmallGrid();
+            var want = SetupZoneMap.SetupSmallGrid();
             var persister = new FilePersister("tempGrid.golden");
 
             persister.Save(want);
@@ -18,13 +18,13 @@ namespace Pathfinder.Tests.IntegrationTests
             var got = persister.Load<ZoneMap>();
             persister.Delete();
 
-            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
+            SetupZoneMap.AssertGridMapEqual(want.MapGrid, got.MapGrid);
         }
 
         [Fact]
         public void TestCanLoadGridFromFile()
         {
-            var want = GridSetup.SetupSmallGrid();
+            var want = SetupZoneMap.SetupSmallGrid();
             var persister = new FilePersister("TestCanLoadGridFromFile.golden");
             // Path assumes to start from ./debug/ so we want to set it to the test fixtures dir.
             string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
@@ -36,7 +36,7 @@ namespace Pathfinder.Tests.IntegrationTests
 
             var got = persister.Load<ZoneMap>();
 
-            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
+            SetupZoneMap.AssertGridMapEqual(want.MapGrid, got.MapGrid);
         }
 
         // Don't run this unless you have time to kill.

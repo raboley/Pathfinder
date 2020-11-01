@@ -9,12 +9,12 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void TestSerializeNodeToJson()
         {
-            var want = GridSetup.SetupSmallGrid();
+            var want = SetupZoneMap.SetupSmallGrid();
 
             string json = JsonConvert.SerializeObject(want);
             var got = JsonConvert.DeserializeObject<ZoneMap>(json);
 
-            GridSetup.AssertGridMapEqual(want.MapGrid, got.MapGrid);
+            SetupZoneMap.AssertGridMapEqual(want.MapGrid, got.MapGrid);
         }
     }
 }
