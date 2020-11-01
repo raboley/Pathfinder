@@ -98,13 +98,6 @@ namespace Pathfinder.Tests.UnitTests
             Assert.Equal(zones, world.Zones);
         }
 
-        // [Fact]
-        // public void ()
-        // {
-        //     
-        //     Assert.Equal(want, got);
-        // }
-
         private static void AssertVectorArrayEqual(Vector3[] path, Vector3[] got)
         {
             Assert.Equal(path.Length, got.Length);

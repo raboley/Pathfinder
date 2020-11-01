@@ -89,6 +89,7 @@
           <e p="PrintPathTests.cs" t="Include" />
           <e p="TravelerTests.cs" t="Include" />
           <e p="WatcherTests.cs" t="Include" />
+          <e p="WorldPathfinderTests.cs" t="Include" />
           <e p="WorldTests.cs" t="Include" />
           <e p="ZoneMapTests.cs" t="Include" />
           <e p="ZoneTests.cs" t="Include" />

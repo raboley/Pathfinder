@@ -27,6 +27,8 @@ namespace Pathfinder.Travel
             }
         }
 
+        public string CurrentZoneName { get; set; }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
