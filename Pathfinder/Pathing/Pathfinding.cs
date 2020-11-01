@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
@@ -7,41 +6,21 @@ using Pathfinder.Map;
 
 namespace Pathfinder.Pathing
 {
-    public class Pathfinding
+    public static class Pathfinding
     {
-        public Zone Zone;
-        public ZoneMap ZoneMap;
-
-        // PathRequestManager requestManager;
-        // void Awake() {
-        //     requestManager = GetComponent<PathRequestManager>();
-        //     MapGrid = GetComponent<ZoneMap>();
-        // }
-        //
-        // public void StartFindPath(Vector3 startPos, Vector3 targetPos) {
-        //     StartCoroutine(FindPath(startPos, targetPos));
-        // }
-        //
-        public IEnumerator FindPath(Vector3 startPos, Vector3 targetPos)
-        {
-            yield return FindWaypoints(startPos, targetPos);
-            // requestManager.FinishedProcessingPath(waypoints, pathSuccess);
-        }
-
-        public Vector3[] FindWaypoints(Vector3 startPos, Vector3 targetPos)
+        public static Vector3[] FindWaypoints(ZoneMap zoneMap, Vector3 startPos, Vector3 targetPos)
         {
             var sw = new Stopwatch();
             sw.Start();
 
-            var waypoints = new Vector3[0];
             var pathSuccess = false;
 
-            var startGridNode = ZoneMap.GetNodeFromWorldPoint(startPos);
-            var targetGridNode = ZoneMap.GetNodeFromWorldPoint(targetPos);
+            var startGridNode = zoneMap.GetNodeFromWorldPoint(startPos);
+            var targetGridNode = zoneMap.GetNodeFromWorldPoint(targetPos);
 
             if (startGridNode.Walkable && targetGridNode.Walkable)
             {
-                var openSet = new Heap<Node>(ZoneMap.MaxSize);
+                var openSet = new Heap<Node>(zoneMap.MaxSize);
                 var closedSet = new HashSet<Node>();
 
                 openSet.Add(startGridNode);
@@ -60,7 +39,7 @@ namespace Pathfinder.Pathing
                         break;
                     }
 
-                    foreach (var neighbour in ZoneMap.GetNeighbours(currentGridNode))
+                    foreach (var neighbour in zoneMap.GetNeighbours(currentGridNode))
                     {
                         if (!neighbour.Walkable || closedSet.Contains(neighbour)) continue;
 
@@ -84,11 +63,11 @@ namespace Pathfinder.Pathing
 
             if (!pathSuccess) return null;
 
-            waypoints = RetracePath(startGridNode, targetGridNode);
+            var waypoints = RetracePath(startGridNode, targetGridNode);
             return waypoints;
         }
 
-        private Vector3[] RetracePath(Node startNode, Node endNode)
+        private static Vector3[] RetracePath(Node startNode, Node endNode)
         {
             var path = new List<Node>();
             var currentGridNode = endNode;
@@ -104,7 +83,7 @@ namespace Pathfinder.Pathing
             return waypoints;
         }
 
-        private Vector3[] SimplifyPath(Vector3 start, Vector3 end, List<Node> path)
+        private static Vector3[] SimplifyPath(Vector3 start, Vector3 end, List<Node> path)
         {
             var waypoints = new List<Vector3>();
             var directionOld = Vector2.Zero;
@@ -124,7 +103,7 @@ namespace Pathfinder.Pathing
             return waypoints.ToArray();
         }
 
-        private int GetDistance(Node nodeA, Node nodeB)
+        private static int GetDistance(Node nodeA, Node nodeB)
         {
             int dstX = Math.Abs(nodeA.GridX - nodeB.GridX);
             int dstY = Math.Abs(nodeA.GridY - nodeB.GridY);

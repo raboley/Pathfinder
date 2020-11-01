@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Pathfinder.Map;
-using Pathfinder.Pathing;
 using Pathfinder.Travel;
 using Xunit;
 
@@ -26,7 +25,9 @@ namespace Pathfinder.Tests.UnitTests
 -------------------------------
 ";
             // start the watcher and map
+            var zone = new Zone();
             var grid = SetupZoneMap.SetupMediumGrid();
+            zone.Map = grid;
             var actor = new KnownNodeActor(grid);
 
             // Walk a Path
@@ -41,17 +42,17 @@ namespace Pathfinder.Tests.UnitTests
                 endPos
             };
 
-            var pathfinding = new Pathfinding();
-            pathfinding.ZoneMap = grid;
 
-            var navigator = new Traveler();
-            var watcher = new Watcher(navigator, actor);
-            navigator.Position = new Vector3(-2, 0, -2);
-            navigator.Pathfinder = pathfinding;
+            var traveler = new Traveler();
+            // Watcher must be watching traveler before it gets it's current position otherwise it won't record the starting
+            // position
+            var watcher = new Watcher(traveler, actor);
+            traveler.CurrentZone = zone;
+            traveler.Position = new Vector3(-2, 0, -2);
 
             // Walked path
-            navigator.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
-            var got = navigator.PositionHistory.ToArray();
+            traveler.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
+            var got = traveler.PositionHistory.ToArray();
             AssertVectorArrayEqual(path, got);
 
             // Visual Representation
@@ -76,19 +77,16 @@ namespace Pathfinder.Tests.UnitTests
             var zone = new Zone();
             zone.Map = SetupZoneMap.SetupSmallGrid();
             zone.Name = "B";
-            
+
             var want = new Vector3(1, 0, 1);
             var targetZone = "C";
             zone.AddBoundary(zone.Name, want, targetZone, new Vector3(-1, 0, -1));
-            
+
             var traveler = new Traveler();
-            var pathfinder = new Pathfinding();
-            pathfinder.Zone = zone;
-            pathfinder.ZoneMap = zone.Map;
-            
-            traveler.Pathfinder = pathfinder;
+            traveler.CurrentZone = zone;
+
             traveler.Position = new Vector3(1, 0, -1);
-            
+
             traveler.GoToZone(targetZone);
             var got = traveler.Position;
 

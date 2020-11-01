@@ -1,5 +1,4 @@
 using System.Numerics;
-using Pathfinder.Map;
 using Pathfinder.Pathing;
 using Xunit;
 
@@ -27,7 +26,7 @@ namespace Pathfinder.Tests.UnitTests
              */
 
             // arrange
-            var pathfinding = SetupForPathfinding();
+            var grid = SetupZoneMap.SetupMediumGrid();
 
             var startPos = new Vector3(-2, 0, -2);
             var endPos = new Vector3(1, 0, 2);
@@ -41,7 +40,7 @@ namespace Pathfinder.Tests.UnitTests
             };
 
             // act 
-            var got = pathfinding.FindWaypoints(startPos, endPos);
+            var got = Pathfinding.FindWaypoints(grid, startPos, endPos);
 
             // assert
             Assert.Equal(want, got);
@@ -67,16 +66,16 @@ namespace Pathfinder.Tests.UnitTests
 -------------------------------
              */
 
-            var pathfinding = SetupForPathfinding();
+            var grid = SetupZoneMap.SetupMediumGrid();
 
-            pathfinding.ZoneMap.AddUnWalkableNode(Vector3.Zero);
-            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-1, 0, 0));
-            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-2, 0, 0));
-            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-3, 0, 0));
-            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-4, 0, 0));
+            grid.AddUnWalkableNode(Vector3.Zero);
+            grid.AddUnWalkableNode(new Vector3(-1, 0, 0));
+            grid.AddUnWalkableNode(new Vector3(-2, 0, 0));
+            grid.AddUnWalkableNode(new Vector3(-3, 0, 0));
+            grid.AddUnWalkableNode(new Vector3(-4, 0, 0));
 
 
-            string example = pathfinding.ZoneMap.Print();
+            string example = grid.Print();
 
             var startPos = new Vector3(-2, 0, -2);
             var endPos = new Vector3(-2, 0, 1);
@@ -91,18 +90,10 @@ namespace Pathfinder.Tests.UnitTests
             };
 
             // act 
-            var got = pathfinding.FindWaypoints(startPos, endPos);
+            var got = Pathfinding.FindWaypoints(grid, startPos, endPos);
 
             // assert
             Assert.Equal(want, got);
-        }
-
-        private static Pathfinding SetupForPathfinding()
-        {
-            var pathfinding = new Pathfinding();
-            var grid = ZoneMap.NewGridFromVector2(new Vector2(5, 5));
-            pathfinding.ZoneMap = grid;
-            return pathfinding;
         }
     }
 }

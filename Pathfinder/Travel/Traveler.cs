@@ -24,12 +24,9 @@ namespace Pathfinder.Travel
             World = world;
 
             CurrentZone = world.GetZone(currentZoneName);
-            Pathfinder.Zone = CurrentZone;
-            Pathfinder.ZoneMap = CurrentZone.Map;
         }
 
         public Zone CurrentZone { get; set; }
-        public Pathfinding Pathfinder { get; set; } = new Pathfinding();
 
         public Vector3 Position
         {
@@ -53,7 +50,7 @@ namespace Pathfinder.Travel
 
         public Vector3[] PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint)
         {
-            var path = Pathfinder.FindWaypoints(Position, waypoint);
+            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint);
             foreach (var point in path) WalkToPosition(point);
 
             return path;
@@ -97,7 +94,7 @@ namespace Pathfinder.Travel
 
         private Vector3 GetBorderZonePosition(string zone)
         {
-            var borderZones = Pathfinder.Zone.Boundaries[zone];
+            var borderZones = CurrentZone.Boundaries[zone];
             return GetClosestZoneBorder(borderZones);
         }
 
@@ -116,13 +113,13 @@ namespace Pathfinder.Travel
 
         public void DiscoverAllNodes()
         {
-            foreach (var unknownNode in Pathfinder.ZoneMap.UnknownNodes)
+            foreach (var unknownNode in CurrentZone.Map.UnknownNodes)
             {
                 // Not actually working. Need to make it walk instead of just add. 
                 // Then also need to add the concept of unreachable nodes, if there are blocks surrounding a border
                 // it should mark them as unreachable, but not necessarily blocked. 
                 var getToKnowNode = new Vector3(unknownNode.X, unknownNode.Y, unknownNode.Z);
-                Pathfinder.ZoneMap.AddKnownNode(getToKnowNode);
+                CurrentZone.Map.AddKnownNode(getToKnowNode);
                 // PathfindAndWalkToFarAwayWorldMapPosition(unknownNode.WorldPosition);
             }
         }

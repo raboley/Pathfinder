@@ -1,7 +1,7 @@
 using System;
 using System.Numerics;
 using System.Threading.Tasks;
-using Pathfinder.Pathing;
+using Pathfinder.Map;
 using Pathfinder.Travel;
 using Xunit;
 
@@ -21,19 +21,17 @@ namespace Pathfinder.Tests.UnitTests
                 endPos
             };
 
+            var zone = new Zone();
             var grid = SetupZoneMap.SetupMediumGrid();
+            zone.Map = grid;
 
-            var pathfinding = new Pathfinding();
-            pathfinding.ZoneMap = grid;
-
-            var navigator = new Traveler();
-            navigator.Position = startPos;
-            navigator.Pathfinder = pathfinding;
-
-            var traveledPath = navigator.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
+            var traveler = new Traveler {Position = startPos, CurrentZone = zone};
 
 
-            Assert.Equal(endPos, navigator.Position);
+            var traveledPath = traveler.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
+
+
+            Assert.Equal(endPos, traveler.Position);
             Assert.Equal(want.Length, traveledPath.Length);
             for (var i = 0; i < want.Length; i++) Assert.Equal(want[i], traveledPath[i]);
         }
@@ -51,17 +49,14 @@ namespace Pathfinder.Tests.UnitTests
 -------------------
 ";
             var grid = SetupZoneMap.SetupSmallGrid();
-            var pathfinding = new Pathfinding();
-            pathfinding.ZoneMap = grid;
+            var traveler = new Traveler();
+            traveler.CurrentZone = new Zone {Map = grid};
+            traveler.Position = Vector3.One;
 
-            var navigator = new Traveler();
-            navigator.Position = Vector3.One;
-            navigator.Pathfinder = pathfinding;
-
-            navigator.DiscoverAllNodes();
+            traveler.DiscoverAllNodes();
 
 
-            Assert.Empty(navigator.Pathfinder.ZoneMap.UnknownNodes);
+            Assert.Empty(traveler.CurrentZone.Map.UnknownNodes);
 
             string got = grid.PrintKnown();
             Assert.Equal(want, got);

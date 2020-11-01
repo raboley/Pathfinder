@@ -331,13 +331,12 @@ x = obstacle
 -------------------------------
 ";
 
-            var pathfinding = SetupZoneMap.SetupForPathfinding();
-
-            pathfinding.ZoneMap.AddUnWalkableNode(Vector3.Zero);
-            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-1, 0, 0));
-            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-2, 0, 0));
-            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-3, 0, 0));
-            pathfinding.ZoneMap.AddUnWalkableNode(new Vector3(-4, 0, 0));
+            var grid = SetupZoneMap.SetupMediumGrid();
+            grid.AddUnWalkableNode(Vector3.Zero);
+            grid.AddUnWalkableNode(new Vector3(-1, 0, 0));
+            grid.AddUnWalkableNode(new Vector3(-2, 0, 0));
+            grid.AddUnWalkableNode(new Vector3(-3, 0, 0));
+            grid.AddUnWalkableNode(new Vector3(-4, 0, 0));
 
 
             var path = new[]
@@ -351,7 +350,7 @@ x = obstacle
             };
 
             // act
-            string got = pathfinding.ZoneMap.PrintPath(path);
+            string got = grid.PrintPath(path);
 
 
             // assert

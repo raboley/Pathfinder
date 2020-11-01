@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Pathfinder.Map;
-using Pathfinder.Pathing;
 using Pathfinder.People;
 using Xunit;
 
@@ -16,14 +15,6 @@ namespace Pathfinder.Tests
             var node = zoneMap.GetNodeFromWorldPoint(position);
             Assert.Equal(node.WorldPosition, position);
             Assert.Equal(node.Walkable, false);
-        }
-
-        public static Pathfinding SetupForPathfinding()
-        {
-            var pathfinding = new Pathfinding();
-            var grid = ZoneMap.NewGridFromVector2(new Vector2(5, 5));
-            pathfinding.ZoneMap = grid;
-            return pathfinding;
         }
 
         public static ZoneMap SetupSmallGrid()
