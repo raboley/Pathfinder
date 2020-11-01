@@ -24,14 +24,11 @@ namespace Pathfinder.Tests.IntegrationTests
             // Setup traveler in a zone, and World
             var traveler = new Traveler(start, world, Vector3.Zero);
 
-            // setup the world pathfinder
-            var worldPathfinder = new WorldPathfinder {World = world};
-
             // Find zones to travel through from here to there
-            worldPathfinder.FindWorldPathToZone(start, end);
+            var zonesToTravelTo = WorldPathfinder.FindWorldPathToZone(world, start, end);
 
             // have traveler walk from here to there
-            foreach (var zone in worldPathfinder.ZonesToTravelThrough)
+            foreach (var zone in zonesToTravelTo)
             {
                 traveler.GoToZone(zone.Name);
             }

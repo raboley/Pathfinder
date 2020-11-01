@@ -26,6 +26,8 @@ namespace Pathfinder.Travel
             CurrentZone = world.GetZone(currentZoneName);
         }
 
+        public List<Zone> ZonesToTravelThrough { get; set; } = new List<Zone>();
+
         public Zone CurrentZone { get; set; }
 
         public Vector3 Position

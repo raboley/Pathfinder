@@ -14,13 +14,9 @@ namespace Pathfinder.Tests.UnitTests
             var end = "D";
 
             var world = World.Sample();
-            var traveler = new Traveler();
-            traveler.CurrentZoneName = start;
+            var traveler = new Traveler {CurrentZoneName = start};
 
-            var worldPathfinder = new WorldPathfinder {World = world};
-            worldPathfinder.FindWorldPathToZone(start, end);
-
-            var got = worldPathfinder.ZonesToTravelThrough;
+            var got = WorldPathfinder.FindWorldPathToZone(world, start, end);
 
             var want = new List<Zone>
             {

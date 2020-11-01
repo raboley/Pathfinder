@@ -209,21 +209,18 @@ namespace Pathfinder
         }
     }
 
-    public class WorldPathfinder
+    public static class WorldPathfinder
     {
-        public World World { get; set; }
-        public List<Zone> ZonesToTravelThrough { get; set; }
-
-        public void FindWorldPathToZone(string start, string end)
+        public static List<Zone> FindWorldPathToZone(World world, string start, string end)
         {
             // Setup
             var route = new List<Zone>();
             var failedToFindRoute = true;
 
-            var startZone = World.GetZone(start);
-            var endZone = World.GetZone(end);
+            var startZone = world.GetZone(start);
+            var endZone = world.GetZone(end);
 
-            var openSet = new Heap<Zone>(World.Zones.Count);
+            var openSet = new Heap<Zone>(world.Zones.Count);
             var closedSet = new HashSet<Zone>();
 
             openSet.Add(startZone);
@@ -243,7 +240,7 @@ namespace Pathfinder
                 }
 
                 // Go through all neighbors of the current zone
-                foreach (var neighbour in World.GetNeighbors(currentZone))
+                foreach (var neighbour in world.GetNeighbors(currentZone))
                 {
                     // if this neighbor is in the closed set, continue
                     if (closedSet.Contains(neighbour)) continue;
@@ -267,13 +264,13 @@ namespace Pathfinder
             }
 
             // Pathing is done now!
-            if (failedToFindRoute) return;
+            if (failedToFindRoute) return null;
 
             var zonesToTravelThrough = RetracePath(startZone, endZone);
-            ZonesToTravelThrough = zonesToTravelThrough;
+            return zonesToTravelThrough;
         }
 
-        private List<Zone> RetracePath(Zone startZone, Zone endZone)
+        private static List<Zone> RetracePath(Zone startZone, Zone endZone)
         {
             var path = new List<Zone>();
             var currentZone = endZone;
@@ -293,7 +290,7 @@ namespace Pathfinder
         }
 
 
-        private int GetDistance(Zone currentZone, Zone neighbour)
+        private static int GetDistance(Zone currentZone, Zone neighbour)
         {
             // don't know how to calc this yet, probably gotta store the cost in the ZoneBoundary once I have calculated
             // Paths between boundaries.
