@@ -11,7 +11,7 @@ namespace Pathfinder.Tests.UnitTests
         {
             var name = "TestMap";
             var map = SetupZoneMap.SetupSmallGrid();
-            var boundaries = new List<ZoneBoundary> {new ZoneBoundary()};
+            var boundaries = new Dictionary<string, List<ZoneBoundary>>();
             var got = new Zone
             {
                 Name = name,

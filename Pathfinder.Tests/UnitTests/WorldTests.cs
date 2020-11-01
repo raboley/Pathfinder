@@ -73,16 +73,23 @@ namespace Pathfinder.Tests.UnitTests
         public void CanGoToZone()
         {
             // Move to Zone boundary
-            var zoneMap = SetupZoneMap.SetupSmallGrid();
+            var zone = new Zone();
+            zone.Map = SetupZoneMap.SetupSmallGrid();
+            zone.Name = "B";
+            
             var want = new Vector3(1, 0, 1);
-            zoneMap.AddZoneBoundary("B", want);
+            var targetZone = "C";
+            zone.AddBoundary(zone.Name, want, targetZone, new Vector3(-1, 0, -1));
+            
             var traveler = new Traveler();
             var pathfinder = new Pathfinding();
-            pathfinder.ZoneMap = zoneMap;
+            pathfinder.Zone = zone;
+            pathfinder.ZoneMap = zone.Map;
+            
             traveler.Pathfinder = pathfinder;
-
             traveler.Position = new Vector3(1, 0, -1);
-            traveler.GoToZone("B");
+            
+            traveler.GoToZone(targetZone);
             var got = traveler.Position;
 
 

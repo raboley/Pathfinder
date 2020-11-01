@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
+using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using Pathfinder.Map;
 using Pathfinder.Pathing;
 using Pathfinder.Properties;
 
@@ -12,7 +13,23 @@ namespace Pathfinder.Travel
     {
         public readonly Queue<Vector3> PositionHistory = new Queue<Vector3>();
         private Vector3 _position;
-        public Pathfinding Pathfinder { get; set; }
+
+        public Traveler()
+        {
+        }
+
+        public Traveler(string currentZoneName, World world, Vector3 position)
+        {
+            CurrentZoneName = currentZoneName;
+            World = world;
+
+            CurrentZone = world.GetZone(currentZoneName);
+            Pathfinder.Zone = CurrentZone;
+            Pathfinder.ZoneMap = CurrentZone.Map;
+        }
+
+        public Zone CurrentZone { get; set; }
+        public Pathfinding Pathfinder { get; set; } = new Pathfinding();
 
         public Vector3 Position
         {
@@ -27,8 +44,10 @@ namespace Pathfinder.Travel
             }
         }
 
+
         public string CurrentZoneName { get; set; }
 
+        public World World { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -68,23 +87,6 @@ namespace Pathfinder.Travel
             return currentInt;
         }
 
-
-        public void DiscoverAllNodes()
-        {
-            foreach (var unknownNode in Pathfinder.ZoneMap.UnknownNodes)
-            {
-                var getToKnowNode = new Vector3(unknownNode.X, unknownNode.Y, unknownNode.Z);
-                Pathfinder.ZoneMap.AddKnownNode(getToKnowNode);
-                // PathfindAndWalkToFarAwayWorldMapPosition(unknownNode.WorldPosition);
-            }
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public void GoToZone(string zone)
         {
             Vector3 pos = GetBorderZonePosition(zone);
@@ -95,7 +97,40 @@ namespace Pathfinder.Travel
 
         private Vector3 GetBorderZonePosition(string zone)
         {
-            return Pathfinder.ZoneMap.ZoneBoundaries[zone].FirstOrDefault();
+            var borderZones = Pathfinder.Zone.Boundaries[zone];
+            return GetClosestZoneBorder(borderZones);
+        }
+
+        private Vector3 GetClosestZoneBorder(List<ZoneBoundary> borderZones)
+        {
+            ZoneBoundary first = null;
+            foreach (var zone in borderZones)
+            {
+                first = zone;
+                break;
+            }
+
+            Debug.Assert(first != null, nameof(first) + " != null");
+            return first.FromPosition;
+        }
+
+        public void DiscoverAllNodes()
+        {
+            foreach (var unknownNode in Pathfinder.ZoneMap.UnknownNodes)
+            {
+                // Not actually working. Need to make it walk instead of just add. 
+                // Then also need to add the concept of unreachable nodes, if there are blocks surrounding a border
+                // it should mark them as unreachable, but not necessarily blocked. 
+                var getToKnowNode = new Vector3(unknownNode.X, unknownNode.Y, unknownNode.Z);
+                Pathfinder.ZoneMap.AddKnownNode(getToKnowNode);
+                // PathfindAndWalkToFarAwayWorldMapPosition(unknownNode.WorldPosition);
+            }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -14,11 +14,11 @@ namespace Pathfinder.Tests.UnitTests
             var end = "D";
 
             var world = World.Sample();
-            world.Traveler = new Traveler();
-            world.Traveler.CurrentZoneName = start;
+            var traveler = new Traveler();
+            traveler.CurrentZoneName = start;
 
             var worldPathfinder = new WorldPathfinder {World = world};
-            worldPathfinder.FindWorldPathToZone(end);
+            worldPathfinder.FindWorldPathToZone(start, end);
 
             var got = worldPathfinder.ZonesToTravelThrough;
 

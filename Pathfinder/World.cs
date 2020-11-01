@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Pathfinder.Map;
-using Pathfinder.Travel;
 
 namespace Pathfinder
 {
@@ -9,14 +8,12 @@ namespace Pathfinder
     {
         public List<Zone> Zones { get; set; }
 
-        public Traveler Traveler { get; set; }
-
         public List<Zone> GetNeighbors(Zone zone)
         {
             List<Zone> neighbors = new List<Zone>();
-            foreach (var zoneBoundary in zone.Boundaries)
+            foreach (var zoneBoundaryDict in zone.Boundaries)
             {
-                neighbors.Add(GetZone(zoneBoundary.ToZone));
+                neighbors.Add(GetZone(zoneBoundaryDict.Key));
             }
 
             return neighbors;
@@ -60,21 +57,27 @@ namespace Pathfinder
         {
             var zone = new Zone();
             zone.Name = "A";
-            zone.Boundaries = new List<ZoneBoundary>
+            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
             {
-                new ZoneBoundary
+                ["B"] = new List<ZoneBoundary>
                 {
-                    FromZone = "A",
-                    FromPosition = new Vector3(0, 0, -1),
-                    ToZone = "B",
-                    ToPosition = new Vector3(0, 0, 1)
+                    new ZoneBoundary
+                    {
+                        FromZone = "A",
+                        FromPosition = new Vector3(0, 0, -1),
+                        ToZone = "B",
+                        ToPosition = new Vector3(0, 0, 1)
+                    }
                 },
-                new ZoneBoundary
+                ["C"] = new List<ZoneBoundary>
                 {
-                    FromZone = "A",
-                    FromPosition = new Vector3(1, 0, 0),
-                    ToZone = "C",
-                    ToPosition = new Vector3(-1, 0, 0)
+                    new ZoneBoundary
+                    {
+                        FromZone = "A",
+                        FromPosition = new Vector3(1, 0, 0),
+                        ToZone = "C",
+                        ToPosition = new Vector3(-1, 0, 0)
+                    }
                 }
             };
             return zone;
@@ -84,21 +87,27 @@ namespace Pathfinder
         {
             var zone = new Zone();
             zone.Name = "B";
-            zone.Boundaries = new List<ZoneBoundary>
+            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
             {
-                new ZoneBoundary
+                ["A"] = new List<ZoneBoundary>
                 {
-                    FromZone = "B",
-                    FromPosition = new Vector3(0, 0, 1),
-                    ToZone = "A",
-                    ToPosition = new Vector3(0, 0, -1),
+                    new ZoneBoundary
+                    {
+                        FromZone = "B",
+                        FromPosition = new Vector3(0, 0, 1),
+                        ToZone = "A",
+                        ToPosition = new Vector3(0, 0, -1),
+                    },
                 },
-                new ZoneBoundary
+                ["C"] = new List<ZoneBoundary>
                 {
-                    FromZone = "B",
-                    FromPosition = new Vector3(1, 0, 1),
-                    ToZone = "C",
-                    ToPosition = new Vector3(-1, 0, -1)
+                    new ZoneBoundary
+                    {
+                        FromZone = "B",
+                        FromPosition = new Vector3(1, 0, 1),
+                        ToZone = "C",
+                        ToPosition = new Vector3(-1, 0, -1)
+                    },
                 }
             };
             return zone;
@@ -108,29 +117,38 @@ namespace Pathfinder
         {
             var zone = new Zone();
             zone.Name = "C";
-            zone.Boundaries = new List<ZoneBoundary>
+            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
             {
-                new ZoneBoundary
+                ["B"] = new List<ZoneBoundary>
                 {
-                    FromZone = "C",
-                    FromPosition = new Vector3(-1, 0, -1),
-                    ToZone = "B",
-                    ToPosition = new Vector3(1, 0, 1),
+                    new ZoneBoundary
+                    {
+                        FromZone = "C",
+                        FromPosition = new Vector3(-1, 0, -1),
+                        ToZone = "B",
+                        ToPosition = new Vector3(1, 0, 1),
+                    },
                 },
-                new ZoneBoundary
+                ["A"] = new List<ZoneBoundary>
                 {
-                    FromZone = "C",
-                    FromPosition = new Vector3(-1, 0, 0),
-                    ToZone = "A",
-                    ToPosition = new Vector3(1, 0, 0),
+                    new ZoneBoundary
+                    {
+                        FromZone = "C",
+                        FromPosition = new Vector3(-1, 0, 0),
+                        ToZone = "A",
+                        ToPosition = new Vector3(1, 0, 0),
+                    },
                 },
-                new ZoneBoundary
+                ["D"] = new List<ZoneBoundary>
                 {
-                    FromZone = "C",
-                    FromPosition = new Vector3(1, 0, 0),
-                    ToZone = "D",
-                    ToPosition = new Vector3(-1, 0, 0)
-                }
+                    new ZoneBoundary
+                    {
+                        FromZone = "C",
+                        FromPosition = new Vector3(1, 0, 0),
+                        ToZone = "D",
+                        ToPosition = new Vector3(-1, 0, 0)
+                    },
+                },
             };
             return zone;
         }
@@ -139,22 +157,28 @@ namespace Pathfinder
         {
             var zone = new Zone();
             zone.Name = "D";
-            zone.Boundaries = new List<ZoneBoundary>
+            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
             {
-                new ZoneBoundary
+                ["E"] = new List<ZoneBoundary>
                 {
-                    FromZone = "D",
-                    FromPosition = new Vector3(1, 0, -1),
-                    ToZone = "E",
-                    ToPosition = new Vector3(-1, 0, 1),
+                    new ZoneBoundary
+                    {
+                        FromZone = "D",
+                        FromPosition = new Vector3(1, 0, -1),
+                        ToZone = "E",
+                        ToPosition = new Vector3(-1, 0, 1),
+                    },
                 },
-                new ZoneBoundary
+                ["C"] = new List<ZoneBoundary>
                 {
-                    ToZone = "C",
-                    ToPosition = new Vector3(1, 0, 0),
-                    FromZone = "D",
-                    FromPosition = new Vector3(-1, 0, 0)
-                }
+                    new ZoneBoundary
+                    {
+                        ToZone = "C",
+                        ToPosition = new Vector3(1, 0, 0),
+                        FromZone = "D",
+                        FromPosition = new Vector3(-1, 0, 0)
+                    },
+                },
             };
             return zone;
         }
@@ -163,14 +187,17 @@ namespace Pathfinder
         {
             var zone = new Zone();
             zone.Name = "E";
-            zone.Boundaries = new List<ZoneBoundary>
+            zone.Boundaries = new Dictionary<string, List<ZoneBoundary>>
             {
-                new ZoneBoundary
+                ["D"] = new List<ZoneBoundary>
                 {
-                    FromZone = "E",
-                    FromPosition = new Vector3(-1, 0, 1),
-                    ToZone = "D",
-                    ToPosition = new Vector3(1, 0, -1),
+                    new ZoneBoundary
+                    {
+                        FromZone = "E",
+                        FromPosition = new Vector3(-1, 0, 1),
+                        ToZone = "D",
+                        ToPosition = new Vector3(1, 0, -1),
+                    },
                 },
             };
             return zone;
@@ -187,15 +214,13 @@ namespace Pathfinder
         public World World { get; set; }
         public List<Zone> ZonesToTravelThrough { get; set; }
 
-        public void FindWorldPathToZone(string end)
+        public void FindWorldPathToZone(string start, string end)
         {
             // Setup
             var route = new List<Zone>();
             var failedToFindRoute = true;
 
-            var start = World.Traveler.CurrentZoneName;
             var startZone = World.GetZone(start);
-
             var endZone = World.GetZone(end);
 
             var openSet = new Heap<Zone>(World.Zones.Count);

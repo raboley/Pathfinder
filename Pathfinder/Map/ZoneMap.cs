@@ -214,24 +214,6 @@ namespace Pathfinder.Map
             MapGrid[gridNode.GridX, gridNode.GridY].Unknown = false;
         }
 
-        public void AddZoneBoundary(string ZonesTo, Vector3 worldPoint)
-        {
-            List<Vector3> zoneBoundaries;
-
-            if (ZoneBoundaries != null)
-                if (ZoneBoundaries.ContainsKey(ZonesTo))
-                {
-                    zoneBoundaries = ZoneBoundaries[ZonesTo];
-                    zoneBoundaries.Add(worldPoint);
-                    ZoneBoundaries[ZonesTo] = zoneBoundaries;
-                    return;
-                }
-
-            zoneBoundaries = new List<Vector3>();
-            zoneBoundaries.Add(worldPoint);
-            ZoneBoundaries.Add(ZonesTo, zoneBoundaries);
-        }
-
         public void AddNpc(Person person)
         {
             person.MapName = MapName;

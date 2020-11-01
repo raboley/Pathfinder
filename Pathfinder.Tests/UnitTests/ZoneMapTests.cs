@@ -479,11 +479,12 @@ x = obstacle
         [Fact]
         public void AddZoneBorder()
         {
-            var zoneMap = SetupZoneMap.SetupSmallGrid();
             var want = Vector3.One;
 
-            zoneMap.AddZoneBoundary("ZoneB", want);
-            var got = zoneMap.ZoneBoundaries["ZoneB"].First();
+            var zone = new Zone();
+            zone.Map = SetupZoneMap.SetupSmallGrid();
+            zone.AddBoundary("A", want, "B", want * -1);
+            var got = zone.Boundaries["B"].First().FromPosition;
 
             Assert.Equal(want, got);
         }

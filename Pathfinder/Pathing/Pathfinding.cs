@@ -9,6 +9,7 @@ namespace Pathfinder.Pathing
 {
     public class Pathfinding
     {
+        public Zone Zone;
         public ZoneMap ZoneMap;
 
         // PathRequestManager requestManager;
