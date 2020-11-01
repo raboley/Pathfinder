@@ -1,6 +1,5 @@
-using System;
+using System.Collections.Generic;
 using System.Numerics;
-using System.Threading.Tasks;
 using Pathfinder.Map;
 using Pathfinder.Travel;
 using Xunit;
@@ -36,7 +35,7 @@ namespace Pathfinder.Tests.UnitTests
             for (var i = 0; i < want.Length; i++) Assert.Equal(want[i], traveledPath[i]);
         }
 
-        [Fact]
+        [Fact(Skip = "Don't need this yet")]
         public void NavigatorDiscoversAllUnknownNodes()
         {
             const string want = @"
@@ -62,63 +61,40 @@ namespace Pathfinder.Tests.UnitTests
             Assert.Equal(want, got);
         }
 
-
-        //passes
         [Fact]
-        public void TestSuccessResult()
+        public void AllBorderZonesContainsAllBorderPoints()
         {
-            var testClass = new AsyncTestClass();
-            int answer = testClass.AddAsync(1, 1).Result;
-            Assert.Equal(2, answer);
+            var traveler = new Traveler {CurrentZone = World.ZoneB()};
+            var want = new List<Vector3>
+            {
+                new Vector3(0, 0, 1),
+                new Vector3(1, 0, 1),
+                new Vector3(1, 0, 0),
+            };
+            var got = traveler.AllBorderZonePoints;
+
+            Assert.Equal(want, got);
         }
 
-        //passes
-        [Fact]
-        public async void TestSuccessAwait()
+        [Fact(Skip = "Need to Have Passing border zone tests")]
+        public void WalkThroughZonesTravelsThroughZones()
         {
-            var testClass = new AsyncTestClass();
-            int answer = await testClass.AddAsync(1, 1);
-            Assert.Equal(2, answer);
+            const string start = "A";
+            const string end = "D";
+
+            // setup the world
+            var world = World.Sample();
+            var traveler = new Traveler(start, world, Vector3.Zero);
+
+            var zones = new List<Zone>
+            {
+                world.GetZoneByName("A"),
+                world.GetZoneByName("B"),
+                world.GetZoneByName("C"),
+            };
+            traveler.WalkThroughZones(zones);
+
+            Assert.Equal(end, traveler.CurrentZone.Name);
         }
-
-        // //fails as expected
-        // [Fact]
-        // public void TestFailResult()
-        // {
-        //     var testClass = new AsyncTestClass();
-        //     int answer = testClass.AddAsync(2, 1).Result;
-        //     Assert.Equal(2, answer);
-        // }
-        //
-        // //fails as expected
-        // [Fact]
-        // public async void TestFailAwait()
-        // {
-        //     var testClass = new AsyncTestClass();
-        //     int answer = await testClass.AddAsync(2, 1);
-        //     Assert.Equal(2, answer);
-        // }
-
-        [Fact]
-        public async void TestExceptionThrown_Works()
-        {
-            var testClass = new AsyncTestClass();
-            await Assert.ThrowsAsync<ArgumentException>(() => testClass.ErrorAddAsync(0, 1));
-        }
-    }
-}
-
-
-public class AsyncTestClass
-{
-    public async Task<int> AddAsync(int x, int y)
-    {
-        return await Task.Run(() => x + y);
-    }
-
-    public async Task<int> ErrorAddAsync(int x, int y)
-    {
-        if (x == 0) throw new ArgumentException("zero");
-        return await Task.Run(() => x + y);
     }
 }

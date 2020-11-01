@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Pathfinder.Map;
@@ -23,7 +24,7 @@ namespace Pathfinder.Travel
             CurrentZoneName = currentZoneName;
             World = world;
 
-            CurrentZone = world.GetZone(currentZoneName);
+            CurrentZone = world.GetZoneByName(currentZoneName);
         }
 
         public List<Zone> ZonesToTravelThrough { get; set; } = new List<Zone>();
@@ -48,6 +49,25 @@ namespace Pathfinder.Travel
 
         public World World { get; set; }
 
+        public List<Vector3> AllBorderZonePoints
+        {
+            get
+            {
+                if (CurrentZone?.Boundaries == null)
+                    return null;
+
+                var borderPoints = new List<Vector3>();
+
+                foreach (var dictionaryKeyValuePair in CurrentZone.Boundaries)
+                {
+                    var positions = dictionaryKeyValuePair.Value.Select(x => x.FromPosition).ToList();
+                    borderPoints.AddRange(positions);
+                }
+
+                return borderPoints;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Vector3[] PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint)
@@ -69,7 +89,18 @@ namespace Pathfinder.Travel
                 var position = new Vector3(x, 0, y);
                 Position = position;
             }
+
+            // // Teleport to the new zone if position is equal to a border zone position
+            // if (AllBorderZonePoints.Contains(Position))
+            // {
+            //     ZoneBoundary boundary = GetZoneBorderFromPoint(Position);
+            // }
         }
+
+        // private ZoneBoundary GetZoneBorderFromPoint(Vector3 position)
+        // {
+        //     return new ZoneBoundary();
+        // }
 
 
         private int GetNewXorY(float current, float target)
@@ -88,6 +119,10 @@ namespace Pathfinder.Travel
 
         public void GoToZone(string zone)
         {
+            // Already in that zone!
+            if (CurrentZone.Name == zone)
+                return;
+
             Vector3 pos = GetBorderZonePosition(zone);
             if (pos == null)
                 throw new KeyNotFoundException("Don't know where zone: " + zone + " is.");
@@ -130,6 +165,20 @@ namespace Pathfinder.Travel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void WalkToZone(string zoneName)
+        {
+            var zonesToTravelTo = WorldPathfinder.FindWorldPathToZone(World, CurrentZone.Name, zoneName);
+            WalkThroughZones(zonesToTravelTo);
+        }
+
+        public void WalkThroughZones(List<Zone> zonesToTravelTo)
+        {
+            foreach (var zone in zonesToTravelTo)
+            {
+                GoToZone(zone.Name);
+            }
         }
     }
 }

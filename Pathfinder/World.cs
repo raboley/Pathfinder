@@ -13,7 +13,7 @@ namespace Pathfinder
             List<Zone> neighbors = new List<Zone>();
             foreach (var zoneBoundaryDict in zone.Boundaries)
             {
-                neighbors.Add(GetZone(zoneBoundaryDict.Key));
+                neighbors.Add(GetZoneByName(zoneBoundaryDict.Key));
             }
 
             return neighbors;
@@ -53,7 +53,7 @@ namespace Pathfinder
         }
 
 
-        private static Zone ZoneA()
+        public static Zone ZoneA()
         {
             var zone = new Zone();
             zone.Name = "A";
@@ -83,7 +83,7 @@ namespace Pathfinder
             return zone;
         }
 
-        private static Zone ZoneB()
+        public static Zone ZoneB()
         {
             var zone = new Zone();
             zone.Name = "B";
@@ -108,12 +108,19 @@ namespace Pathfinder
                         ToZone = "C",
                         ToPosition = new Vector3(-1, 0, -1)
                     },
+                    new ZoneBoundary
+                    {
+                        FromZone = "B",
+                        FromPosition = new Vector3(1, 0, 0),
+                        ToZone = "C",
+                        ToPosition = new Vector3(-1, 0, 0)
+                    },
                 }
             };
             return zone;
         }
 
-        private static Zone ZoneC()
+        public static Zone ZoneC()
         {
             var zone = new Zone();
             zone.Name = "C";
@@ -153,7 +160,7 @@ namespace Pathfinder
             return zone;
         }
 
-        private static Zone ZoneD()
+        public static Zone ZoneD()
         {
             var zone = new Zone();
             zone.Name = "D";
@@ -183,7 +190,7 @@ namespace Pathfinder
             return zone;
         }
 
-        private static Zone ZoneE()
+        public static Zone ZoneE()
         {
             var zone = new Zone();
             zone.Name = "E";
@@ -203,7 +210,7 @@ namespace Pathfinder
             return zone;
         }
 
-        public Zone GetZone(string zoneName)
+        public Zone GetZoneByName(string zoneName)
         {
             return Zones.Find(z => z.Name == zoneName);
         }
@@ -217,8 +224,8 @@ namespace Pathfinder
             var route = new List<Zone>();
             var failedToFindRoute = true;
 
-            var startZone = world.GetZone(start);
-            var endZone = world.GetZone(end);
+            var startZone = world.GetZoneByName(start);
+            var endZone = world.GetZoneByName(end);
 
             var openSet = new Heap<Zone>(world.Zones.Count);
             var closedSet = new HashSet<Zone>();

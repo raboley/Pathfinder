@@ -20,9 +20,9 @@ namespace Pathfinder.Tests.UnitTests
 
             var want = new List<Zone>
             {
-                world.Zones.Find(z => z.Name == "A"),
-                world.Zones.Find(z => z.Name == "C"),
-                world.Zones.Find(z => z.Name == "D"),
+                world.GetZoneByName("A"),
+                world.GetZoneByName("C"),
+                world.GetZoneByName("D"),
             };
 
             Assert.Equal(want.Count, got.Count);
