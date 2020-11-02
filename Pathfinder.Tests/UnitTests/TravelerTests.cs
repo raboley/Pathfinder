@@ -64,12 +64,12 @@ namespace Pathfinder.Tests.UnitTests
         [Fact]
         public void AllBorderZonesContainsAllBorderPoints()
         {
-            var traveler = new Traveler {CurrentZone = World.ZoneB()};
+            var traveler = new Traveler {CurrentZone = ExampleWorld.ZoneB()};
             var want = new List<Vector3>
             {
                 new Vector3(0, 0, 1),
                 new Vector3(1, 0, 1),
-                new Vector3(1, 0, 0),
+                new Vector3(1, 0, 0)
             };
             var got = traveler.AllBorderZonePoints;
 
@@ -80,14 +80,14 @@ namespace Pathfinder.Tests.UnitTests
         public void GetZoneBorderFromPointCanGetBorder()
         {
             const string targetZoneName = "B";
-            var want = World.ZoneA().Boundaries.Find(b => b.ToZone == targetZoneName);
+            var want = ExampleWorld.ZoneA().Boundaries.Find(b => b.ToZone == targetZoneName);
             var fromPosition = want.FromPosition;
             var targetPosition = want.ToPosition;
             var traveler = new Traveler
             {
-                CurrentZone = World.ZoneA(),
+                CurrentZone = ExampleWorld.ZoneA(),
                 Position = Vector3.Zero,
-                World = World.Sample(),
+                World = ExampleWorld.Sample()
             };
             var got = traveler.GetZoneBorderToNameFromPoint(fromPosition);
 
@@ -98,12 +98,12 @@ namespace Pathfinder.Tests.UnitTests
         public void GoToZoneWillActuallyZoneTheTraveler()
         {
             const string targetZoneName = "B";
-            var targetPosition = World.ZoneA().Boundaries.Find(b => b.ToZone == targetZoneName).ToPosition;
+            var targetPosition = ExampleWorld.ZoneA().Boundaries.Find(b => b.ToZone == targetZoneName).ToPosition;
             var traveler = new Traveler
             {
-                CurrentZone = World.ZoneA(),
+                CurrentZone = ExampleWorld.ZoneA(),
                 Position = Vector3.Zero,
-                World = World.Sample(),
+                World = ExampleWorld.Sample()
             };
             traveler.GoToZone(targetZoneName);
 
@@ -119,18 +119,36 @@ namespace Pathfinder.Tests.UnitTests
             const string end = "D";
 
             // setup the world
-            var world = World.Sample();
+            var world = ExampleWorld.Sample();
             var traveler = new Traveler(start, world, Vector3.Zero);
 
             var zones = new List<Zone>
             {
                 world.GetZoneByName("A"),
                 world.GetZoneByName("C"),
-                world.GetZoneByName("D"),
+                world.GetZoneByName("D")
             };
             traveler.WalkThroughZones(zones);
 
             Assert.Equal(end, traveler.CurrentZone.Name);
+        }
+
+        [Fact]
+        public void FindClosestSignetPersonWhenTwoZonesAway()
+        {
+            var want = ExampleWorld.BastokSignetPerson();
+            var traveler = SetupWorld();
+
+            var got = traveler.SearchForClosestSignetNpc("Bastok");
+            Assert.Equal(want, got);
+        }
+
+        private static Traveler SetupWorld()
+        {
+            var world = ExampleWorld.Sample();
+            const string start = "A";
+            var traveler = new Traveler(start, world, Vector3.Zero);
+            return traveler;
         }
     }
 }

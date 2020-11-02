@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+      <Compile Include="ExampleWorld.cs"/>
       <Compile Include="IActor.cs"/>
       <Compile Include="ItemsChangedObservableCollection.cs"/>
       <Compile Include="KnownNodeActor.cs"/>
@@ -81,6 +82,7 @@
       <Compile Include="Watcher.cs"/>
       <Compile Include="Point.cs"/>
       <Compile Include="World.cs"/>
+      <Compile Include="WorldPathfinder.cs"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

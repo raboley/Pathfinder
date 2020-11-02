@@ -13,7 +13,7 @@ namespace Pathfinder.Tests.UnitTests
             var start = "A";
             var end = "D";
 
-            var world = World.Sample();
+            var world = ExampleWorld.Sample();
             var traveler = new Traveler();
 
             var got = WorldPathfinder.FindWorldPathToZone(world, start, end);
@@ -22,14 +22,11 @@ namespace Pathfinder.Tests.UnitTests
             {
                 world.GetZoneByName("A"),
                 world.GetZoneByName("C"),
-                world.GetZoneByName("D"),
+                world.GetZoneByName("D")
             };
 
             Assert.Equal(want.Count, got.Count);
-            for (int i = 0; i < want.Count; i++)
-            {
-                Assert.Equal(want[i].Name, got[i].Name);
-            }
+            for (var i = 0; i < want.Count; i++) Assert.Equal(want[i].Name, got[i].Name);
         }
     }
 }

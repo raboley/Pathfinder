@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using Pathfinder.Map;
 using Pathfinder.Pathing;
+using Pathfinder.People;
 using Pathfinder.Properties;
 
 namespace Pathfinder.Travel
@@ -67,7 +69,7 @@ namespace Pathfinder.Travel
         }
 
 
-        private void WalkToPosition(Vector3 targetPosition)
+        public void WalkToPosition(Vector3 targetPosition)
         {
             while (Position != targetPosition)
             {
@@ -81,7 +83,7 @@ namespace Pathfinder.Travel
             // Teleport to the new zone if position is equal to a border zone position
             if (AllBorderZonePoints.Contains(Position))
             {
-                ZoneBoundary boundary = GetZoneBorderToNameFromPoint(Position);
+                var boundary = GetZoneBorderToNameFromPoint(Position);
                 CurrentZone = World.GetZoneByName(boundary.ToZone);
                 Position = boundary.ToPosition;
             }
@@ -113,7 +115,7 @@ namespace Pathfinder.Travel
             if (CurrentZone.Name == zone)
                 return;
 
-            Vector3 pos = GetBorderZonePosition(zone);
+            var pos = GetBorderZonePosition(zone);
             if (pos == null)
                 throw new KeyNotFoundException("Don't know where zone: " + zone + " is.");
             PathfindAndWalkToFarAwayWorldMapPosition(pos);
@@ -166,10 +168,15 @@ namespace Pathfinder.Travel
 
         public void WalkThroughZones(List<Zone> zonesToTravelTo)
         {
-            foreach (var zone in zonesToTravelTo)
-            {
-                GoToZone(zone.Name);
-            }
+            foreach (var zone in zonesToTravelTo) GoToZone(zone.Name);
+        }
+
+        public Person SearchForClosestSignetNpc(string nation)
+        {
+            if (nation == "Bastok")
+                return World.Npcs.Find(n => n.Name.Contains("I.M."));
+
+            throw new Exception("Can't find an NPC in global NPCs to give Signet to Nation: " + nation);
         }
     }
 }

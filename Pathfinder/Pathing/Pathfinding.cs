@@ -103,10 +103,20 @@ namespace Pathfinder.Pathing
             return waypoints.ToArray();
         }
 
-        private static int GetDistance(Node nodeA, Node nodeB)
+        public static int GetDistance(Node nodeA, Node nodeB)
         {
             int dstX = Math.Abs(nodeA.GridX - nodeB.GridX);
             int dstY = Math.Abs(nodeA.GridY - nodeB.GridY);
+
+            if (dstX > dstY) return 14 * dstY + 10 * (dstX - dstY);
+
+            return 14 * dstX + 10 * (dstY - dstX);
+        }
+
+        public static int GetDistancePos(Vector3 start, Vector3 end)
+        {
+            int dstX = GridMath.ConvertFromFloatToInt(Math.Abs(start.X - end.X));
+            int dstY = GridMath.ConvertFromFloatToInt(Math.Abs(start.Y - end.Y));
 
             if (dstX > dstY) return 14 * dstY + 10 * (dstX - dstY);
 
