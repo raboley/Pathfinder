@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using Pathfinder.Map;
@@ -16,12 +17,12 @@ namespace Pathfinder
 
         public void Added()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Removed()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Updated(object sender, PropertyChangedEventArgs e)

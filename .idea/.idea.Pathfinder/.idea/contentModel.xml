@@ -7,11 +7,7 @@
       <e p="packages" t="ExcludeRecursive" />
       <e p="Pathfinder" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
-        <e p="CollectionWatcher.cs" t="Include" />
         <e p="ExampleWorld.cs" t="Include" />
-        <e p="IActor.cs" t="Include" />
-        <e p="ItemsChangedObservableCollection.cs" t="Include" />
-        <e p="KnownNodeActor.cs" t="Include" />
         <e p="Map" t="Include">
           <e p="Heap.cs" t="Include" />
           <e p="Node.cs" t="Include" />
@@ -23,9 +19,10 @@
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Pathfinder.csproj" t="IncludeRecursive" />
-        <e p="PathfinderMath.cs" t="Include" />
         <e p="Pathing" t="Include">
+          <e p="PathfinderMath.cs" t="Include" />
           <e p="Pathfinding.cs" t="Include" />
+          <e p="WorldPathfinder.cs" t="Include" />
         </e>
         <e p="People" t="Include">
           <e p="IEntity.cs" t="Include" />
@@ -54,9 +51,14 @@
         <e p="Travel" t="Include">
           <e p="Traveler.cs" t="Include" />
         </e>
-        <e p="Watcher.cs" t="Include" />
+        <e p="Watchers" t="Include">
+          <e p="CollectionWatcher.cs" t="Include" />
+          <e p="IActor.cs" t="Include" />
+          <e p="ItemsChangedObservableCollection.cs" t="Include" />
+          <e p="KnownNodeActor.cs" t="Include" />
+          <e p="Watcher.cs" t="Include" />
+        </e>
         <e p="World.cs" t="Include" />
-        <e p="WorldPathfinder.cs" t="Include" />
       </e>
       <e p="Pathfinder.sln" t="IncludeFlat" />
       <e p="Pathfinder.Tests" t="IncludeRecursive">
