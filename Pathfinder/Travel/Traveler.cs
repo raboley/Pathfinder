@@ -21,10 +21,9 @@ namespace Pathfinder.Travel
 
         public Traveler(string currentZoneName, World world, Vector3 position)
         {
-            CurrentZoneName = currentZoneName;
             World = world;
-
             CurrentZone = world.GetZoneByName(currentZoneName);
+            Position = position;
         }
 
         public List<Zone> ZonesToTravelThrough { get; set; } = new List<Zone>();
@@ -43,9 +42,6 @@ namespace Pathfinder.Travel
                 OnPropertyChanged();
             }
         }
-
-
-        public string CurrentZoneName { get; set; }
 
         public World World { get; set; }
 
@@ -86,6 +82,8 @@ namespace Pathfinder.Travel
             if (AllBorderZonePoints.Contains(Position))
             {
                 ZoneBoundary boundary = GetZoneBorderToNameFromPoint(Position);
+                CurrentZone = World.GetZoneByName(boundary.ToZone);
+                Position = boundary.ToPosition;
             }
         }
 
@@ -124,6 +122,7 @@ namespace Pathfinder.Travel
         private Vector3 GetBorderZonePosition(string zone)
         {
             var borderZones = CurrentZone.Boundaries.FindAll(b => b.ToZone == zone);
+            Debug.Assert(borderZones != null, nameof(borderZones) + " != null");
             return GetClosestZoneBorder(borderZones);
         }
 

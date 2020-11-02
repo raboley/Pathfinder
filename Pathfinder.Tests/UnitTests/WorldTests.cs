@@ -70,29 +70,6 @@ namespace Pathfinder.Tests.UnitTests
             Assert.Equal(expectedGrid.UnknownNodes, grid.UnknownNodes);
         }
 
-        [Fact]
-        public void CanGoToZone()
-        {
-            // Move to Zone boundary
-            var zone = new Zone();
-            zone.Map = SetupZoneMap.SetupSmallGrid();
-            zone.Name = "B";
-
-            var want = new Vector3(1, 0, 1);
-            var targetZone = "C";
-            zone.AddBoundary(zone.Name, want, targetZone, new Vector3(-1, 0, -1));
-
-            var traveler = new Traveler();
-            traveler.CurrentZone = zone;
-
-            traveler.Position = new Vector3(1, 0, -1);
-
-            traveler.GoToZone(targetZone);
-            var got = traveler.Position;
-
-
-            Assert.Equal(want, got);
-        }
 
         [Fact]
         public void WorldCanInit()

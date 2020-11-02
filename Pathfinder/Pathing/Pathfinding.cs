@@ -98,7 +98,7 @@ namespace Pathfinder.Pathing
                 directionOld = directionNew;
             }
 
-            waypoints.Add(start);
+            // waypoints.Add(start);
 
             return waypoints.ToArray();
         }

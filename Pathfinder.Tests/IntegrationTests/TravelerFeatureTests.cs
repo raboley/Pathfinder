@@ -12,7 +12,7 @@ namespace Pathfinder.Tests.IntegrationTests
         //     Assert.Equal(want, got);
         // }
 
-        [Fact(Skip = "UnitTestsNotPassing")]
+        [Fact]
         public void WalkFromWoodsToCity()
         {
             const string start = "A";
@@ -26,7 +26,7 @@ namespace Pathfinder.Tests.IntegrationTests
             traveler.WalkToZone(end);
 
 
-            Assert.Equal(end, traveler.CurrentZoneName);
+            Assert.Equal(end, traveler.CurrentZone.Name);
         }
     }
 }

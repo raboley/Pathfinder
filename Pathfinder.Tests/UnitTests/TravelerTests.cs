@@ -15,7 +15,7 @@ namespace Pathfinder.Tests.UnitTests
             var endPos = new Vector3(2, 0, 2);
             Vector3[] want =
             {
-                startPos,
+                // startPos, -- Don't think I actually want to have the start if I can swing it, so that warping is easier.
                 new Vector3(1f, 0f, 1f),
                 endPos
             };
@@ -112,7 +112,7 @@ namespace Pathfinder.Tests.UnitTests
             Assert.Equal(targetPosition, traveler.Position);
         }
 
-        [Fact(Skip = "Need to Have Passing border zone tests")]
+        [Fact]
         public void WalkThroughZonesTravelsThroughZones()
         {
             const string start = "A";
@@ -125,8 +125,8 @@ namespace Pathfinder.Tests.UnitTests
             var zones = new List<Zone>
             {
                 world.GetZoneByName("A"),
-                world.GetZoneByName("B"),
                 world.GetZoneByName("C"),
+                world.GetZoneByName("D"),
             };
             traveler.WalkThroughZones(zones);
 

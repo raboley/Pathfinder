@@ -61,7 +61,18 @@ namespace Pathfinder
 
         public static Zone ZoneA()
         {
+            const string want = @"
+-------------------
+|     |     |     |
+-------------------
+|     |     |  C  |
+-------------------
+|     |  B  |     |
+-------------------
+";
+
             var zone = new Zone();
+            zone.Map = ZoneMap.TinyMap();
             zone.Name = "A";
             zone.Boundaries = new List<ZoneBoundary>
             {
@@ -80,13 +91,23 @@ namespace Pathfinder
                     ToPosition = new Vector3(-1, 0, 0)
                 }
             };
-            zone.Map = ZoneMap.TinyMap();
             return zone;
         }
 
         public static Zone ZoneB()
         {
+            const string want = @"
+-------------------
+|     |  A  |  C  |
+-------------------
+|     |     |     |
+-------------------
+|     |     |     |
+-------------------
+";
+
             var zone = new Zone();
+            zone.Map = ZoneMap.TinyMap();
             zone.Name = "B";
             zone.Boundaries = new List<ZoneBoundary>
             {
@@ -112,13 +133,23 @@ namespace Pathfinder
                     ToPosition = new Vector3(-1, 0, 0)
                 },
             };
-            zone.Map = ZoneMap.TinyMap();
             return zone;
         }
 
         public static Zone ZoneC()
         {
+            const string want = @"
+-------------------
+|     |     |     |
+-------------------
+|  A  |     |  D  |
+-------------------
+|  B  |     |     |
+-------------------
+";
+
             var zone = new Zone();
+            zone.Map = ZoneMap.TinyMap();
             zone.Name = "C";
             zone.Boundaries = new List<ZoneBoundary>
             {
@@ -151,7 +182,18 @@ namespace Pathfinder
 
         public static Zone ZoneD()
         {
+            const string want = @"
+-------------------
+|     |     |     |
+-------------------
+|  C  |     |     |
+-------------------
+|     |     |  E  |
+-------------------
+";
+
             var zone = new Zone();
+            zone.Map = ZoneMap.TinyMap();
             zone.Name = "D";
             zone.Boundaries = new List<ZoneBoundary>
             {
@@ -165,10 +207,10 @@ namespace Pathfinder
 
                 new ZoneBoundary
                 {
+                    FromZone = "D",
+                    FromPosition = new Vector3(-1, 0, 0),
                     ToZone = "C",
                     ToPosition = new Vector3(1, 0, 0),
-                    FromZone = "D",
-                    FromPosition = new Vector3(-1, 0, 0)
                 },
             };
             return zone;
@@ -176,7 +218,18 @@ namespace Pathfinder
 
         public static Zone ZoneE()
         {
+            const string want = @"
+-------------------
+|  D  |     |     |
+-------------------
+|     |     |     |
+-------------------
+|     |     |     |
+-------------------
+";
+
             var zone = new Zone();
+            zone.Map = ZoneMap.TinyMap();
             zone.Name = "E";
             zone.Boundaries = new List<ZoneBoundary>
             {
@@ -188,6 +241,7 @@ namespace Pathfinder
                     ToPosition = new Vector3(1, 0, -1),
                 },
             };
+
             return zone;
         }
 

@@ -32,7 +32,7 @@ namespace Pathfinder.Tests.UnitTests
             var endPos = new Vector3(1, 0, 2);
             Vector3[] want =
             {
-                startPos,
+                // startPos,
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, 0),
                 new Vector3(0, 0, 1),
@@ -81,7 +81,7 @@ namespace Pathfinder.Tests.UnitTests
             var endPos = new Vector3(-2, 0, 1);
             Vector3[] want =
             {
-                startPos,
+                // startPos,
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, -1),
                 new Vector3(1, 0, 0),

@@ -14,7 +14,7 @@ namespace Pathfinder.Tests.UnitTests
             var end = "D";
 
             var world = World.Sample();
-            var traveler = new Traveler {CurrentZoneName = start};
+            var traveler = new Traveler();
 
             var got = WorldPathfinder.FindWorldPathToZone(world, start, end);
 
