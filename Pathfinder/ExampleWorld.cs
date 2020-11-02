@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Numerics;
 using Pathfinder.Map;
 using Pathfinder.People;
@@ -171,6 +172,10 @@ namespace Pathfinder
             var zone = new Zone();
             zone.Map = ZoneMap.TinyMap();
             zone.Name = "D";
+            zone.Npcs = new ObservableCollection<Person>
+            {
+                BastokSignetPerson()
+            };
             zone.Boundaries = new List<ZoneBoundary>
             {
                 new ZoneBoundary

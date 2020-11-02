@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using Pathfinder.Map;
@@ -15,12 +16,12 @@ namespace Pathfinder
 
         public ZoneMap ZoneMap { get; set; }
 
-        public void Added()
+        public void Added(object sender, NotifyCollectionChangedEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        public void Removed()
+        public void Removed(object sender, NotifyCollectionChangedEventArgs e)
         {
             throw new NotImplementedException();
         }

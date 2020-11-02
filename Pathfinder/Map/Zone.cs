@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Numerics;
+using Pathfinder.People;
 
 namespace Pathfinder.Map
 {
@@ -14,6 +16,7 @@ namespace Pathfinder.Map
         public int FCost => GCost + HCost;
         public int HCost { get; set; }
         public Zone Parent { get; set; }
+        public ObservableCollection<Person> Npcs { get; set; }
 
 
         public int CompareTo(Zone other)

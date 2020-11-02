@@ -60,6 +60,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="IntegrationTests\PersonActorFileTests.cs"/>
         <Compile Include="IntegrationTests\TravelerFeatureTests.cs"/>
         <Compile Include="IntegrationTests\WorldMapNodeFileTests.cs"/>
         <Compile Include="SetupWorldMapFactory.cs"/>
@@ -75,6 +76,7 @@
         <Compile Include="UnitTests\PeopleManagerTests.cs"/>
         <Compile Include="UnitTests\PersonTests.cs"/>
         <Compile Include="UnitTests\CollectionWatcherTests.cs"/>
+        <Compile Include="UnitTests\PersonWatcherTests.cs"/>
         <Compile Include="UnitTests\WatcherTests.cs"/>
         <Compile Include="UnitTests\WorldPathfinderTests.cs"/>
         <Compile Include="UnitTests\ZoneMapTests.cs"/>

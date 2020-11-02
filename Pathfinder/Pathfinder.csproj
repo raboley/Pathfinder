@@ -81,6 +81,8 @@
       <Compile Include="Watchers\IActor.cs"/>
       <Compile Include="Watchers\ItemsChangedObservableCollection.cs"/>
       <Compile Include="Watchers\KnownNodeActor.cs"/>
+      <Compile Include="Watchers\PersonActor.cs"/>
+      <Compile Include="Watchers\PersonWatcher.cs"/>
       <Compile Include="Watchers\Watcher.cs"/>
       <Compile Include="World.cs"/>
   </ItemGroup>

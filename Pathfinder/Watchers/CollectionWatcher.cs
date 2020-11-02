@@ -30,14 +30,14 @@ namespace Pathfinder
             {
                 foreach (INotifyPropertyChanged item in e.NewItems)
                     item.PropertyChanged += ItemChanged;
-                Actor.Added();
+                Actor.Added(sender, e);
             }
 
             if (e.OldItems != null)
             {
                 foreach (INotifyPropertyChanged item in e.OldItems)
                     item.PropertyChanged -= ItemChanged;
-                Actor.Removed();
+                Actor.Removed(sender, e);
             }
         }
 

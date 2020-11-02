@@ -56,6 +56,8 @@
           <e p="IActor.cs" t="Include" />
           <e p="ItemsChangedObservableCollection.cs" t="Include" />
           <e p="KnownNodeActor.cs" t="Include" />
+          <e p="PersonActor.cs" t="Include" />
+          <e p="PersonWatcher.cs" t="Include" />
           <e p="Watcher.cs" t="Include" />
         </e>
         <e p="World.cs" t="Include" />
@@ -68,6 +70,7 @@
           <e p="GridFactoryFileTests.cs" t="Include" />
           <e p="GridFileTests.cs" t="Include" />
           <e p="GridNode.json" t="Include" />
+          <e p="PersonActorFileTests.cs" t="Include" />
           <e p="TravelerFeatureTests.cs" t="Include" />
           <e p="WorldMapNodeFileTests.cs" t="Include" />
         </e>
@@ -90,6 +93,7 @@
           <e p="PathfindingTests.cs" t="Include" />
           <e p="PeopleManagerTests.cs" t="Include" />
           <e p="PersonTests.cs" t="Include" />
+          <e p="PersonWatcherTests.cs" t="Include" />
           <e p="PointTests.cs" t="Include" />
           <e p="PrintPathTests.cs" t="Include" />
           <e p="TravelerTests.cs" t="Include" />
