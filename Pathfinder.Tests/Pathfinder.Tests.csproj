@@ -61,6 +61,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="IntegrationTests\PersonActorFileTests.cs"/>
+        <Compile Include="IntegrationTests\Player.cs"/>
         <Compile Include="IntegrationTests\TravelerFeatureTests.cs"/>
         <Compile Include="IntegrationTests\WorldMapNodeFileTests.cs"/>
         <Compile Include="SetupWorldMapFactory.cs"/>

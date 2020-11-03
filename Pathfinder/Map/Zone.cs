@@ -99,5 +99,9 @@ namespace Pathfinder.Map
 
             return zone;
         }
+
+        public void GetNpcListOrCreateNewIfNotExists()
+        {
+        }
     }
 }

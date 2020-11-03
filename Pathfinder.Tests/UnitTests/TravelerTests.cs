@@ -27,12 +27,10 @@ namespace Pathfinder.Tests.UnitTests
             var traveler = new Traveler {Position = startPos, CurrentZone = zone};
 
 
-            var traveledPath = traveler.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
+            traveler.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
 
 
             Assert.Equal(endPos, traveler.Position);
-            Assert.Equal(want.Length, traveledPath.Length);
-            for (var i = 0; i < want.Length; i++) Assert.Equal(want[i], traveledPath[i]);
         }
 
         [Fact(Skip = "Don't need this yet")]

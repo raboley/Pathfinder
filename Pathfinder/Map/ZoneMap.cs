@@ -194,6 +194,7 @@ namespace Pathfinder.Map
         {
             var gridNode = GetNodeFromWorldPoint(position);
             gridNode.Walkable = false;
+            gridNode.Unknown = false;
             MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
         }
 

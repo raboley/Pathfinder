@@ -33,6 +33,32 @@ namespace Pathfinder.Tests.IntegrationTests
             Assert.Equal(want, got);
         }
 
+        [Fact]
+        public void WillGetNpcsFromFileIfExists()
+        {
+            var zone = ExampleWorld.ZoneD();
+            var want = ExampleWorld.ZoneD().Npcs;
+            want.Add(new Person(2, "test guy", Vector3.Zero) {MapName = zone.Name});
+
+            var persister = SetupPersister.SetupTestFilePersister();
+            persister.FileName = SetupPersister.GetCurrentMethodName();
+
+            var actor = new PersonActor {Persister = persister};
+            var watcher = new CollectionWatcher<Person>(zone.Npcs, actor);
+
+            zone.AddNpc(new Person(2, "test guy", Vector3.Zero));
+
+            // Load up using what was just saved.
+            var gotZone = new Zone("D");
+            gotZone.Npcs = persister.Load<ObservableCollection<Person>>();
+
+            var got = gotZone.Npcs;
+
+            persister.Delete();
+
+            Assert.Equal(want, got);
+        }
+
 
         [Fact]
         public async void ConcurrentCallsWillNotLockUpFile()

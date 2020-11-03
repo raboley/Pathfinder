@@ -15,7 +15,10 @@ namespace Pathfinder.Travel
     public class Traveler : INotifyPropertyChanged
     {
         public readonly Queue<Vector3> PositionHistory = new Queue<Vector3>();
+        private Queue<Vector3> _pathToWalk;
         private Vector3 _position;
+        public ZoneMap BlindGrid;
+        private Vector3 goalPosition;
 
         public Traveler()
         {
@@ -60,24 +63,38 @@ namespace Pathfinder.Travel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Vector3[] PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint)
+        public void PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint)
         {
+            goalPosition = waypoint;
             var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint);
-            foreach (var point in path) WalkToPosition(point);
-
-            return path;
+            _pathToWalk = new Queue<Vector3>(path);
+            while (_pathToWalk.Count > 0)
+            {
+                var point = _pathToWalk.Dequeue();
+                WalkToPosition(point);
+            }
         }
 
 
         public void WalkToPosition(Vector3 targetPosition)
         {
-            while (Position != targetPosition)
+            var goal = targetPosition;
+            while (Position != goal)
             {
-                int x = GetNewXorY(Position.X, targetPosition.X);
-                int y = GetNewXorY(Position.Z, targetPosition.Z);
+                int x = GetNewXorY(Position.X, goal.X);
+                int y = GetNewXorY(Position.Z, goal.Z);
 
                 var position = new Vector3(x, 0, y);
-                Position = position;
+                // Try to move, if you can't move return fail?
+                if (CantWalkToPosition(position))
+                {
+                    AddUnwalkableNodeAndGetNewPath(position);
+                    goal = _pathToWalk.Dequeue();
+                }
+                else
+                {
+                    Position = position;
+                }
             }
 
             // Teleport to the new zone if position is equal to a border zone position
@@ -87,6 +104,27 @@ namespace Pathfinder.Travel
                 CurrentZone = World.GetZoneByName(boundary.ToZone);
                 Position = boundary.ToPosition;
             }
+        }
+
+        private void AddUnwalkableNodeAndGetNewPath(Vector3 position)
+        {
+            CurrentZone.Map.AddUnWalkableNode(position);
+            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, goalPosition);
+            if (path == null)
+            {
+                _pathToWalk = new Queue<Vector3>();
+                return;
+            }
+
+            _pathToWalk = new Queue<Vector3>();
+            foreach (var vector3 in path) _pathToWalk.Enqueue(vector3);
+        }
+
+        private bool CantWalkToPosition(Vector3 newPosition)
+        {
+            if (BlindGrid == null) return false;
+            var node = BlindGrid.GetNodeFromWorldPoint(newPosition);
+            return !node.Walkable;
         }
 
         public ZoneBoundary GetZoneBorderToNameFromPoint(Vector3 position)
