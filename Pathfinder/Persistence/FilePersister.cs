@@ -14,10 +14,10 @@ namespace Pathfinder.Persistence
             FileName = fileName;
         }
 
-        public string DefaultExtension { get; set; } = "map";
+        public string DefaultExtension { get; set; } = "json";
         public string FileName { get; set; }
         public string FilePath { get; set; } = Directory.GetCurrentDirectory();
-        public string FullPath => Path.Combine(FilePath, FileName);
+        public string FullPath => Path.Combine(FilePath, FileName + "." + DefaultExtension);
 
         public void Save<T>(T serializableData)
         {
