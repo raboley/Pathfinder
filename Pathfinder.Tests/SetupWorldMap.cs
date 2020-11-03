@@ -96,8 +96,6 @@ namespace Pathfinder.Tests
             Assert.Equal(want.MapName, got.MapName);
 
             AssertGridMapEqual(want.MapGrid, got.MapGrid);
-            AssertListEntitiesEqual(want.NpcList, want.NpcList);
-            AssertListEntitiesEqual(want.ThingList, want.ThingList);
         }
 
         public static void AssertGridMapEqual(Node[,] want, Node[,] got)

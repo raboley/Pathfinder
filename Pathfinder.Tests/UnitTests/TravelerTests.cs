@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
 {
-    public class NavigatorTests
+    public class TravelerTests
     {
         [Fact]
         public void NavigatorFindsPathToWaypoint()
@@ -20,7 +20,7 @@ namespace Pathfinder.Tests.UnitTests
                 endPos
             };
 
-            var zone = new Zone();
+            var zone = new Zone("tests");
             var grid = SetupZoneMap.SetupMediumGrid();
             zone.Map = grid;
 
@@ -49,7 +49,7 @@ namespace Pathfinder.Tests.UnitTests
 ";
             var grid = SetupZoneMap.SetupSmallGrid();
             var traveler = new Traveler();
-            traveler.CurrentZone = new Zone {Map = grid};
+            traveler.CurrentZone = new Zone("test") {Map = grid};
             traveler.Position = Vector3.One;
 
             traveler.DiscoverAllNodes();

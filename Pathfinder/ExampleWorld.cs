@@ -48,7 +48,7 @@ namespace Pathfinder
 -------------------
 ";
 
-            var zone = new Zone();
+            var zone = new Zone("tests");
             zone.Map = ZoneMap.TinyMap();
             zone.Name = "A";
             zone.Boundaries = new List<ZoneBoundary>
@@ -83,7 +83,7 @@ namespace Pathfinder
 -------------------
 ";
 
-            var zone = new Zone();
+            var zone = new Zone("tests");
             zone.Map = ZoneMap.TinyMap();
             zone.Name = "B";
             zone.Boundaries = new List<ZoneBoundary>
@@ -125,7 +125,7 @@ namespace Pathfinder
 -------------------
 ";
 
-            var zone = new Zone();
+            var zone = new Zone("tests");
             zone.Map = ZoneMap.TinyMap();
             zone.Name = "C";
             zone.Boundaries = new List<ZoneBoundary>
@@ -169,7 +169,7 @@ namespace Pathfinder
 -------------------
 ";
 
-            var zone = new Zone();
+            var zone = new Zone("tests");
             zone.Map = ZoneMap.TinyMap();
             zone.Name = "D";
             zone.Npcs = new ObservableCollection<Person>
@@ -209,7 +209,7 @@ namespace Pathfinder
 -------------------
 ";
 
-            var zone = new Zone();
+            var zone = new Zone("tests");
             zone.Map = ZoneMap.TinyMap();
             zone.Name = "E";
             zone.Boundaries = new List<ZoneBoundary>

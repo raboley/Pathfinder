@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Numerics;
 using Pathfinder.Map;
 using Pathfinder.People;
@@ -434,16 +435,13 @@ x = obstacle
         [Fact]
         public void AddNpcAddsToList()
         {
-            var grid = SetupZoneMap.SetupSmallGrid();
-            var want = new List<Person>();
+            var zone = new Zone("TestZone");
+            var want = new ObservableCollection<Person> {new Person(3, "rabbit", Vector3.One) {MapName = "TestZone"}};
 
-            var npc = new Person(3, "rabbit", Vector3.One) {MapName = grid.MapName};
-            want.Add(npc);
+            zone.AddNpc(new Person(3, "rabbit", Vector3.One));
+            var got = zone.Npcs;
 
-            grid.AddNpc(new Person(3, "rabbit", Vector3.One));
-            var got = grid.NpcList;
-
-            AssertNpcListEqual(want, got);
+            Assert.Equal(want, got);
         }
 
         [Fact]
@@ -479,7 +477,7 @@ x = obstacle
         {
             var want = Vector3.One;
 
-            var zone = new Zone();
+            var zone = new Zone("tests");
             zone.Map = SetupZoneMap.SetupSmallGrid();
             zone.AddBoundary("A", want, "B", want * -1);
             var got = zone.Boundaries.Find(b => b.ToZone == "B").FromPosition;

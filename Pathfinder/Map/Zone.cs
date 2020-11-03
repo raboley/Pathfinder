@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Numerics;
 using Pathfinder.People;
 
@@ -7,6 +8,11 @@ namespace Pathfinder.Map
 {
     public class Zone : IHeapItem<Zone>
     {
+        public Zone(string name)
+        {
+            Name = name;
+        }
+
         public string Name { get; set; }
 
         public List<ZoneBoundary> Boundaries { get; set; } = new List<ZoneBoundary>();
@@ -16,8 +22,8 @@ namespace Pathfinder.Map
         public int FCost => GCost + HCost;
         public int HCost { get; set; }
         public Zone Parent { get; set; }
-        public ObservableCollection<Person> Npcs { get; set; }
-
+        public ObservableCollection<Person> Npcs { get; set; } = new ObservableCollection<Person>();
+        public ObservableCollection<IEntity> ThingList { get; set; } = new ObservableCollection<IEntity>();
 
         public int CompareTo(Zone other)
         {
@@ -28,6 +34,24 @@ namespace Pathfinder.Map
         }
 
         public int HeapIndex { get; set; }
+
+        public void AddNpc(Person person)
+        {
+            person.MapName = Name;
+            if (!Npcs.Contains(person))
+                Npcs.Add(person);
+        }
+
+        private Person GetNpcFromId(int personId)
+        {
+            return Npcs.First(n => n.Id == personId);
+        }
+
+        public void AddInanimateObject(Person entity)
+        {
+            entity.MapName = Name;
+            ThingList.Add(entity);
+        }
 
         public void AddBoundary(string ZonesFrom, Vector3 ZonesFromPoint, string ZonesTo, Vector3 ZonesToPoint)
         {
@@ -58,7 +82,7 @@ namespace Pathfinder.Map
 |  ?  |  ?  |  ?  |
 -------------------
 ";
-            var zone = new Zone();
+            var zone = new Zone("tests");
             zone.Name = "bastok_mines";
             zone.Boundaries = new List<ZoneBoundary>
             {

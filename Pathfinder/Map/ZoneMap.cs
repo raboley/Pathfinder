@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Pathfinder.People;
 using Pathfinder.Persistence;
 using Pathfinder.PrintConsole;
 
@@ -47,10 +46,6 @@ namespace Pathfinder.Map
 
         public int MaxSize => _gridSizeX * _gridSizeY;
 
-
-        public List<Person> NpcList { get; set; }
-        public List<Person> ThingList { get; set; }
-        public List<Person> MobList { get; set; }
         public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
         public List<Node> UnknownNodes => MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown);
 
@@ -88,18 +83,12 @@ namespace Pathfinder.Map
 
         private static void SetupAllLists(ZoneMap zoneMap)
         {
-            zoneMap.NpcList = new List<Person>();
-            zoneMap.ThingList = new List<Person>();
-            zoneMap.MobList = new List<Person>();
             zoneMap.ZoneBoundaries = new Dictionary<string, List<Vector3>>();
         }
 
         public void BuildGridMap()
         {
             MapGrid = new Node[_gridSizeX, _gridSizeY];
-            NpcList = new List<Person>();
-            ThingList = new List<Person>();
-            MobList = new List<Person>();
             ZoneBoundaries = new Dictionary<string, List<Vector3>>();
             var worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
             BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
@@ -214,17 +203,6 @@ namespace Pathfinder.Map
             MapGrid[gridNode.GridX, gridNode.GridY].Unknown = false;
         }
 
-        public void AddNpc(Person person)
-        {
-            person.MapName = MapName;
-            NpcList.Add(person);
-        }
-
-        public void AddInanimateObject(Person entity)
-        {
-            entity.MapName = MapName;
-            ThingList.Add(entity);
-        }
 
         /// <summary>
         ///     Returns a string representation of the current MapGrid's walkable and not walkable Nodes.

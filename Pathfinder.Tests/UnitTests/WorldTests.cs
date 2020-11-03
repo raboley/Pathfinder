@@ -25,7 +25,7 @@ namespace Pathfinder.Tests.UnitTests
 -------------------------------
 ";
             // start the watcher and map
-            var zone = new Zone();
+            var zone = new Zone("tests");
             var grid = SetupZoneMap.SetupMediumGrid();
             zone.Map = grid;
             var actor = new KnownNodeActor(grid);
@@ -61,10 +61,7 @@ namespace Pathfinder.Tests.UnitTests
 
             // Unknown Nodes correct
             var expectedGrid = SetupZoneMap.SetupMediumGrid();
-            foreach (var position in path)
-            {
-                expectedGrid.AddKnownNode(position);
-            }
+            foreach (var position in path) expectedGrid.AddKnownNode(position);
 
             Assert.Equal(expectedGrid.UnknownNodes.Count, grid.UnknownNodes.Count);
             Assert.Equal(expectedGrid.UnknownNodes, grid.UnknownNodes);
@@ -83,10 +80,7 @@ namespace Pathfinder.Tests.UnitTests
         private static void AssertVectorArrayEqual(Vector3[] path, Vector3[] got)
         {
             Assert.Equal(path.Length, got.Length);
-            for (int i = 0; i < path.Length; i++)
-            {
-                Assert.Equal(path[i], got[i]);
-            }
+            for (var i = 0; i < path.Length; i++) Assert.Equal(path[i], got[i]);
         }
     }
 }
