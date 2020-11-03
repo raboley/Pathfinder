@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using Pathfinder.People;
+using Pathfinder.Persistence;
 
 namespace Pathfinder.Map
 {
@@ -100,8 +101,21 @@ namespace Pathfinder.Map
             return zone;
         }
 
-        public void GetNpcListOrCreateNewIfNotExists()
+        public void LoadNpcs(FilePersister persister)
         {
+            var npcs = persister.Load<ObservableCollection<Person>>();
+            Npcs = npcs;
+        }
+
+        public void LoadNpcsOrCreateNew(FilePersister persister)
+        {
+            if (persister.Exists())
+            {
+                LoadNpcs(persister);
+                return;
+            }
+
+            Npcs = new ObservableCollection<Person>();
         }
     }
 }
