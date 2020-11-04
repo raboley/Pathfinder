@@ -13,7 +13,7 @@ namespace Pathfinder.Tests.UnitTests
         {
             var people = SetupPeopleCollection();
 
-            var peopleManager = new PeopleManager {People = people};
+            var peopleManager = new PeopleManager("Test") {People = people};
 
             AssertPeopleEqual(people, peopleManager.People);
         }
@@ -28,7 +28,7 @@ namespace Pathfinder.Tests.UnitTests
             };
             var personToAdd = new Person(1, "Sparky", Vector3.One);
 
-            var peopleManager = new PeopleManager();
+            var peopleManager = new PeopleManager("test");
             peopleManager.AddPerson(personToAdd);
 
             AssertPeopleEqual(people, peopleManager.People);
@@ -41,8 +41,8 @@ namespace Pathfinder.Tests.UnitTests
 
             var people = SetupPeopleCollection();
 
-            var peopleManager = new PeopleManager {People = people};
-            var got = peopleManager.GetPerson(want);
+            var peopleManager = new PeopleManager("test") {People = people};
+            var got = peopleManager.GetPersonById(want.Id);
 
             AssertPersonEqual(want, got);
         }
@@ -57,7 +57,7 @@ namespace Pathfinder.Tests.UnitTests
             };
             var personToModify = new Person(1, "Sparky", Vector3.One);
 
-            var peopleManager = new PeopleManager
+            var peopleManager = new PeopleManager("test")
                 {People = new ObservableCollection<Person> {new Person(1, "Sparky", Vector3.Zero)}};
             peopleManager.UpdatePerson(personToModify);
 
@@ -70,7 +70,7 @@ namespace Pathfinder.Tests.UnitTests
             var want = true;
             var people = SetupPeopleCollection();
 
-            var peopleManager = new PeopleManager {People = people};
+            var peopleManager = new PeopleManager("test") {People = people};
             bool got = peopleManager.PersonIsInPeople(people[0]);
 
             Assert.Equal(want, got);
@@ -83,7 +83,7 @@ namespace Pathfinder.Tests.UnitTests
             var person = new Person(99, "not in people", Vector3.One);
             var people = SetupPeopleCollection();
 
-            var peopleManager = new PeopleManager {People = people};
+            var peopleManager = new PeopleManager("test") {People = people};
             bool got = peopleManager.PersonIsInPeople(person);
 
             Assert.Equal(want, got);
@@ -96,7 +96,7 @@ namespace Pathfinder.Tests.UnitTests
             var person = new Person(3, "Toby", Vector3.One);
             people.Add(person);
 
-            var peopleManager = new PeopleManager
+            var peopleManager = new PeopleManager("test")
             {
                 People = new ObservableCollection<Person>
                 {
@@ -114,7 +114,7 @@ namespace Pathfinder.Tests.UnitTests
         {
             var people = SetupPeopleCollection();
 
-            var peopleManager = new PeopleManager
+            var peopleManager = new PeopleManager("test")
             {
                 People = new ObservableCollection<Person>
                 {
@@ -125,6 +125,22 @@ namespace Pathfinder.Tests.UnitTests
             peopleManager.AddOrUpdatePerson(new Person(1, "Jim", Vector3.Zero));
 
             AssertPeopleEqual(people, peopleManager.People);
+        }
+
+        [Fact]
+        public void AddingPeopleWithSameIdWillNotAddDuplicates()
+        {
+            var name = "TestMap";
+            var got = new PeopleManager(name);
+
+            got.People = new ObservableCollection<Person>();
+            got.AddPerson(new Person(0, "test person", Vector3.One));
+            got.AddPerson(new Person(1, "a person", Vector3.One));
+            // second shouldn't add even though position changed due to property
+            got.AddPerson(new Person(1, "a person", Vector3.Zero));
+            got.AddPerson(new Person(1, "I changed name person", Vector3.One));
+
+            Assert.Equal(2, got.People.Count);
         }
 
         public static ObservableCollection<Person> SetupPeopleCollection()

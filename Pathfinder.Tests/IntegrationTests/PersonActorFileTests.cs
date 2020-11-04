@@ -15,17 +15,18 @@ namespace Pathfinder.Tests.IntegrationTests
         [Fact]
         public void AddingPersonPersistsCollectionToFile()
         {
-            var zone = ExampleWorld.ZoneD();
-            var want = ExampleWorld.ZoneD().Npcs;
-            want.Add(new Person(2, "test guy", Vector3.Zero) {MapName = zone.Name});
+            var mapName = SetupPersister.GetCurrentMethodName();
+            var want = new ObservableCollection<Person>();
+            want.Add(new Person(2, "test guy", Vector3.Zero) {MapName = mapName});
 
             var persister = SetupPersister.SetupTestFilePersister();
-            persister.FileName = SetupPersister.GetCurrentMethodName();
+            persister.FileName = mapName;
 
+            var peopleManager = new PeopleManager(mapName);
             var actor = new PersonActor {Persister = persister};
-            var watcher = new CollectionWatcher<Person>(zone.Npcs, actor);
+            var watcher = new CollectionWatcher<Person>(peopleManager.People, actor);
 
-            zone.AddNpc(new Person(2, "test guy", Vector3.Zero));
+            peopleManager.AddPerson(new Person(2, "test guy", Vector3.Zero));
             var got = persister.Load<ObservableCollection<Person>>();
 
             persister.Delete();
@@ -36,17 +37,18 @@ namespace Pathfinder.Tests.IntegrationTests
         [Fact]
         public void WillGetNpcsFromFileIfExists()
         {
-            var zone = ExampleWorld.ZoneD();
-            var want = ExampleWorld.ZoneD().Npcs;
-            want.Add(new Person(2, "test guy", Vector3.Zero) {MapName = zone.Name});
+            var mapName = SetupPersister.GetCurrentMethodName();
+            var want = new ObservableCollection<Person>();
+            want.Add(new Person(2, "test guy", Vector3.Zero) {MapName = mapName});
 
             var persister = SetupPersister.SetupTestFilePersister();
             persister.FileName = SetupPersister.GetCurrentMethodName();
 
+            var peopleManager = new PeopleManager(mapName);
             var actor = new PersonActor {Persister = persister};
-            var watcher = new CollectionWatcher<Person>(zone.Npcs, actor);
+            var watcher = new CollectionWatcher<Person>(peopleManager.People, actor);
 
-            zone.AddNpc(new Person(2, "test guy", Vector3.Zero));
+            peopleManager.AddPerson(new Person(2, "test guy", Vector3.Zero));
 
             // Load up using what was just saved.
             var gotZone = new Zone("D");
@@ -64,29 +66,27 @@ namespace Pathfinder.Tests.IntegrationTests
         public async void ConcurrentCallsWillNotLockUpFile()
         {
             var sw = new Stopwatch();
-
-            var zone = ExampleWorld.ZoneD();
+            var mapName = SetupPersister.GetCurrentMethodName();
 
             var persister = SetupPersister.SetupTestFilePersister();
             persister.FileName = SetupPersister.GetCurrentMethodName();
 
-            var actor = new PersonActor();
-            actor.Persister = persister;
+            var peopleManager = new PeopleManager(mapName);
+            var actor = new PersonActor {Persister = persister};
+            var watcher = new CollectionWatcher<Person>(peopleManager.People, actor);
 
-            var watcher = new CollectionWatcher<Person>(zone.Npcs, actor);
-
-            zone.AddNpc(new Person(0, "test guy", Vector3.Zero));
-            zone.AddNpc(new Person(0, "test guy", Vector3.Zero));
-            zone.AddNpc(new Person(0, "test guy", Vector3.Zero));
+            peopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
+            peopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
+            peopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
 
             var npcs = new List<Person>();
-            for (var i = 2; i < 30; i++) zone.AddNpc(new Person(i, "dummy" + i, Vector3.Zero));
+            for (var i = 2; i < 30; i++) peopleManager.AddPerson(new Person(i, "dummy" + i, Vector3.Zero));
 
-            await Init(zone, npcs);
+            await Init(peopleManager, npcs);
 
-            var want = ExampleWorld.ZoneD().Npcs;
-            want.Add(new Person(0, "test guy", Vector3.Zero) {MapName = zone.Name});
-            for (var i = 2; i < 30; i++) want.Add(new Person(i, "dummy" + i, Vector3.Zero) {MapName = zone.Name});
+            var want = new ObservableCollection<Person>();
+            want.Add(new Person(0, "test guy", Vector3.Zero) {MapName = mapName});
+            for (var i = 2; i < 30; i++) want.Add(new Person(i, "dummy" + i, Vector3.Zero) {MapName = mapName});
 
             var got = persister.Load<ObservableCollection<Person>>();
 
@@ -97,14 +97,14 @@ namespace Pathfinder.Tests.IntegrationTests
             sw.Stop();
         }
 
-        public async Task<bool> Init(Zone zone, List<Person> npcs)
+        public async Task<bool> Init(PeopleManager peopleManager, List<Person> npcs)
         {
             var series = npcs;
             var tasks = new List<Task<Tuple<Person, bool>>>();
             foreach (var i in series)
             {
                 Console.WriteLine("Starting Process {0}", i);
-                tasks.Add(DoWorkAsync(zone, i));
+                tasks.Add(DoWorkAsync(peopleManager, i));
             }
 
             foreach (var task in await Task.WhenAll(tasks))
@@ -113,10 +113,10 @@ namespace Pathfinder.Tests.IntegrationTests
             return true;
         }
 
-        public async Task<Tuple<Person, bool>> DoWorkAsync(Zone zone, Person npc)
+        public async Task<Tuple<Person, bool>> DoWorkAsync(PeopleManager peopleManager, Person npc)
         {
             Console.WriteLine("working..{0}", npc);
-            zone.AddNpc(npc);
+            peopleManager.AddPerson(npc);
             return Tuple.Create(npc, true);
         }
     }

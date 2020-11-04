@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Numerics;
 using Pathfinder.People;
-using Pathfinder.Persistence;
 
 namespace Pathfinder.Map
 {
@@ -38,21 +36,8 @@ namespace Pathfinder.Map
 
         public void AddNpc(Person person)
         {
-            person.MapName = Name;
-            if (GetNpcFromId(person.Id) == null)
-                Npcs.Add(person);
         }
 
-        private Person GetNpcFromId(int personId)
-        {
-            return Npcs.FirstOrDefault(n => n.Id == personId);
-        }
-
-        public void AddInanimateObject(Person entity)
-        {
-            entity.MapName = Name;
-            ThingList.Add(entity);
-        }
 
         public void AddBoundary(string ZonesFrom, Vector3 ZonesFromPoint, string ZonesTo, Vector3 ZonesToPoint)
         {
@@ -99,23 +84,6 @@ namespace Pathfinder.Map
             zone.Map = ZoneMap.TinyMap();
 
             return zone;
-        }
-
-        public void LoadNpcs(FilePersister persister)
-        {
-            var npcs = persister.Load<ObservableCollection<Person>>();
-            Npcs = npcs;
-        }
-
-        public void LoadNpcsOrCreateNew(FilePersister persister)
-        {
-            if (persister.Exists())
-            {
-                LoadNpcs(persister);
-                return;
-            }
-
-            Npcs = new ObservableCollection<Person>();
         }
     }
 }

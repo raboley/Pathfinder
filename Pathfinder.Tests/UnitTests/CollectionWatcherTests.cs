@@ -11,7 +11,7 @@ namespace Pathfinder.Tests.UnitTests
         {
             var peopleCollection = PeopleManagerTests.SetupPeopleCollection();
             var spyActor = new SpyActor();
-            var peopleManager = new PeopleManager {People = peopleCollection};
+            var peopleManager = new PeopleManager("test") {People = peopleCollection};
             var watcher = new CollectionWatcher<Person>(peopleManager.People, spyActor);
             var want = PeopleManagerTests.SetupPeopleCollection();
 
@@ -43,7 +43,7 @@ namespace Pathfinder.Tests.UnitTests
 
             var want = new Person(1, "Jim", Vector3.One);
             peopleManager.AddOrUpdatePerson(want);
-            var got = peopleManager.GetPerson(want);
+            var got = peopleManager.GetPersonById(want.Id);
 
             Assert.Equal(want, got);
             Assert.Equal(0, spyActor.CalledTimesRemove);
@@ -55,7 +55,7 @@ namespace Pathfinder.Tests.UnitTests
         {
             var peopleCollection = PeopleManagerTests.SetupPeopleCollection();
             var spyActor = new SpyActor();
-            peopleManager = new PeopleManager {People = peopleCollection};
+            peopleManager = new PeopleManager("test") {People = peopleCollection};
             var watcher = new CollectionWatcher<Person>(peopleManager.People, spyActor);
             return spyActor;
         }

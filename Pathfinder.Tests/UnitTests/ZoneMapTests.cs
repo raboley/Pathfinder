@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Numerics;
 using Pathfinder.Map;
 using Pathfinder.People;
@@ -428,18 +427,6 @@ x = obstacle
 
             grid.AddKnownNode(position);
             bool got = grid.MapGrid[gridX, gridY].Unknown;
-
-            Assert.Equal(want, got);
-        }
-
-        [Fact]
-        public void AddNpcAddsToList()
-        {
-            var zone = new Zone("TestZone");
-            var want = new ObservableCollection<Person> {new Person(3, "rabbit", Vector3.One) {MapName = "TestZone"}};
-
-            zone.AddNpc(new Person(3, "rabbit", Vector3.One));
-            var got = zone.Npcs;
 
             Assert.Equal(want, got);
         }
