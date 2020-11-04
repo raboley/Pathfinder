@@ -39,13 +39,13 @@ namespace Pathfinder.Map
         public void AddNpc(Person person)
         {
             person.MapName = Name;
-            if (!Npcs.Contains(person))
+            if (GetNpcFromId(person.Id) == null)
                 Npcs.Add(person);
         }
 
         private Person GetNpcFromId(int personId)
         {
-            return Npcs.First(n => n.Id == personId);
+            return Npcs.FirstOrDefault(n => n.Id == personId);
         }
 
         public void AddInanimateObject(Person entity)
