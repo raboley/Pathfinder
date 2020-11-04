@@ -213,6 +213,10 @@ namespace Pathfinder.Travel
         {
             if (nation == "Bastok")
                 return World.Npcs.Find(n => n.Name.Contains("I.M."));
+            if (nation == "SandOria")
+                return World.Npcs.Find(n => n.Name.Contains("T.K."));
+            if (nation == "Windurst")
+                return World.Npcs.Find(n => n.Name.Contains("T.K."));
 
             throw new Exception("Can't find an NPC in global NPCs to give Signet to Nation: " + nation);
         }
