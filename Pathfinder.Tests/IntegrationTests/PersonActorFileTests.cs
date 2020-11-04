@@ -2,44 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Numerics;
 using System.Threading.Tasks;
 using Pathfinder.Map;
 using Pathfinder.People;
-using Pathfinder.Persistence;
 using Xunit;
 
 namespace Pathfinder.Tests.IntegrationTests
 {
-    public class PeopleOverseer
-    {
-        public PeopleOverseer(string mapName, string directory = "NPCs")
-        {
-            PeopleManager = new PeopleManager(mapName);
-            var persister = SetupPersonPersister(mapName, directory);
-
-            PeopleManager.LoadPeopleOrCreateNew(persister);
-
-            var actor = new PersonActor {Persister = persister};
-            var watcher = new CollectionWatcher<Person>(PeopleManager.People, actor);
-        }
-
-        public PeopleManager PeopleManager { get; set; }
-        public IPersister Persister { get; set; }
-
-        public static FilePersister SetupPersonPersister(string mapName, string directory)
-        {
-            var persister = new FilePersister();
-            persister.DefaultExtension = "json";
-            string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
-            string parentDirectory = Directory.GetParent(grandParentDirectory).FullName;
-            persister.FilePath = Path.Combine(parentDirectory, directory);
-            persister.FileName = mapName;
-            return persister;
-        }
-    }
-
     public class PersonActorFileTests
     {
         private const string testFileDirectory = "fixtures";

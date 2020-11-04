@@ -59,6 +59,7 @@
       <Compile Include="Pathing\WorldPathfinder.cs"/>
       <Compile Include="People\IEntity.cs"/>
       <Compile Include="People\PeopleManager.cs"/>
+      <Compile Include="People\PeopleOverseer.cs"/>
       <Compile Include="People\Person.cs"/>
       <Compile Include="Persistence\FilePersister.cs"/>
       <Compile Include="Persistence\FileTextPersister.cs"/>

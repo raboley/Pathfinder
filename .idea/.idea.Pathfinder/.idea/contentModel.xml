@@ -104,6 +104,7 @@
         <e p="People" t="Include">
           <e p="IEntity.cs" t="Include" />
           <e p="PeopleManager.cs" t="Include" />
+          <e p="PeopleOverseer.cs" t="Include" />
           <e p="Person.cs" t="Include" />
         </e>
         <e p="Persistence" t="Include">
@@ -146,7 +147,6 @@
           <e p="FileTextPersisterTests.cs" t="Include" />
           <e p="GridFactoryFileTests.cs" t="Include" />
           <e p="GridFileTests.cs" t="Include" />
-          <e p="GridNode.json" t="Include" />
           <e p="PersonActorFileTests.cs" t="Include" />
           <e p="Player.cs" t="Include" />
           <e p="TravelerFeatureTests.cs" t="Include" />
