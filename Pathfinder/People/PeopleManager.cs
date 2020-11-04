@@ -11,8 +11,8 @@ namespace Pathfinder.People
 
         public PeopleManager(string mapName)
         {
-            People = new ObservableCollection<Person>();
             MapName = mapName;
+            People = new ObservableCollection<Person>();
         }
 
         public void AddOrUpdatePerson(Person person)
@@ -56,17 +56,17 @@ namespace Pathfinder.People
             return true;
         }
 
-        public void LoadNpcs(FilePersister persister)
+        public void LoadPeople(IPersister persister)
         {
             var npcs = persister.Load<ObservableCollection<Person>>();
             People = npcs;
         }
 
-        public void LoadNpcsOrCreateNew(FilePersister persister)
+        public void LoadPeopleOrCreateNew(IPersister persister)
         {
             if (persister.Exists())
             {
-                LoadNpcs(persister);
+                LoadPeople(persister);
                 return;
             }
 

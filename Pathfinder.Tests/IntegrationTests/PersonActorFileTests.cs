@@ -2,16 +2,48 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Numerics;
 using System.Threading.Tasks;
 using Pathfinder.Map;
 using Pathfinder.People;
+using Pathfinder.Persistence;
 using Xunit;
 
 namespace Pathfinder.Tests.IntegrationTests
 {
+    public class PeopleOverseer
+    {
+        public PeopleOverseer(string mapName, string directory = "NPCs")
+        {
+            PeopleManager = new PeopleManager(mapName);
+            var persister = SetupPersonPersister(mapName, directory);
+
+            PeopleManager.LoadPeopleOrCreateNew(persister);
+
+            var actor = new PersonActor {Persister = persister};
+            var watcher = new CollectionWatcher<Person>(PeopleManager.People, actor);
+        }
+
+        public PeopleManager PeopleManager { get; set; }
+        public IPersister Persister { get; set; }
+
+        public static FilePersister SetupPersonPersister(string mapName, string directory)
+        {
+            var persister = new FilePersister();
+            persister.DefaultExtension = "json";
+            string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
+            string parentDirectory = Directory.GetParent(grandParentDirectory).FullName;
+            persister.FilePath = Path.Combine(parentDirectory, directory);
+            persister.FileName = mapName;
+            return persister;
+        }
+    }
+
     public class PersonActorFileTests
     {
+        private const string testFileDirectory = "fixtures";
+
         [Fact]
         public void AddingPersonPersistsCollectionToFile()
         {
@@ -22,11 +54,9 @@ namespace Pathfinder.Tests.IntegrationTests
             var persister = SetupPersister.SetupTestFilePersister();
             persister.FileName = mapName;
 
-            var peopleManager = new PeopleManager(mapName);
-            var actor = new PersonActor {Persister = persister};
-            var watcher = new CollectionWatcher<Person>(peopleManager.People, actor);
+            var peopleOverseer = new PeopleOverseer(mapName, testFileDirectory);
 
-            peopleManager.AddPerson(new Person(2, "test guy", Vector3.Zero));
+            peopleOverseer.PeopleManager.AddPerson(new Person(2, "test guy", Vector3.Zero));
             var got = persister.Load<ObservableCollection<Person>>();
 
             persister.Delete();
@@ -44,11 +74,9 @@ namespace Pathfinder.Tests.IntegrationTests
             var persister = SetupPersister.SetupTestFilePersister();
             persister.FileName = SetupPersister.GetCurrentMethodName();
 
-            var peopleManager = new PeopleManager(mapName);
-            var actor = new PersonActor {Persister = persister};
-            var watcher = new CollectionWatcher<Person>(peopleManager.People, actor);
+            var peopleOverseer = new PeopleOverseer(mapName, testFileDirectory);
 
-            peopleManager.AddPerson(new Person(2, "test guy", Vector3.Zero));
+            peopleOverseer.PeopleManager.AddPerson(new Person(2, "test guy", Vector3.Zero));
 
             // Load up using what was just saved.
             var gotZone = new Zone("D");
@@ -71,18 +99,17 @@ namespace Pathfinder.Tests.IntegrationTests
             var persister = SetupPersister.SetupTestFilePersister();
             persister.FileName = SetupPersister.GetCurrentMethodName();
 
-            var peopleManager = new PeopleManager(mapName);
-            var actor = new PersonActor {Persister = persister};
-            var watcher = new CollectionWatcher<Person>(peopleManager.People, actor);
+            var peopleOverseer = new PeopleOverseer(mapName, testFileDirectory);
 
-            peopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
-            peopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
-            peopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
+            peopleOverseer.PeopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
+            peopleOverseer.PeopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
+            peopleOverseer.PeopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
 
             var npcs = new List<Person>();
-            for (var i = 2; i < 30; i++) peopleManager.AddPerson(new Person(i, "dummy" + i, Vector3.Zero));
+            for (var i = 2; i < 30; i++)
+                peopleOverseer.PeopleManager.AddPerson(new Person(i, "dummy" + i, Vector3.Zero));
 
-            await Init(peopleManager, npcs);
+            await Init(peopleOverseer.PeopleManager, npcs);
 
             var want = new ObservableCollection<Person>();
             want.Add(new Person(0, "test guy", Vector3.Zero) {MapName = mapName});

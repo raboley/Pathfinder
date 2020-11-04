@@ -34,11 +34,6 @@ namespace Pathfinder.Map
 
         public int HeapIndex { get; set; }
 
-        public void AddNpc(Person person)
-        {
-        }
-
-
         public void AddBoundary(string ZonesFrom, Vector3 ZonesFromPoint, string ZonesTo, Vector3 ZonesToPoint)
         {
             List<ZoneBoundary> zoneBoundaries;
