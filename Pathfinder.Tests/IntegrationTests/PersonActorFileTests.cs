@@ -75,22 +75,22 @@ namespace Pathfinder.Tests.IntegrationTests
 
             var watcher = new CollectionWatcher<Person>(zone.Npcs, actor);
 
-            zone.AddNpc(new Person(2, "test guy", Vector3.Zero));
-            zone.AddNpc(new Person(2, "test guy", Vector3.Zero));
-            zone.AddNpc(new Person(2, "test guy", Vector3.Zero));
+            zone.AddNpc(new Person(0, "test guy", Vector3.Zero));
+            zone.AddNpc(new Person(0, "test guy", Vector3.Zero));
+            zone.AddNpc(new Person(0, "test guy", Vector3.Zero));
 
             var npcs = new List<Person>();
-            for (var i = 0; i < 30; i++) npcs.Add(new Person(i, "dummy" + i, Vector3.Zero));
+            for (var i = 2; i < 30; i++) zone.AddNpc(new Person(i, "dummy" + i, Vector3.Zero));
 
             await Init(zone, npcs);
 
             var want = ExampleWorld.ZoneD().Npcs;
-            want.Add(new Person(2, "test guy", Vector3.Zero) {MapName = zone.Name});
-            for (var i = 0; i < 30; i++) want.Add(new Person(i, "dummy" + i, Vector3.Zero) {MapName = zone.Name});
+            want.Add(new Person(0, "test guy", Vector3.Zero) {MapName = zone.Name});
+            for (var i = 2; i < 30; i++) want.Add(new Person(i, "dummy" + i, Vector3.Zero) {MapName = zone.Name});
 
             var got = persister.Load<ObservableCollection<Person>>();
 
-            // persister.Delete();
+            persister.Delete();
 
             Assert.Equal(want.Count, got.Count);
             Assert.Equal(want, got);
