@@ -8,11 +8,11 @@ namespace Pathfinder.People
         public PeopleOverseer(string mapName, string directory = "NPCs")
         {
             PeopleManager = new PeopleManager(mapName);
-            var persister = SetupPersonPersister(mapName, directory);
+            Persister = SetupPersonPersister(mapName, directory);
 
-            PeopleManager.LoadPeopleOrCreateNew(persister);
+            PeopleManager.LoadPeopleOrCreateNew(Persister);
 
-            var actor = new PersonActor {Persister = persister};
+            var actor = new PersonActor {Persister = Persister};
             var watcher = new CollectionWatcher<Person>(PeopleManager.People, actor);
         }
 
@@ -23,7 +23,8 @@ namespace Pathfinder.People
         {
             var persister = new FilePersister();
             persister.DefaultExtension = "json";
-            string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
+            string greatGrandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
+            string grandParentDirectory = Directory.GetParent(greatGrandParentDirectory).FullName;
             string parentDirectory = Directory.GetParent(grandParentDirectory).FullName;
             persister.FilePath = Path.Combine(parentDirectory, directory);
             persister.FileName = mapName;
