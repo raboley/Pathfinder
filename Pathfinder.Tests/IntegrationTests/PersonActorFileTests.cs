@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Numerics;
 using System.Threading.Tasks;
 using Pathfinder.Map;
@@ -12,7 +13,7 @@ namespace Pathfinder.Tests.IntegrationTests
 {
     public class PersonActorFileTests
     {
-        private const string testFileDirectory = "fixtures";
+        private readonly string _testFileDirectory = Path.Combine("Pathfinder.Tests", "fixtures");
 
         [Fact]
         public void AddingPersonPersistsCollectionToFile()
@@ -24,7 +25,7 @@ namespace Pathfinder.Tests.IntegrationTests
             var persister = SetupPersister.SetupTestFilePersister();
             persister.FileName = mapName;
 
-            var peopleOverseer = new PeopleOverseer(mapName, testFileDirectory);
+            var peopleOverseer = new PeopleOverseer(mapName, _testFileDirectory);
 
             peopleOverseer.PeopleManager.AddPerson(new Person(2, "test guy", Vector3.Zero));
             var got = persister.Load<ObservableCollection<Person>>();
@@ -44,7 +45,7 @@ namespace Pathfinder.Tests.IntegrationTests
             var persister = SetupPersister.SetupTestFilePersister();
             persister.FileName = SetupPersister.GetCurrentMethodName();
 
-            var peopleOverseer = new PeopleOverseer(mapName, testFileDirectory);
+            var peopleOverseer = new PeopleOverseer(mapName, _testFileDirectory);
 
             peopleOverseer.PeopleManager.AddPerson(new Person(2, "test guy", Vector3.Zero));
 
@@ -69,7 +70,7 @@ namespace Pathfinder.Tests.IntegrationTests
             var persister = SetupPersister.SetupTestFilePersister();
             persister.FileName = SetupPersister.GetCurrentMethodName();
 
-            var peopleOverseer = new PeopleOverseer(mapName, testFileDirectory);
+            var peopleOverseer = new PeopleOverseer(mapName, _testFileDirectory);
 
             peopleOverseer.PeopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
             peopleOverseer.PeopleManager.AddPerson(new Person(0, "test guy", Vector3.Zero));
