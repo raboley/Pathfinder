@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using Pathfinder.Persistence;
@@ -47,7 +48,13 @@ namespace Pathfinder.Map
         public int MaxSize => _gridSizeX * _gridSizeY;
 
         public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
-        public List<Node> UnknownNodes => MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown);
+
+        public ObservableCollection<Node> UnknownNodes
+        {
+            get => new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown) ??
+                                                  new List<Node>());
+            set => throw new NotImplementedException();
+        }
 
         private float NodeRadius { get; set; } = 0.5f;
         private float NodeDiameter => NodeRadius * 2;

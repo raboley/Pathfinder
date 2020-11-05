@@ -55,7 +55,7 @@ namespace Pathfinder.Tests
             return want;
         }
 
-        public static void AssertListGridNodesEqual(IReadOnlyList<Node> want, List<Node> got)
+        public static void AssertListGridNodesEqual(List<Node> want, List<Node> got)
         {
             Assert.Equal(want.Count, got.Count);
             for (var i = 0; i < want.Count; i++) Assert.Equal(want[i], got[i]);

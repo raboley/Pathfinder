@@ -23,8 +23,8 @@ namespace Pathfinder.Tests.UnitTests
             var want = wantGrid.UnknownNodes;
             var got = map.UnknownNodes;
 
-
-            SetupZoneMap.AssertListGridNodesEqual(want, got);
+            Assert.Equal(want.Count, got.Count);
+            for (var i = 0; i < want.Count; i++) Assert.Equal(want[i], got[i]);
         }
     }
 }

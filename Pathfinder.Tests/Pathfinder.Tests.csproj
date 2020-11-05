@@ -60,6 +60,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="IntegrationTests\ZoneOverseerTests.cs"/>
         <Compile Include="IntegrationTests\PersonActorFileTests.cs"/>
         <Compile Include="IntegrationTests\Player.cs"/>
         <Compile Include="IntegrationTests\TravelerFeatureTests.cs"/>

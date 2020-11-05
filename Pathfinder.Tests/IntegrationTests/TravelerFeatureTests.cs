@@ -46,8 +46,6 @@ namespace Pathfinder.Tests.IntegrationTests
 |  s  |     |  ?  |
 -------------------
 ";
-            const string start = "A";
-
             // setup the world
             var zoneMap = ZoneMap.TinyMap();
             var traveler = new Traveler();

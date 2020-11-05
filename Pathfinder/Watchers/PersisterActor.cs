@@ -7,7 +7,7 @@ using Pathfinder.Persistence;
 
 namespace Pathfinder
 {
-    public class PersonActor : IActor
+    public class PersisterActor : IActor
     {
         public IPersister Persister { get; set; }
 
