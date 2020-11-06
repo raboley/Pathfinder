@@ -7,19 +7,20 @@ using Pathfinder.Persistence;
 
 namespace Pathfinder
 {
-    public class PersisterActor : IActor
+    public class PersisterActor<T> : IActor
     {
         public IPersister Persister { get; set; }
 
         public void Added(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var collection = sender as ObservableCollection<Person>;
+            var collection = sender as ObservableCollection<T>;
             Persister.Save(collection);
         }
 
         public void Removed(object sender, NotifyCollectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            var collection = sender as ObservableCollection<T>;
+            Persister.Save(collection);
         }
 
         public void Updated(object sender, PropertyChangedEventArgs e)

@@ -49,10 +49,15 @@ namespace Pathfinder.Map
 
         public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
 
+        // TODO make this actually work and change when sent in?
         public ObservableCollection<Node> UnknownNodes
         {
-            get => new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown) ??
-                                                  new List<Node>());
+            get
+            {
+                return MapGrid?.Cast<Node>().ToList().Where(x => x.Unknown == true) as ObservableCollection<Node>;
+                // get => new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown) ??
+                //                                       new List<Node>());  
+            }
             set => throw new NotImplementedException();
         }
 

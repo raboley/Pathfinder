@@ -12,7 +12,7 @@ namespace Pathfinder.People
 
             PeopleManager.LoadPeopleOrCreateNew(Persister);
 
-            var actor = new PersisterActor {Persister = Persister};
+            var actor = new PersisterActor<Person> {Persister = Persister};
             var watcher = new CollectionWatcher<Person>(PeopleManager.People, actor);
         }
 

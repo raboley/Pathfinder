@@ -9,8 +9,8 @@ namespace Pathfinder.Map
         private float _defaultGridCenterY;
         private float _defaultGridCenterZ;
 
-        private float _defaultGridSizeX = 1000f;
-        private float _defaultGridSizeY = 1000f;
+        private float _defaultGridSizeX = 500f;
+        private float _defaultGridSizeY = 500f;
 
         public IPersister Persister { get; set; }
 

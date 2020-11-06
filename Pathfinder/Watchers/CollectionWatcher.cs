@@ -13,12 +13,12 @@ namespace Pathfinder
 
             collection.CollectionChanged += Changed;
 
-            if (collection.Count > 0)
-                foreach (var unknown in collection)
-                {
-                    var item = (INotifyPropertyChanged) unknown;
-                    item.PropertyChanged += ItemChanged;
-                }
+            // if (collection.Count > 0)
+            //     foreach (var unknown in collection)
+            //     {
+            //         var item = (INotifyPropertyChanged) unknown;
+            //         item.PropertyChanged += ItemChanged;
+            //     }
         }
 
         public ObservableCollection<T> Collection { get; set; }
@@ -28,15 +28,15 @@ namespace Pathfinder
         {
             if (e.NewItems != null)
             {
-                foreach (INotifyPropertyChanged item in e.NewItems)
-                    item.PropertyChanged += ItemChanged;
+                // foreach (INotifyPropertyChanged item in e.NewItems)
+                //     item.PropertyChanged += ItemChanged;
                 Actor.Added(sender, e);
             }
 
             if (e.OldItems != null)
             {
-                foreach (INotifyPropertyChanged item in e.OldItems)
-                    item.PropertyChanged -= ItemChanged;
+                // foreach (INotifyPropertyChanged item in e.OldItems)
+                //     item.PropertyChanged -= ItemChanged;
                 Actor.Removed(sender, e);
             }
         }
@@ -45,7 +45,7 @@ namespace Pathfinder
         // https://stackoverflow.com/questions/901921/observablecollection-and-item-propertychanged
         public void ItemChanged(object sender, PropertyChangedEventArgs e)
         {
-            Actor.Updated(sender, e);
+            // Actor.Updated(sender, e);
         }
     }
 }
