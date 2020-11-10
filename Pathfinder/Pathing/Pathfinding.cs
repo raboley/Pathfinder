@@ -17,8 +17,9 @@ namespace Pathfinder.Pathing
 
             var startGridNode = zoneMap.GetNodeFromWorldPoint(startPos);
             var targetGridNode = zoneMap.GetNodeFromWorldPoint(targetPos);
-
-            if (startGridNode.Walkable && targetGridNode.Walkable)
+            
+            // startGridNode.Walkable &&
+            if ( targetGridNode.Walkable)
             {
                 var openSet = new Heap<Node>(zoneMap.MaxSize);
                 var closedSet = new HashSet<Node>();

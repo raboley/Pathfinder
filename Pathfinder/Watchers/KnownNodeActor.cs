@@ -21,12 +21,26 @@ namespace Pathfinder
 
         public void Added(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Persister.Save(ZoneMap);
+            // try
+            // {
+            //     Persister.Save(ZoneMap);
+            // }
+            // catch (Exception exception)
+            // {
+            //     Console.WriteLine(exception);
+            // }
         }
 
         public void Removed(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Persister.Save(ZoneMap);
+            try
+            {
+                Persister.Save(ZoneMap);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
         }
 
         public void Updated(object sender, PropertyChangedEventArgs e)

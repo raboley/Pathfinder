@@ -14,6 +14,7 @@ namespace Pathfinder.Map
         private float _gridCenterX, _gridCenterY, _gridCenterZ;
         private int _gridSizeX, _gridSizeY;
         public Node[,] MapGrid;
+        private ObservableCollection<Node> _unknownNodes = new ObservableCollection<Node>();
 
 
         public string MapName { get; set; }
@@ -49,15 +50,46 @@ namespace Pathfinder.Map
 
         public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
 
+        // public ObservableCollection<Node> UnknownNodes
+        // {
+        //     get
+        //     {
+        //         var known = new List<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown == true) ?? new List<Node>());
+        //         foreach (var node in known)
+        //         {
+        //             if (!_unknownNodes.Contains(node))
+        //                 _unknownNodes.Add(node);
+        //         }
+        //
+        //         return _unknownNodes;
+        //     }
+        //     set => _unknownNodes = value;
+        // }
+        // public ObservableCollection<Node> UnknownNodes { get; set; } = new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown));
+
+        // private ObservableCollection<Node> _unknownNodes = new ObservableCollection<Node>();
+        // public ObservableCollection<Node> UnknownNodes
+        // {
+        //     get
+        //     {
+        //         return (ObservableCollection<Node>) MapGrid?.Cast<Node>().ToList().Select(n => n.Unknown == true);
+        //         var list = new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown) ?? new List<Node>());
+        //         _unknownNodes = list;
+        //
+        //         return _unknownNodes;
+        //     }
+        //     set => _unknownNodes = value;
+        // }
+
         // TODO make this actually work and change when sent in?
         public ObservableCollection<Node> UnknownNodes
         {
-            get
-            {
-                return MapGrid?.Cast<Node>().ToList().Where(x => x.Unknown == true) as ObservableCollection<Node>;
-                // get => new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown) ??
-                //                                       new List<Node>());  
-            }
+            // get
+            // {
+            //     // return MapGrid?.Cast<Node>().ToList().Where(x => x.Unknown == true) as ObservableCollection<Node>;
+            // }
+                get => new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown) ??
+                                                      new List<Node>());  
             set => throw new NotImplementedException();
         }
 
@@ -205,6 +237,7 @@ namespace Pathfinder.Map
         public void AddUnWalkableNode(Vector3 position)
         {
             var gridNode = GetNodeFromWorldPoint(position);
+            _unknownNodes.Remove(gridNode);
             gridNode.Walkable = false;
             gridNode.Unknown = false;
             MapGrid[gridNode.GridX, gridNode.GridY] = gridNode;
@@ -213,6 +246,7 @@ namespace Pathfinder.Map
         public void AddKnownNode(Vector3 worldPoint)
         {
             var gridNode = GetNodeFromWorldPoint(worldPoint);
+            _unknownNodes.Remove(gridNode);
             MapGrid[gridNode.GridX, gridNode.GridY].Unknown = false;
         }
 
