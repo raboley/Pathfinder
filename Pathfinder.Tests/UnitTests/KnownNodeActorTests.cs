@@ -10,7 +10,8 @@ namespace Pathfinder.Tests.UnitTests
         public void KnownNodeActorCanUpdateKnownNodes()
         {
             var map = SetupZoneMap.SetupSmallGrid();
-            var actor = new KnownNodeActor(map);
+            var stubPersister = new StubPersister();
+            var actor = new KnownNodeActor(stubPersister, map);
             var traveler = new Traveler();
             var watcher = new Watcher(traveler, actor);
 

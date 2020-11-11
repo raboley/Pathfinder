@@ -2,12 +2,13 @@ using Pathfinder.Persistence;
 
 namespace Pathfinder.Tests.UnitTests
 {
-    public class SpyPersister : IPersister
+    public class StubPersister : IPersister
     {
+        public bool ExistShouldReturn { get; set; } = false;
         public string MapName { get; set; }
+
         public void Save<T>(T serializableData)
         {
-            
         }
 
         public T Load<T>()
@@ -19,7 +20,6 @@ namespace Pathfinder.Tests.UnitTests
         {
         }
 
-        public bool ExistShouldReturn { get; set; } = false;
         public bool Exists()
         {
             return ExistShouldReturn;

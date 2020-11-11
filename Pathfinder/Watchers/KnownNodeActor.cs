@@ -21,14 +21,14 @@ namespace Pathfinder
 
         public void Added(object sender, NotifyCollectionChangedEventArgs e)
         {
-            // try
-            // {
-            //     Persister.Save(ZoneMap);
-            // }
-            // catch (Exception exception)
-            // {
-            //     Console.WriteLine(exception);
-            // }
+            try
+            {
+                Persister.Save(ZoneMap);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
         }
 
         public void Removed(object sender, NotifyCollectionChangedEventArgs e)
@@ -45,12 +45,12 @@ namespace Pathfinder
 
         public void Updated(object sender, PropertyChangedEventArgs e)
         {
-            // if (e.PropertyName == "Position")
-            // {
-            //     var traveler = sender as Traveler;
-            //     Debug.Assert(traveler != null, nameof(traveler) + " != null");
-            //     ZoneMap.AddKnownNode(traveler.Position);
-            // }
+            if (e.PropertyName == "Position")
+            {
+                var traveler = sender as Traveler;
+                Debug.Assert(traveler != null, nameof(traveler) + " != null");
+                ZoneMap.AddKnownNode(traveler.Position);
+            }
         }
     }
 }

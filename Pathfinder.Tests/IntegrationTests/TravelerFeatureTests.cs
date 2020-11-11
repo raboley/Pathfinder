@@ -1,5 +1,6 @@
 using System.Numerics;
 using Pathfinder.Map;
+using Pathfinder.Tests.UnitTests;
 using Pathfinder.Travel;
 using Xunit;
 
@@ -35,7 +36,7 @@ namespace Pathfinder.Tests.IntegrationTests
         }
 
         [Fact]
-        public void TravelerMarksNodesAsUnwalkableWhenStuck()
+        public void TravelerMarksNodesAsUnWalkableWhenStuck()
         {
             const string unused = @"
 -------------------
@@ -50,7 +51,8 @@ namespace Pathfinder.Tests.IntegrationTests
             var zoneMap = ZoneMap.TinyMap();
             var traveler = new Traveler();
             traveler.CurrentZone = new Zone("test") {Map = zoneMap};
-            var actor = new KnownNodeActor(traveler.CurrentZone.Map);
+            var stubPersister = new StubPersister();
+            var actor = new KnownNodeActor(stubPersister, traveler.CurrentZone.Map);
             var watcher = new Watcher(traveler, actor);
             traveler.Position = new Vector3(-1, 0, -1);
 

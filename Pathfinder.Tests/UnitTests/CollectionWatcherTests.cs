@@ -36,7 +36,7 @@ namespace Pathfinder.Tests.UnitTests
             Assert.Equal(1, spyActor.CalledTimesRemove);
         }
 
-        [Fact]
+        [Fact(Skip = "not using update")]
         public void WatcherFiresUpdatedWhenObjectUpdatedInPlace()
         {
             var spyActor = SetupWatcher(out var peopleManager);

@@ -28,7 +28,8 @@ namespace Pathfinder.Tests.UnitTests
             var zone = new Zone("tests");
             var grid = SetupZoneMap.SetupMediumGrid();
             zone.Map = grid;
-            var actor = new KnownNodeActor(grid);
+            var stubPersister = new StubPersister();
+            var actor = new KnownNodeActor(stubPersister, grid);
 
             // Walk a Path
             var startPos = new Vector3(-2, 0, -2);
