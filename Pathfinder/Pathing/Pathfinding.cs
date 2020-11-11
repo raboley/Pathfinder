@@ -92,11 +92,14 @@ namespace Pathfinder.Pathing
 
             for (var i = 1; i < path.Count; i++)
             {
-                var directionNew =
-                    new Vector2(path[i - 1].GridX - path[i].GridX, path[i - 1].GridY - path[i].GridY);
-                if (directionNew != directionOld) waypoints.Add(path[i].WorldPosition);
-
-                directionOld = directionNew;
+                waypoints.Add(path[i].WorldPosition);
+                
+                // // Simplify path
+                // var directionNew =
+                //     new Vector2(path[i - 1].GridX - path[i].GridX, path[i - 1].GridY - path[i].GridY);
+                // if (directionNew != directionOld) waypoints.Add(path[i].WorldPosition);
+                //
+                // directionOld = directionNew;
             }
 
             // waypoints.Add(start);
