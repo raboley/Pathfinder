@@ -1,8 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Pathfinder.Map
 {
+    public class NodeConverter : JsonConverter<Node>
+    {
+        public override void WriteJson(JsonWriter writer, Node value, JsonSerializer serializer)
+        {
+            JToken t = JToken.FromObject(value);
+
+            if (t.Type != JTokenType.Object)
+            {
+                t.WriteTo(writer);
+            }
+            else
+            {
+                JObject o = (JObject) t;
+                IList<string> propertyNames = o.Properties().Select(p => p.Name).ToList();
+
+                o.AddFirst(new JProperty("Keys", new JArray(propertyNames)));
+
+                o.WriteTo(writer);
+            }
+        }
+
+        public override Node ReadJson(JsonReader reader, Type objectType, Node existingValue, bool hasExistingValue,
+            JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+            // string s = (string)reader.Value;
+            //
+            // return new Node(s);
+        }
+    }
+
     [Serializable]
     public class Node : IHeapItem<Node>, IEquatable<Node>
     {
