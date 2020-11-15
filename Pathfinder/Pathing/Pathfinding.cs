@@ -45,12 +45,12 @@ namespace Pathfinder.Pathing
                         if (!neighbour.Walkable || closedSet.Contains(neighbour)) continue;
 
                         int newMovementCostToNeighbour =
-                            currentGridNode.GCost + GetDistance(currentGridNode, neighbour);
+                            currentGridNode.GCost + GridMath.GetDistance(currentGridNode, neighbour);
 
                         if (newMovementCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour))
                         {
                             neighbour.GCost = newMovementCostToNeighbour;
-                            neighbour.HCost = GetDistance(neighbour, targetGridNode);
+                            neighbour.HCost = GridMath.GetDistance(neighbour, targetGridNode);
                             neighbour.Parent = currentGridNode;
 
                             if (!openSet.Contains(neighbour))
@@ -105,26 +105,6 @@ namespace Pathfinder.Pathing
             // waypoints.Add(start);
 
             return waypoints.ToArray();
-        }
-
-        public static int GetDistance(Node nodeA, Node nodeB)
-        {
-            int dstX = Math.Abs(nodeA.GridX - nodeB.GridX);
-            int dstY = Math.Abs(nodeA.GridY - nodeB.GridY);
-
-            if (dstX > dstY) return 14 * dstY + 10 * (dstX - dstY);
-
-            return 14 * dstX + 10 * (dstY - dstX);
-        }
-
-        public static int GetDistancePos(Vector3 start, Vector3 end)
-        {
-            int dstX = GridMath.ConvertFromFloatToInt(Math.Abs(start.X - end.X));
-            int dstY = GridMath.ConvertFromFloatToInt(Math.Abs(start.Y - end.Y));
-
-            if (dstX > dstY) return 14 * dstY + 10 * (dstX - dstY);
-
-            return 14 * dstX + 10 * (dstY - dstX);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Pathfinder.Tests.IntegrationTests
 
         private void TalkToSignetPerson(Person signetNpc)
         {
-            int dist = Pathfinding.GetDistancePos(Traveler.Position, signetNpc.Position);
+            int dist = GridMath.GetDistancePos(Traveler.Position, signetNpc.Position);
             if (dist < 3)
                 HasSignet = true;
         }
