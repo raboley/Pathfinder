@@ -118,7 +118,8 @@ namespace Pathfinder.Tests.UnitTests
 
             // setup the world
             var world = ExampleWorld.Sample();
-            var traveler = new Traveler(start, world, Vector3.Zero);
+            var walker = new Walker(Vector3.Zero);
+            var traveler = new Traveler(start, world, walker);
 
             var zones = new List<Zone>
             {
@@ -145,7 +146,8 @@ namespace Pathfinder.Tests.UnitTests
         {
             var world = ExampleWorld.Sample();
             const string start = "A";
-            var traveler = new Traveler(start, world, Vector3.Zero);
+            var walker = new Walker(Vector3.Zero);
+            var traveler = new Traveler(start, world, walker);
             return traveler;
         }
     }

@@ -18,7 +18,7 @@ namespace Pathfinder.Tests.IntegrationTests
             // Walk to Signet NPC zone
             Traveler.WalkToZone(signetNpc.MapName);
             // Interact with them to Get Signet
-            Traveler.WalkToPosition(signetNpc.Position);
+            Traveler.GoToPosition(signetNpc.Position);
             // Get signet
             TalkToSignetPerson(signetNpc);
         }

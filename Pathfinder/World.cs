@@ -7,8 +7,8 @@ namespace Pathfinder
 {
     public class World
     {
-        public List<Zone> Zones { get; set; }
-        public List<Person> Npcs { get; set; }
+        public List<Zone> Zones { get; set; } = new List<Zone>();
+        public List<Person> Npcs { get; set; } = new List<Person>();
 
         public List<Zone> GetNeighbors(Zone zone)
         {

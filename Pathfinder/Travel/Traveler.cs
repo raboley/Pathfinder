@@ -14,41 +14,26 @@ namespace Pathfinder.Travel
 {
     public class Traveler : INotifyPropertyChanged
     {
+        private readonly IWalker _walker;
         public readonly Queue<Vector3> PositionHistory = new Queue<Vector3>();
-        private Queue<Vector3> _pathToWalk;
-        private Vector3 _position;
+        public Queue<Vector3> _pathToWalk;
         public ZoneMap BlindGrid;
-        private Vector3 goalPosition;
+        public Vector3 goalPosition;
 
         public Traveler()
         {
         }
 
-        public Traveler(string currentZoneName, World world, Vector3 position)
+        public Traveler(string currentZoneName, World world, IWalker walker)
         {
+            _walker = walker;
+            _walker.IsStuck += WalkerOnIsStuck;
+            _walker.PropertyChanged += WalkerOnPropertyChanged;
             World = world;
             CurrentZone = world.GetZoneByName(currentZoneName);
-            Position = position;
+            Position = walker.CurrentPosition;
+            CurrentZone.Map.AddKnownNode(Position);
         }
-
-        public List<Zone> ZonesToTravelThrough { get; set; } = new List<Zone>();
-
-        public Zone CurrentZone { get; set; }
-
-        public Vector3 Position
-        {
-            get => _position;
-            set
-            {
-                if (value.Equals(_position)) return;
-                _position = value;
-                PositionHistory.Enqueue(value);
-                if (PositionHistory.Count >= 15) PositionHistory.Dequeue();
-                OnPropertyChanged();
-            }
-        }
-
-        public World World { get; set; }
 
         public List<Vector3> AllBorderZonePoints
         {
@@ -61,55 +46,40 @@ namespace Pathfinder.Travel
             }
         }
 
+        public Vector3 Position
+        {
+            get => _walker.CurrentPosition;
+            set => _walker.CurrentPosition = value;
+        }
+
+        public List<Zone> ZonesToTravelThrough { get; set; } = new List<Zone>();
+
+        public Zone CurrentZone { get; set; }
+
+        public World World { get; set; }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint)
+        private void WalkerOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            goalPosition = waypoint;
-            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint);
-            _pathToWalk = new Queue<Vector3>(path);
-            while (_pathToWalk.Count > 0)
+            if (e.PropertyName == "CurrentPosition")
             {
-                var point = _pathToWalk.Dequeue();
-                WalkToPosition(point);
+                IWalker walker = (IWalker) sender;
+                CurrentZone.Map.AddKnownNode(walker.CurrentPosition);
+                // Teleport to the new zone if position is equal to a border zone position
             }
         }
 
-
-        public void WalkToPosition(Vector3 targetPosition)
+        private void WalkerOnIsStuck(object sender, Vector3 e)
         {
-            var goal = targetPosition;
-            while (Position != goal)
-            {
-                int x = GetNewXorY(Position.X, goal.X);
-                int y = GetNewXorY(Position.Z, goal.Z);
-
-                var position = new Vector3(x, 0, y);
-                // Try to move, if you can't move return fail?
-                if (CantWalkToPosition(position))
-                {
-                    AddUnwalkableNodeAndGetNewPath(position);
-                    goal = _pathToWalk.Dequeue();
-                }
-                else
-                {
-                    Position = position;
-                }
-            }
-
-            // Teleport to the new zone if position is equal to a border zone position
-            if (AllBorderZonePoints.Contains(Position))
-            {
-                var boundary = GetZoneBorderToNameFromPoint(Position);
-                CurrentZone = World.GetZoneByName(boundary.ToZone);
-                Position = boundary.ToPosition;
-            }
+            AddUnWalkableNodeAndGetNewPath(e);
         }
 
-        private void AddUnwalkableNodeAndGetNewPath(Vector3 position)
+        private void AddUnWalkableNodeAndGetNewPath(Vector3 position)
         {
             CurrentZone.Map.AddUnWalkableNode(position);
-            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, goalPosition);
+            var path = Pathfinding.FindWaypoints(CurrentZone.Map, _walker.CurrentPosition, goalPosition);
             if (path == null)
             {
                 _pathToWalk = new Queue<Vector3>();
@@ -120,11 +90,22 @@ namespace Pathfinder.Travel
             foreach (var vector3 in path) _pathToWalk.Enqueue(vector3);
         }
 
-        private bool CantWalkToPosition(Vector3 newPosition)
+        public void PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint)
         {
-            if (BlindGrid == null) return false;
-            var node = BlindGrid.GetNodeFromWorldPoint(newPosition);
-            return !node.Walkable;
+            goalPosition = waypoint;
+
+            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint);
+            _pathToWalk = new Queue<Vector3>(path);
+            while (_pathToWalk.Count > 0)
+            {
+                var point = _pathToWalk.Dequeue();
+                GoToPosition(point);
+            }
+        }
+
+        public void GoToPosition(Vector3 targetPosition)
+        {
+            _walker.WalkToPosition(targetPosition);
         }
 
         public ZoneBoundary GetZoneBorderToNameFromPoint(Vector3 position)
@@ -132,20 +113,6 @@ namespace Pathfinder.Travel
             return CurrentZone.Boundaries.Find(b => b.FromPosition == position);
         }
 
-
-        private int GetNewXorY(float current, float target)
-        {
-            int currentInt = GridMath.ConvertFromFloatToInt(current);
-            int targetInt = GridMath.ConvertFromFloatToInt(target);
-
-            if (currentInt > targetInt)
-                return currentInt - 1;
-
-            if (currentInt < targetInt)
-                return currentInt + 1;
-
-            return currentInt;
-        }
 
         public void GoToZone(string zone)
         {
