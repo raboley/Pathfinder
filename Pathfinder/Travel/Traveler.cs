@@ -95,6 +95,11 @@ namespace Pathfinder.Travel
             goalPosition = waypoint;
 
             var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint);
+            if (path == null)
+            {
+                return;
+            }
+            
             _pathToWalk = new Queue<Vector3>(path);
             while (_pathToWalk.Count > 0)
             {
