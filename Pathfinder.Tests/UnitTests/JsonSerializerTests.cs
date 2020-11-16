@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Text;
 using Newtonsoft.Json;
@@ -7,7 +8,7 @@ using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
 {
-    public class JsonSerializer
+    public class PathfinderSerializer
     {
         public static string Serialize<T>(T thing)
         {
@@ -56,7 +57,7 @@ namespace Pathfinder.Tests.UnitTests
 
             var node = new Node(Vector3.Zero, true, true);
 
-            string got = JsonSerializer.Serialize(node);
+            string got = PathfinderSerializer.Serialize(node);
 
             Assert.Equal(want, got);
         }
@@ -159,7 +160,35 @@ namespace Pathfinder.Tests.UnitTests
 
 
             var map = SetupZoneMap.SetupSmallGrid();
-            string got = JsonSerializer.Serialize(map);
+            string got = PathfinderSerializer.Serialize(map);
+
+            Assert.Equal(want, got);
+        }
+
+        [Fact]
+        public void SerializeZoneIncludesZoneBoundaries()
+        {
+            var want = @"{
+  'Name': 'bastok_mines',
+  'Boundaries': [
+    {
+      'ToZone': 'mob_zone',
+      'FromZone': 'bastok_mines',
+      'FromPosition': {
+        'X': 1.0,
+        'Y': 0.0,
+        'Z': 0.0
+      },
+      'ToPosition': {
+        'X': -1.0,
+        'Y': 0.0,
+        'Z': 0.0
+      }
+    }
+  ]
+}";
+            var zone = World.FinalFantasy().Zones.FirstOrDefault();
+            string got = PathfinderSerializer.Serialize(zone);
 
             Assert.Equal(want, got);
         }

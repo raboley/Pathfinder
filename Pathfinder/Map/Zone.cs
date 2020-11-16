@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Numerics;
+using Newtonsoft.Json;
 using Pathfinder.People;
 
 namespace Pathfinder.Map
@@ -16,13 +17,21 @@ namespace Pathfinder.Map
 
         public List<ZoneBoundary> Boundaries { get; set; } = new List<ZoneBoundary>();
 
-        public ZoneMap Map { get; set; }
-        public int GCost { get; set; }
-        public int FCost => GCost + HCost;
-        public int HCost { get; set; }
-        public Zone Parent { get; set; }
-        public ObservableCollection<Person> Npcs { get; set; } = new ObservableCollection<Person>();
-        public ObservableCollection<IEntity> ThingList { get; set; } = new ObservableCollection<IEntity>();
+        [JsonIgnore] public ZoneMap Map { get; set; }
+
+        [JsonIgnore] public int GCost { get; set; }
+
+        [JsonIgnore] public int FCost => GCost + HCost;
+
+        [JsonIgnore] public int HCost { get; set; }
+
+        [JsonIgnore] public Zone Parent { get; set; }
+
+        [JsonIgnore] public ObservableCollection<Person> Npcs { get; set; } = new ObservableCollection<Person>();
+
+        [JsonIgnore] public ObservableCollection<IEntity> ThingList { get; set; } = new ObservableCollection<IEntity>();
+
+        [JsonIgnore] public int HeapIndex { get; set; }
 
         public int CompareTo(Zone other)
         {
@@ -31,8 +40,6 @@ namespace Pathfinder.Map
 
             return -compare;
         }
-
-        public int HeapIndex { get; set; }
 
         public void AddBoundary(string ZonesFrom, Vector3 ZonesFromPoint, string ZonesTo, Vector3 ZonesToPoint)
         {
@@ -50,7 +57,6 @@ namespace Pathfinder.Map
 
             Boundaries.Add(zoneBoundary);
         }
-
 
         public static Zone BastokMines()
         {

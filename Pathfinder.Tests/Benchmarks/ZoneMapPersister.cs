@@ -74,7 +74,7 @@ namespace Pathfinder.Tests.Benchmarks
                 var map = serializer.DeSerialize(got);
             });
 
-            int benchTime = 100;
+            int benchTime = 150;
             Assert.True(time < benchTime,
                 "time per iteration was: " + time + "ms which is greater than expected time of: " + benchTime + "ms");
         }
@@ -97,7 +97,7 @@ namespace Pathfinder.Tests.Benchmarks
                 persister.Delete();
             });
 
-            int benchTime = 50;
+            int benchTime = 80;
             Assert.True(time < benchTime,
                 "time per iteration was: " + time + "ms which is greater than expected time of: " + benchTime + "ms");
         }
