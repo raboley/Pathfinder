@@ -18,14 +18,14 @@ namespace Pathfinder.Tests.IntegrationTests
             // Walk to Signet NPC zone
             Traveler.WalkToZone(signetNpc.MapName);
             // Interact with them to Get Signet
-            Traveler.WalkToPosition(signetNpc.Position);
+            Traveler.GoToPosition(signetNpc.Position);
             // Get signet
             TalkToSignetPerson(signetNpc);
         }
 
         private void TalkToSignetPerson(Person signetNpc)
         {
-            int dist = Pathfinding.GetDistancePos(Traveler.Position, signetNpc.Position);
+            int dist = GridMath.GetDistancePos(Traveler.Position, signetNpc.Position);
             if (dist < 3)
                 HasSignet = true;
         }

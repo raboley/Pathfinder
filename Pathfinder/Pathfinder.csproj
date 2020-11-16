@@ -32,62 +32,70 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Xml" />
+      <Reference Include="mscorlib" />
+      <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+          <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      </Reference>
+      <Reference Include="ObservableConcurrentQueue, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\packages\ObservableConcurrentQueue.1.1.0\lib\net45\ObservableConcurrentQueue.dll</HintPath>
+          <Private>True</Private>
+      </Reference>
+      <Reference Include="System" />
+      <Reference Include="System.Core" />
+      <Reference Include="System.Data" />
+      <Reference Include="System.Numerics" />
+      <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+          <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
+          <Private>True</Private>
+      </Reference>
+      <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-      <Compile Include="ExampleWorld.cs"/>
-      <Compile Include="Map\Heap.cs"/>
-      <Compile Include="Map\Node.cs"/>
-      <Compile Include="Map\Zone.cs"/>
-      <Compile Include="Map\ZoneBoundary.cs"/>
-      <Compile Include="Map\ZoneMap.cs"/>
-      <Compile Include="Map\ZoneMapFactory.cs"/>
-      <Compile Include="Map\ZoneOverseer.cs"/>
-      <Compile Include="Pathing\PathfinderMath.cs"/>
-      <Compile Include="Pathing\Pathfinding.cs"/>
-      <Compile Include="Pathing\WorldPathfinder.cs"/>
-      <Compile Include="People\IEntity.cs"/>
-      <Compile Include="People\PeopleManager.cs"/>
-      <Compile Include="People\PeopleOverseer.cs"/>
-      <Compile Include="People\Person.cs"/>
-      <Compile Include="Persistence\FilePersister.cs"/>
-      <Compile Include="Persistence\FileTextPersister.cs"/>
-      <Compile Include="Persistence\IPersister.cs"/>
-      <Compile Include="PrintConsole\INodePrinter.cs"/>
-      <Compile Include="PrintConsole\PrintCoordinates.cs"/>
-      <Compile Include="PrintConsole\PrintKnown.cs"/>
-      <Compile Include="PrintConsole\PrintPath.cs"/>
-      <Compile Include="PrintConsole\PrintWalkable.cs"/>
-      <Compile Include="Properties\Annotations.cs"/>
-      <Compile Include="Properties\AssemblyInfo.cs"/>
-      <Compile Include="Properties\Resources.Designer.cs">
-          <AutoGen>True</AutoGen>
-          <DesignTime>True</DesignTime>
-          <DependentUpon>Resources.resx</DependentUpon>
-      </Compile>
-      <Compile Include="Travel\Traveler.cs"/>
-      <Compile Include="Point.cs"/>
-      <Compile Include="Watchers\CollectionWatcher.cs"/>
-      <Compile Include="Watchers\IActor.cs"/>
-      <Compile Include="Watchers\ItemsChangedObservableCollection.cs"/>
-      <Compile Include="Watchers\KnownNodeActor.cs"/>
-      <Compile Include="Watchers\PersisterActor.cs"/>
-      <Compile Include="Watchers\PersonWatcher.cs"/>
-      <Compile Include="Watchers\Watcher.cs"/>
-      <Compile Include="World.cs"/>
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Include="ExampleWorld.cs" />
+        <Compile Include="Map\Heap.cs" />
+        <Compile Include="Map\Node.cs" />
+        <Compile Include="Map\Zone.cs" />
+        <Compile Include="Map\ZoneBoundary.cs" />
+        <Compile Include="Map\ZoneMap.cs" />
+        <Compile Include="Map\ZoneMapFactory.cs" />
+        <Compile Include="Map\ZoneOverseer.cs" />
+        <Compile Include="Pathing\PathfinderMath.cs" />
+        <Compile Include="Pathing\Pathfinding.cs" />
+        <Compile Include="Pathing\WorldPathfinder.cs" />
+        <Compile Include="People\IEntity.cs" />
+        <Compile Include="People\PeopleManager.cs" />
+        <Compile Include="People\PeopleOverseer.cs" />
+        <Compile Include="People\Person.cs" />
+        <Compile Include="Persistence\FilePersister.cs" />
+        <Compile Include="Persistence\FileTextPersister.cs" />
+        <Compile Include="Persistence\IPersister.cs" />
+        <Compile Include="PrintConsole\INodePrinter.cs" />
+        <Compile Include="PrintConsole\PrintCoordinates.cs" />
+        <Compile Include="PrintConsole\PrintKnown.cs" />
+        <Compile Include="PrintConsole\PrintPath.cs" />
+        <Compile Include="PrintConsole\PrintWalkable.cs" />
+        <Compile Include="Properties\Annotations.cs" />
+        <Compile Include="Properties\Annotations1.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Properties\Resources.Designer.cs">
+            <AutoGen>True</AutoGen>
+            <DesignTime>True</DesignTime>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+        <Compile Include="Travel\IWalker.cs" />
+        <Compile Include="Travel\Traveler.cs" />
+        <Compile Include="Point.cs" />
+        <Compile Include="Travel\Walker.cs" />
+        <Compile Include="Travel\Zoner.cs" />
+        <Compile Include="Watchers\CollectionWatcher.cs" />
+        <Compile Include="Watchers\IActor.cs" />
+        <Compile Include="Watchers\ItemsChangedObservableCollection.cs" />
+        <Compile Include="Watchers\KnownNodeActor.cs" />
+        <Compile Include="Watchers\PersisterActor.cs" />
+        <Compile Include="Watchers\PersonWatcher.cs" />
+        <Compile Include="Watchers\Watcher.cs" />
+        <Compile Include="World.cs" />
+    </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
