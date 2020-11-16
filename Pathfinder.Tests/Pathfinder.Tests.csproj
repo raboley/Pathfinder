@@ -60,6 +60,8 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Benchmarks\Benchmark.cs"/>
+        <Compile Include="Benchmarks\ZoneMapPersister.cs"/>
         <Compile Include="IntegrationTests\PersonActorFileTests.cs"/>
         <Compile Include="IntegrationTests\Player.cs"/>
         <Compile Include="IntegrationTests\TravelerFeatureTests.cs"/>

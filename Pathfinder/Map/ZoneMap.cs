@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
+using Newtonsoft.Json;
 using Pathfinder.Persistence;
 using Pathfinder.PrintConsole;
 
@@ -11,14 +11,18 @@ namespace Pathfinder.Map
     [Serializable]
     public class ZoneMap
     {
-        private float _gridCenterX, _gridCenterY, _gridCenterZ;
-        private int _gridSizeX, _gridSizeY;
+        [NonSerialized] private float _gridCenterX, _gridCenterY, _gridCenterZ;
+
+        [NonSerialized] private int _gridSizeX, _gridSizeY;
+
+        [NonSerialized] private List<Node> _unknownNodes = new List<Node>();
+
         public Node[,] MapGrid;
-        private ObservableCollection<Node> _unknownNodes = new ObservableCollection<Node>();
 
 
         public string MapName { get; set; }
 
+        [JsonIgnore]
         public Vector2 GridWorldSize
         {
             get => new Vector2(_gridSizeX * 1f, _gridSizeY * 1f);
@@ -34,6 +38,7 @@ namespace Pathfinder.Map
             }
         }
 
+        [JsonIgnore]
         public Vector3 GridCenter
         {
             get => new Vector3(_gridCenterX, _gridCenterY, _gridCenterZ);
@@ -46,55 +51,17 @@ namespace Pathfinder.Map
         }
 
 
-        public int MaxSize => _gridSizeX * _gridSizeY;
+        [JsonIgnore] public int MaxSize => _gridSizeX * _gridSizeY;
 
-        public Dictionary<string, List<Vector3>> ZoneBoundaries { get; set; }
-
-        // public ObservableCollection<Node> UnknownNodes
-        // {
-        //     get
-        //     {
-        //         var known = new List<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown == true) ?? new List<Node>());
-        //         foreach (var node in known)
-        //         {
-        //             if (!_unknownNodes.Contains(node))
-        //                 _unknownNodes.Add(node);
-        //         }
-        //
-        //         return _unknownNodes;
-        //     }
-        //     set => _unknownNodes = value;
-        // }
-        // public ObservableCollection<Node> UnknownNodes { get; set; } = new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown));
-
-        // private ObservableCollection<Node> _unknownNodes = new ObservableCollection<Node>();
-        // public ObservableCollection<Node> UnknownNodes
-        // {
-        //     get
-        //     {
-        //         return (ObservableCollection<Node>) MapGrid?.Cast<Node>().ToList().Select(n => n.Unknown == true);
-        //         var list = new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown) ?? new List<Node>());
-        //         _unknownNodes = list;
-        //
-        //         return _unknownNodes;
-        //     }
-        //     set => _unknownNodes = value;
-        // }
-
-        // TODO make this actually work and change when sent in?
-        public ObservableCollection<Node> UnknownNodes
+        [JsonIgnore]
+        public List<Node> UnknownNodes
         {
-            // get
-            // {
-            //     // return MapGrid?.Cast<Node>().ToList().Where(x => x.Unknown == true) as ObservableCollection<Node>;
-            // }
-                get => new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown) ??
-                                                      new List<Node>());  
-            set => throw new NotImplementedException();
+            get { return _unknownNodes = MapGrid?.Cast<Node>().ToList().Where(x => x.Unknown == true).ToList(); }
         }
 
-        private float NodeRadius { get; set; } = 0.5f;
-        private float NodeDiameter => NodeRadius * 2;
+        [JsonIgnore] private float NodeRadius { get; set; } = 0.5f;
+
+        [JsonIgnore] private float NodeDiameter => NodeRadius * 2;
 
         /// <summary>
         ///     Initializes a new ZoneMap object and builds a MapGrid of size gridSize.
@@ -127,13 +94,13 @@ namespace Pathfinder.Map
 
         private static void SetupAllLists(ZoneMap zoneMap)
         {
-            zoneMap.ZoneBoundaries = new Dictionary<string, List<Vector3>>();
+            // zoneMap.ZoneBoundaries = new Dictionary<string, List<Vector3>>();
         }
 
         public void BuildGridMap()
         {
             MapGrid = new Node[_gridSizeX, _gridSizeY];
-            ZoneBoundaries = new Dictionary<string, List<Vector3>>();
+            // ZoneBoundaries = new Dictionary<string, List<Vector3>>();
             var worldBottomLeft = GetBottomLeftNodeFromGridWorldSize();
             BuildMapGridFromBottomLeftToTopRight(worldBottomLeft);
         }

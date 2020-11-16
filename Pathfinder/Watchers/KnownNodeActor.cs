@@ -49,7 +49,7 @@ namespace Pathfinder
             {
                 var traveler = sender as Traveler;
                 Debug.Assert(traveler != null, nameof(traveler) + " != null");
-                ZoneMap.AddKnownNode(traveler.Position);
+                ZoneMap.AddKnownNode(traveler.Walker.CurrentPosition);
             }
         }
     }

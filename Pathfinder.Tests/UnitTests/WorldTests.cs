@@ -53,7 +53,7 @@ namespace Pathfinder.Tests.UnitTests
 
             // Walked path
             traveler.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
-            var got = traveler.PositionHistory.ToArray();
+            var got = traveler.Walker.PositionHistory.ToArray();
             AssertVectorArrayEqual(path, got);
 
             // Visual Representation

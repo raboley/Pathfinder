@@ -1,21 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Pathfinder.Map
 {
+    public class NodeConverter : JsonConverter<Node>
+    {
+        public override void WriteJson(JsonWriter writer, Node value, JsonSerializer serializer)
+        {
+            JToken t = JToken.FromObject(value);
+
+            if (t.Type != JTokenType.Object)
+            {
+                t.WriteTo(writer);
+            }
+            else
+            {
+                JObject o = (JObject) t;
+                IList<string> propertyNames = o.Properties().Select(p => p.Name).ToList();
+
+                o.AddFirst(new JProperty("Keys", new JArray(propertyNames)));
+
+                o.WriteTo(writer);
+            }
+        }
+
+        public override Node ReadJson(JsonReader reader, Type objectType, Node existingValue, bool hasExistingValue,
+            JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+            // string s = (string)reader.Value;
+            //
+            // return new Node(s);
+        }
+    }
+
     [Serializable]
     public class Node : IHeapItem<Node>, IEquatable<Node>
     {
         [NonSerialized] public int GCost;
-
-        public int GridX;
-        public int GridY;
+        [NonSerialized] public int GridX;
+        [NonSerialized] public int GridY;
         [NonSerialized] public int HCost;
         [NonSerialized] public Node Parent;
 
-        public float X;
-        public float Y;
-        public float Z;
+        public int X;
+        public int Y;
+        public int Z;
 
         public Node(Vector3 worldPos, bool _walkable = true, bool unknown = true)
         {
@@ -27,19 +61,21 @@ namespace Pathfinder.Map
         public bool Unknown { get; set; }
         public bool Walkable { get; set; }
 
+        [JsonIgnore] public int FCost => GCost + HCost;
 
-        public int FCost => GCost + HCost;
-
+        [JsonIgnore]
         public Vector3 WorldPosition
         {
             get => new Vector3(X, Y, Z);
             set
             {
-                X = value.X;
-                Y = value.Y;
-                Z = value.Z;
+                X = GridMath.ConvertFromFloatToInt(value.X);
+                Y = GridMath.ConvertFromFloatToInt(value.Y);
+                Z = GridMath.ConvertFromFloatToInt(value.Z);
             }
         }
+
+        // Auto Methods
 
         public bool Equals(Node other)
         {
@@ -49,8 +85,8 @@ namespace Pathfinder.Map
                    Walkable == other.Walkable;
         }
 
-        public int HeapIndex { get; set; }
-
+        // Pathfinding Properties and Fields
+        [JsonIgnore] public int HeapIndex { get; set; }
 
         public int CompareTo(Node nodeToCompare)
         {
