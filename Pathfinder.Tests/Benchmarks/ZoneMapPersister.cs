@@ -30,11 +30,9 @@ namespace Pathfinder.Tests.Benchmarks
                 persister.Delete();
             });
 
-            int benchTime = 5;
-            if (time > benchTime)
-            {
-                Assert.True(false);
-            }
+            int benchTime = 8;
+            Assert.True(time < benchTime,
+                "time per iteration was: " + time + "ms which is greater than expected time of: " + benchTime + "ms");
         }
 
 
@@ -76,7 +74,7 @@ namespace Pathfinder.Tests.Benchmarks
                 var map = serializer.DeSerialize(got);
             });
 
-            int benchTime = 20;
+            int benchTime = 100;
             Assert.True(time < benchTime,
                 "time per iteration was: " + time + "ms which is greater than expected time of: " + benchTime + "ms");
         }
@@ -99,12 +97,12 @@ namespace Pathfinder.Tests.Benchmarks
                 persister.Delete();
             });
 
-            int benchTime = 20;
+            int benchTime = 50;
             Assert.True(time < benchTime,
                 "time per iteration was: " + time + "ms which is greater than expected time of: " + benchTime + "ms");
         }
 
-        [Fact(Skip = "takes a while only run if you want to test run time")]
+        [Fact]
         public void BenchmarkZoneMapSuperBig()
         {
             string mapName = SetupPersister.GetCurrentMethodName();
@@ -122,7 +120,33 @@ namespace Pathfinder.Tests.Benchmarks
                 persister.Delete();
             });
 
-            int benchTime = 600;
+            int benchTime = 200;
+            Assert.True(time < benchTime,
+                "time per iteration was: " + time + "ms which is greater than expected time of: " + benchTime + "ms");
+        }
+
+
+        [Fact(Skip = "Takes a slightly longer than we would want.")]
+        public void BenchmarkZoneMapFfxi()
+        {
+            string mapName = SetupPersister.GetCurrentMethodName();
+            var want = SetupZoneMap.SetupFfxiSizeGrid();
+            var persister = new FilePersister(mapName);
+            // Path assumes to start from ./debug/ so we want to set it to the test fixtures dir.
+            string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
+            string parentDirectory = Directory.GetParent(grandParentDirectory).FullName;
+            persister.FilePath = Path.Combine(parentDirectory, "fixtures");
+
+            int time = Benchmark.Run("StreamReader.ReadToEnd", 5, () =>
+            {
+                persister.Save(want);
+                var got = persister.Load<ZoneMap>();
+                persister.Delete();
+            });
+
+            int benchTime = 1200;
+            // Best time so far: 23548ms
+            // New record!:      10214ms
             Assert.True(time < benchTime,
                 "time per iteration was: " + time + "ms which is greater than expected time of: " + benchTime + "ms");
         }

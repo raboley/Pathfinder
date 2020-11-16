@@ -24,8 +24,10 @@ namespace Pathfinder.Persistence
             var jsonSerializer = new JsonSerializer();
 
             using (var streamWriter = new StreamWriter(FullPath))
-            using (JsonWriter jsonTextWriter = new JsonTextWriter(streamWriter))
+            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
             {
+                jsonTextWriter.QuoteChar = '\'';
+                jsonTextWriter.Formatting = Formatting.Indented;
                 jsonSerializer.Serialize(jsonTextWriter, serializableData);
             }
         }

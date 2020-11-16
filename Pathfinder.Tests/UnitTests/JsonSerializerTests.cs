@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Numerics;
 using System.Text;
@@ -8,15 +7,10 @@ using Xunit;
 
 namespace Pathfinder.Tests.UnitTests
 {
-    public class NodeJsonConverter : JsonConverter<Node>
+    public class JsonSerializer
     {
-        public static string SerializeNode(Node node)
+        public static string Serialize<T>(T thing)
         {
-            // JObject jsonNode = new JObject();
-            // JProperty jX = new JProperty("x", GridMath.ConvertFromFloatToInt(node.X));
-            // jsonNode.Add(jX);
-            // return jsonNode.ToString();
-
             StringBuilder sb = new StringBuilder();
             using (StringWriter sw = new StringWriter(sb))
             using (JsonTextWriter writer = new JsonTextWriter(sw))
@@ -24,22 +18,11 @@ namespace Pathfinder.Tests.UnitTests
                 writer.QuoteChar = '\'';
                 writer.Formatting = Formatting.Indented;
 
-                JsonSerializer ser = new JsonSerializer();
-                ser.Serialize(writer, node);
+                Newtonsoft.Json.JsonSerializer ser = new Newtonsoft.Json.JsonSerializer();
+                ser.Serialize(writer, thing);
             }
 
             return sb.ToString();
-        }
-
-        public override void WriteJson(JsonWriter writer, Node value, JsonSerializer serializer)
-        {
-            writer.WriteValue(value.ToString());
-        }
-
-        public override Node ReadJson(JsonReader reader, Type objectType, Node existingValue, bool hasExistingValue,
-            JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
         }
     }
 
@@ -71,11 +54,97 @@ namespace Pathfinder.Tests.UnitTests
 
             var node = new Node(Vector3.Zero, true, true);
 
-            string got = NodeJsonConverter.SerializeNode(node);
+            string got = JsonSerializer.Serialize(node);
+
+            Assert.Equal(want, got);
+        }
+
+        [Fact]
+        public void SerializeMakesACleanMap()
+        {
+            string want = @"{
+  'MapGrid': [
+    [
+      {
+        'X': -1,
+        'Y': 0,
+        'Z': -1,
+        'Unknown': true,
+        'Walkable': true
+      },
+      {
+        'X': -1,
+        'Y': 0,
+        'Z': 0,
+        'Unknown': true,
+        'Walkable': true
+      },
+      {
+        'X': -1,
+        'Y': 0,
+        'Z': 1,
+        'Unknown': true,
+        'Walkable': true
+      }
+    ],
+    [
+      {
+        'X': 0,
+        'Y': 0,
+        'Z': -1,
+        'Unknown': true,
+        'Walkable': true
+      },
+      {
+        'X': 0,
+        'Y': 0,
+        'Z': 0,
+        'Unknown': true,
+        'Walkable': true
+      },
+      {
+        'X': 0,
+        'Y': 0,
+        'Z': 1,
+        'Unknown': true,
+        'Walkable': true
+      }
+    ],
+    [
+      {
+        'X': 1,
+        'Y': 0,
+        'Z': -1,
+        'Unknown': true,
+        'Walkable': true
+      },
+      {
+        'X': 1,
+        'Y': 0,
+        'Z': 0,
+        'Unknown': true,
+        'Walkable': true
+      },
+      {
+        'X': 1,
+        'Y': 0,
+        'Z': 1,
+        'Unknown': true,
+        'Walkable': true
+      }
+    ]
+  ],
+  'MapName': 'Small ZoneMap'
+}";
+
+
+            var map = SetupZoneMap.SetupSmallGrid();
+            string got = JsonSerializer.Serialize(map);
 
             Assert.Equal(want, got);
         }
     }
+
 
     public class ZoneMapSerializer
     {

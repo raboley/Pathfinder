@@ -42,6 +42,12 @@ namespace Pathfinder.Tests
             return grid;
         }
 
+        public static ZoneMap SetupFfxiSizeGrid()
+        {
+            var grid = ZoneMap.NewGridFromVector2(new Vector2(1001f, 1001f));
+            return grid;
+        }
+
         public static List<Node> GetNeighborsListForEdgeNode()
         {
             var want = new List<Node>

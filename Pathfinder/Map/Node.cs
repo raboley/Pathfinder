@@ -42,7 +42,6 @@ namespace Pathfinder.Map
     public class Node : IHeapItem<Node>, IEquatable<Node>
     {
         [NonSerialized] public int GCost;
-
         [NonSerialized] public int GridX;
         [NonSerialized] public int GridY;
         [NonSerialized] public int HCost;
@@ -62,7 +61,6 @@ namespace Pathfinder.Map
         public bool Unknown { get; set; }
         public bool Walkable { get; set; }
 
-
         [JsonIgnore] public int FCost => GCost + HCost;
 
         [JsonIgnore]
@@ -77,6 +75,8 @@ namespace Pathfinder.Map
             }
         }
 
+        // Auto Methods
+
         public bool Equals(Node other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -85,8 +85,8 @@ namespace Pathfinder.Map
                    Walkable == other.Walkable;
         }
 
+        // Pathfinding Properties and Fields
         [JsonIgnore] public int HeapIndex { get; set; }
-
 
         public int CompareTo(Node nodeToCompare)
         {
