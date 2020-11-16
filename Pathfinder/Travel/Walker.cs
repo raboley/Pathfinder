@@ -47,17 +47,23 @@ namespace Pathfinder.Travel
         public void WalkToPosition(Vector3 targetPosition)
         {
             var goal = targetPosition;
-            int x = GetNewXorY(CurrentPosition.X, goal.X);
-            int y = GetNewXorY(CurrentPosition.Z, goal.Z);
+            int i = 0;
 
-            var position = new Vector3(x, 0, y);
-            // Try to move, if you can't move return fail?
-            if (CantWalkToPosition(position))
+            while (CurrentPosition != goal && i < 50)
             {
-                OnWalkerIsStuck(position);
-            }
-            else
-            {
+                i++;
+
+                int x = GetNewXorY(CurrentPosition.X, goal.X);
+                int y = GetNewXorY(CurrentPosition.Z, goal.Z);
+
+                var position = new Vector3(x, 0, y);
+                // Try to move, if you can't move return fail?
+                if (CantWalkToPosition(position))
+                {
+                    OnWalkerIsStuck(position);
+                    return;
+                }
+
                 CurrentPosition = position;
             }
         }

@@ -23,6 +23,8 @@ namespace Pathfinder.Travel
         public Traveler()
         {
             Walker = new Walker(Vector3.Zero);
+            Walker.IsStuck += WalkerOnIsStuck;
+            Walker.PropertyChanged += WalkerOnPropertyChanged;
         }
 
         public Traveler(string currentZoneName, World world, IWalker walker)

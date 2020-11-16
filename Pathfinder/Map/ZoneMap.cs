@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using Newtonsoft.Json;
@@ -16,7 +15,7 @@ namespace Pathfinder.Map
 
         [NonSerialized] private int _gridSizeX, _gridSizeY;
 
-        [NonSerialized] private ObservableCollection<Node> _unknownNodes = new ObservableCollection<Node>();
+        [NonSerialized] private List<Node> _unknownNodes = new List<Node>();
 
         public Node[,] MapGrid;
 
@@ -54,48 +53,10 @@ namespace Pathfinder.Map
 
         [JsonIgnore] public int MaxSize => _gridSizeX * _gridSizeY;
 
-        // public ObservableCollection<Node> UnknownNodes
-        // {
-        //     get
-        //     {
-        //         var known = new List<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown == true) ?? new List<Node>());
-        //         foreach (var node in known)
-        //         {
-        //             if (!_unknownNodes.Contains(node))
-        //                 _unknownNodes.Add(node);
-        //         }
-        //
-        //         return _unknownNodes;
-        //     }
-        //     set => _unknownNodes = value;
-        // }
-        // public ObservableCollection<Node> UnknownNodes { get; set; } = new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown));
-
-        // private ObservableCollection<Node> _unknownNodes = new ObservableCollection<Node>();
-        // public ObservableCollection<Node> UnknownNodes
-        // {
-        //     get
-        //     {
-        //         return (ObservableCollection<Node>) MapGrid?.Cast<Node>().ToList().Select(n => n.Unknown == true);
-        //         var list = new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown) ?? new List<Node>());
-        //         _unknownNodes = list;
-        //
-        //         return _unknownNodes;
-        //     }
-        //     set => _unknownNodes = value;
-        // }
-
-        // TODO make this actually work and change when sent in?
         [JsonIgnore]
-        public ObservableCollection<Node> UnknownNodes
+        public List<Node> UnknownNodes
         {
-            // get
-            // {
-            //     // return MapGrid?.Cast<Node>().ToList().Where(x => x.Unknown == true) as ObservableCollection<Node>;
-            // }
-            get => new ObservableCollection<Node>(MapGrid?.Cast<Node>().ToList().FindAll(n => n.Unknown) ??
-                                                  new List<Node>());
-            set => throw new NotImplementedException();
+            get { return _unknownNodes = MapGrid?.Cast<Node>().ToList().Where(x => x.Unknown == true).ToList(); }
         }
 
         [JsonIgnore] private float NodeRadius { get; set; } = 0.5f;

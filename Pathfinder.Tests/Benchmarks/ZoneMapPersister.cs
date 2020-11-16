@@ -130,8 +130,8 @@ namespace Pathfinder.Tests.Benchmarks
         public void BenchmarkZoneMapFfxi()
         {
             string mapName = SetupPersister.GetCurrentMethodName();
-            var want = SetupZoneMap.SetupFfxiSizeGrid();
             var persister = new FilePersister(mapName);
+            var want = SetupZoneMap.SetupFfxiSizeGrid();
             // Path assumes to start from ./debug/ so we want to set it to the test fixtures dir.
             string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
             string parentDirectory = Directory.GetParent(grandParentDirectory).FullName;

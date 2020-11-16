@@ -13,24 +13,25 @@ namespace Pathfinder.Tests.UnitTests
         {
             var startPos = new Vector3(-2, 0, -2);
             var endPos = new Vector3(2, 0, 2);
-            Vector3[] want =
-            {
-                // startPos, -- Don't think I actually want to have the start if I can swing it, so that warping is easier.
-                new Vector3(1f, 0f, 1f),
-                endPos
-            };
+            // Vector3[] want =
+            // {
+            //     // startPos, -- Don't think I actually want to have the start if I can swing it, so that warping is easier.
+            //     new Vector3(1f, 0f, 1f),
+            //     endPos
+            // };
 
             var zone = new Zone("tests");
             var grid = SetupZoneMap.SetupMediumGrid();
             zone.Map = grid;
 
-            var traveler = new Traveler {Position = startPos, CurrentZone = zone};
+            var traveler = new Traveler {CurrentZone = zone};
+            traveler.Walker.CurrentPosition = startPos;
 
 
             traveler.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
 
 
-            Assert.Equal(endPos, traveler.Position);
+            Assert.Equal(endPos, traveler.Walker.CurrentPosition);
         }
 
         [Fact(Skip = "Don't need this yet")]
