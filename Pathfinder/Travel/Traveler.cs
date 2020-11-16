@@ -14,21 +14,22 @@ namespace Pathfinder.Travel
 {
     public class Traveler : INotifyPropertyChanged
     {
-        private readonly IWalker _walker;
         public readonly Queue<Vector3> PositionHistory = new Queue<Vector3>();
+        public readonly IWalker Walker;
         public Queue<Vector3> _pathToWalk;
         public ZoneMap BlindGrid;
         public Vector3 goalPosition;
 
         public Traveler()
         {
+            Walker = new Walker(Vector3.Zero);
         }
 
         public Traveler(string currentZoneName, World world, IWalker walker)
         {
-            _walker = walker;
-            _walker.IsStuck += WalkerOnIsStuck;
-            _walker.PropertyChanged += WalkerOnPropertyChanged;
+            Walker = walker;
+            Walker.IsStuck += WalkerOnIsStuck;
+            Walker.PropertyChanged += WalkerOnPropertyChanged;
             World = world;
             CurrentZone = world.GetZoneByName(currentZoneName);
             Position = walker.CurrentPosition;
@@ -48,8 +49,8 @@ namespace Pathfinder.Travel
 
         public Vector3 Position
         {
-            get => _walker.CurrentPosition;
-            set => _walker.CurrentPosition = value;
+            get => Walker.CurrentPosition;
+            set => Walker.CurrentPosition = value;
         }
 
         public List<Zone> ZonesToTravelThrough { get; set; } = new List<Zone>();
@@ -79,7 +80,7 @@ namespace Pathfinder.Travel
         private void AddUnWalkableNodeAndGetNewPath(Vector3 position)
         {
             CurrentZone.Map.AddUnWalkableNode(position);
-            var path = Pathfinding.FindWaypoints(CurrentZone.Map, _walker.CurrentPosition, goalPosition);
+            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Walker.CurrentPosition, goalPosition);
             if (path == null)
             {
                 _pathToWalk = new Queue<Vector3>();
@@ -99,7 +100,7 @@ namespace Pathfinder.Travel
             {
                 return;
             }
-            
+
             _pathToWalk = new Queue<Vector3>(path);
             while (_pathToWalk.Count > 0)
             {
@@ -110,7 +111,7 @@ namespace Pathfinder.Travel
 
         public void GoToPosition(Vector3 targetPosition)
         {
-            _walker.WalkToPosition(targetPosition);
+            Walker.WalkToPosition(targetPosition);
         }
 
         public ZoneBoundary GetZoneBorderToNameFromPoint(Vector3 position)

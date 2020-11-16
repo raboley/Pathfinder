@@ -10,7 +10,7 @@ namespace Pathfinder
             Traveler = traveler;
             Actor = actor;
 
-            traveler.PropertyChanged += ItemChanged;
+            traveler.Walker.PropertyChanged += ItemChanged;
         }
 
         public Traveler Traveler { get; set; }

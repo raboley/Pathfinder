@@ -43,14 +43,14 @@ namespace Pathfinder.Map
     {
         [NonSerialized] public int GCost;
 
-        public int GridX;
-        public int GridY;
+        [NonSerialized] public int GridX;
+        [NonSerialized] public int GridY;
         [NonSerialized] public int HCost;
         [NonSerialized] public Node Parent;
 
-        public float X;
-        public float Y;
-        public float Z;
+        public int X;
+        public int Y;
+        public int Z;
 
         public Node(Vector3 worldPos, bool _walkable = true, bool unknown = true)
         {
@@ -63,16 +63,17 @@ namespace Pathfinder.Map
         public bool Walkable { get; set; }
 
 
-        public int FCost => GCost + HCost;
+        [JsonIgnore] public int FCost => GCost + HCost;
 
+        [JsonIgnore]
         public Vector3 WorldPosition
         {
             get => new Vector3(X, Y, Z);
             set
             {
-                X = value.X;
-                Y = value.Y;
-                Z = value.Z;
+                X = GridMath.ConvertFromFloatToInt(value.X);
+                Y = GridMath.ConvertFromFloatToInt(value.Y);
+                Z = GridMath.ConvertFromFloatToInt(value.Z);
             }
         }
 
@@ -84,7 +85,7 @@ namespace Pathfinder.Map
                    Walkable == other.Walkable;
         }
 
-        public int HeapIndex { get; set; }
+        [JsonIgnore] public int HeapIndex { get; set; }
 
 
         public int CompareTo(Node nodeToCompare)

@@ -10,7 +10,6 @@ namespace Pathfinder.Travel
 {
     public class Walker : IWalker, INotifyPropertyChanged
     {
-        public readonly Queue<Vector3> PositionHistory = new Queue<Vector3>();
         private Vector3 _currentPosition;
         public Zone RevealedZone;
 
@@ -21,6 +20,7 @@ namespace Pathfinder.Travel
         }
 
         public Zone CurrentZone { get; set; }
+        public Queue<Vector3> PositionHistory { get; } = new Queue<Vector3>();
 
         public event EventHandler<Vector3> IsStuck;
 

@@ -11,7 +11,8 @@ namespace Pathfinder.Tests.IntegrationTests
         public void TestCanSaveToFile()
         {
             var want = SetupZoneMap.SetupSmallGrid();
-            var persister = new FilePersister("tempGrid.golden");
+            var mapName = SetupPersister.GetCurrentMethodName();
+            var persister = new FilePersister(mapName);
 
             persister.Save(want);
 
@@ -25,7 +26,8 @@ namespace Pathfinder.Tests.IntegrationTests
         public void TestCanLoadGridFromFile()
         {
             var want = SetupZoneMap.SetupSmallGrid();
-            var persister = new FilePersister("TestCanLoadGridFromFile.golden");
+            var mapName = SetupPersister.GetCurrentMethodName();
+            var persister = new FilePersister(mapName);
             // Path assumes to start from ./debug/ so we want to set it to the test fixtures dir.
             string grandParentDirectory = Directory.GetParent(persister.FilePath).FullName;
             string parentDirectory = Directory.GetParent(grandParentDirectory).FullName;
