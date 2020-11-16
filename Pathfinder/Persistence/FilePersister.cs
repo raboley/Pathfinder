@@ -51,7 +51,7 @@ namespace Pathfinder.Persistence
         public string MapName
         {
             get => Path.GetFileNameWithoutExtension(FileName);
-            set => FileName = value + "." + DefaultExtension;
+            set => FileName = value;
         }
 
         public bool Exists()

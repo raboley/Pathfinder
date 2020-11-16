@@ -44,6 +44,8 @@ namespace Pathfinder.Tests.UnitTests
         public void SerializeTurnsNodesIntoCoordsWithProps()
         {
             string want = @"{
+  'GridX': 0,
+  'GridY': 0,
   'X': 0,
   'Y': 0,
   'Z': 0,
@@ -66,6 +68,8 @@ namespace Pathfinder.Tests.UnitTests
   'MapGrid': [
     [
       {
+        'GridX': 0,
+        'GridY': 0,
         'X': -1,
         'Y': 0,
         'Z': -1,
@@ -73,6 +77,8 @@ namespace Pathfinder.Tests.UnitTests
         'Walkable': true
       },
       {
+        'GridX': 0,
+        'GridY': 1,
         'X': -1,
         'Y': 0,
         'Z': 0,
@@ -80,6 +86,8 @@ namespace Pathfinder.Tests.UnitTests
         'Walkable': true
       },
       {
+        'GridX': 0,
+        'GridY': 2,
         'X': -1,
         'Y': 0,
         'Z': 1,
@@ -89,6 +97,8 @@ namespace Pathfinder.Tests.UnitTests
     ],
     [
       {
+        'GridX': 1,
+        'GridY': 0,
         'X': 0,
         'Y': 0,
         'Z': -1,
@@ -96,6 +106,8 @@ namespace Pathfinder.Tests.UnitTests
         'Walkable': true
       },
       {
+        'GridX': 1,
+        'GridY': 1,
         'X': 0,
         'Y': 0,
         'Z': 0,
@@ -103,6 +115,8 @@ namespace Pathfinder.Tests.UnitTests
         'Walkable': true
       },
       {
+        'GridX': 1,
+        'GridY': 2,
         'X': 0,
         'Y': 0,
         'Z': 1,
@@ -112,6 +126,8 @@ namespace Pathfinder.Tests.UnitTests
     ],
     [
       {
+        'GridX': 2,
+        'GridY': 0,
         'X': 1,
         'Y': 0,
         'Z': -1,
@@ -119,6 +135,8 @@ namespace Pathfinder.Tests.UnitTests
         'Walkable': true
       },
       {
+        'GridX': 2,
+        'GridY': 1,
         'X': 1,
         'Y': 0,
         'Z': 0,
@@ -126,6 +144,8 @@ namespace Pathfinder.Tests.UnitTests
         'Walkable': true
       },
       {
+        'GridX': 2,
+        'GridY': 2,
         'X': 1,
         'Y': 0,
         'Z': 1,

@@ -42,8 +42,8 @@ namespace Pathfinder.Map
     public class Node : IHeapItem<Node>, IEquatable<Node>
     {
         [NonSerialized] public int GCost;
-        [NonSerialized] public int GridX;
-        [NonSerialized] public int GridY;
+         public int GridX;
+         public int GridY;
         [NonSerialized] public int HCost;
         [NonSerialized] public Node Parent;
 
