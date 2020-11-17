@@ -13,7 +13,7 @@ namespace Pathfinder.Map
     {
         [NonSerialized] private float _gridCenterX, _gridCenterY, _gridCenterZ;
 
-        [NonSerialized] private int _gridSizeX, _gridSizeY;
+        private int _gridSizeX, _gridSizeY;
 
         [NonSerialized] private List<Node> _unknownNodes = new List<Node>();
 
@@ -22,7 +22,6 @@ namespace Pathfinder.Map
 
         public string MapName { get; set; }
 
-        [JsonIgnore]
         public Vector2 GridWorldSize
         {
             get => new Vector2(_gridSizeX * 1f, _gridSizeY * 1f);
