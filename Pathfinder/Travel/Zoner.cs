@@ -5,14 +5,13 @@ namespace Pathfinder.Travel
 {
     public class Zoner
     {
-        public Zoner(IWalker walker, Traveler traveler, World world)
+        public Zoner(Traveler traveler, World world)
         {
-            Walker = walker;
             Traveler = traveler;
+            Traveler.Walker.PropertyChanged += ZoneWalker;
             World = world;
         }
 
-        public IWalker Walker { get; set; }
         public Traveler Traveler { get; set; }
         public World World { get; set; }
 
@@ -23,12 +22,14 @@ namespace Pathfinder.Travel
                 var walker = sender as IWalker;
                 Debug.Assert(walker != null, nameof(walker) + " != null");
                 var position = walker.CurrentPosition;
+
                 if (Traveler.AllBorderZonePoints.Contains(position) && walker.Zoning == false)
                 {
                     var boundary = Traveler.GetZoneBorderToNameFromPoint(position);
+                    Traveler.Walker.Zoning = true;
+                    Traveler.Walker.CurrentPosition = boundary.ToPosition;
+                    Traveler.Position = boundary.ToPosition;
                     Traveler.CurrentZone = World.GetZoneByName(boundary.ToZone);
-                    Walker.CurrentPosition = boundary.ToPosition;
-                    Walker.Zoning = true;
                 }
             }
         }

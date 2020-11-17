@@ -16,6 +16,7 @@ namespace Pathfinder.Tests.IntegrationTests
 
             persister.Save(want);
             var got = persister.Load<Zone>();
+            persister.Delete();
 
             Assert.Equal(want, got);
         }

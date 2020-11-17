@@ -104,11 +104,13 @@ namespace Pathfinder.Tests.UnitTests
                 Position = Vector3.Zero,
                 World = ExampleWorld.Sample()
             };
+
+            var zoner = new Zoner(traveler, ExampleWorld.Sample());
             traveler.GoToZone(targetZoneName);
 
 
             Assert.Equal(targetZoneName, traveler.CurrentZone.Name);
-            Assert.Equal(targetPosition, traveler.Position);
+            Assert.Equal(targetPosition, traveler.Walker.CurrentPosition);
         }
 
         [Fact]
@@ -121,6 +123,7 @@ namespace Pathfinder.Tests.UnitTests
             var world = ExampleWorld.Sample();
             var walker = new Walker(Vector3.Zero);
             var traveler = new Traveler(start, world, walker);
+            var zoner = new Zoner(traveler, world);
 
             var zones = new List<Zone>
             {

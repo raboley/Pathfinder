@@ -49,7 +49,7 @@ namespace Pathfinder.Travel
             var goal = targetPosition;
             int i = 0;
 
-            while (CurrentPosition != goal && i < 50)
+            while (CurrentPosition != goal && i < 50 && Zoning == false)
             {
                 i++;
 
@@ -66,6 +66,8 @@ namespace Pathfinder.Travel
 
                 CurrentPosition = position;
             }
+
+            Zoning = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

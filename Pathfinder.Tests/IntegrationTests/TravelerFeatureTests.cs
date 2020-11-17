@@ -31,7 +31,6 @@ namespace Pathfinder.Tests.IntegrationTests
             var traveler = SetupTraveler(start);
             traveler.WalkToZone(end);
 
-
             Assert.Equal(end, traveler.CurrentZone.Name);
         }
 
@@ -88,7 +87,7 @@ namespace Pathfinder.Tests.IntegrationTests
             var world = ExampleWorld.Sample();
             var walker = new Walker(Vector3.Zero);
             var traveler = new Traveler(start, world, walker);
-            var zoner = new Zoner(walker, traveler, world);
+            var zoner = new Zoner(traveler, world);
             return traveler;
         }
     }
