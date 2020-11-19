@@ -155,7 +155,11 @@ namespace Pathfinder.Tests.UnitTests
       }
     ]
   ],
-  'MapName': 'Small ZoneMap'
+  'MapName': 'Small ZoneMap',
+  'GridWorldSize': {
+    'X': 3.0,
+    'Y': 3.0
+  }
 }";
 
 
