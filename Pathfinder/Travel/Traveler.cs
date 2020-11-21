@@ -125,6 +125,8 @@ namespace Pathfinder.Travel
 
         public void GoToZone(string zone)
         {
+            if (Zoning)
+                return;
             // Already in that zone!
             if (CurrentZone.Name == zone)
                 return;
