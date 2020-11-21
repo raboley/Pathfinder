@@ -9,6 +9,7 @@ namespace Pathfinder
     {
         public List<Zone> Zones { get; set; } = new List<Zone>();
         public List<Person> Npcs { get; set; } = new List<Person>();
+        public List<Person> Mobs { get; set; } = new List<Person>();
 
         public List<Zone> GetNeighbors(Zone zone)
         {

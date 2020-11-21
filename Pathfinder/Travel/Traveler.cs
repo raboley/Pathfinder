@@ -19,6 +19,7 @@ namespace Pathfinder.Travel
         public Queue<Vector3> _pathToWalk;
         public ZoneMap BlindGrid;
         public Vector3 goalPosition;
+        private bool _zoning;
 
         public Traveler()
         {
@@ -34,8 +35,8 @@ namespace Pathfinder.Travel
             Walker.PropertyChanged += WalkerOnPropertyChanged;
             World = world;
             CurrentZone = world.GetZoneByName(currentZoneName);
-            Position = walker.CurrentPosition;
-            CurrentZone.Map.AddKnownNode(Position);
+            // Position = walker.CurrentPosition;
+            CurrentZone.Map.AddKnownNode(walker.CurrentPosition);
         }
 
         public List<Vector3> AllBorderZonePoints
@@ -104,7 +105,7 @@ namespace Pathfinder.Travel
             }
 
             _pathToWalk = new Queue<Vector3>(path);
-            while (_pathToWalk.Count > 0)
+            while (_pathToWalk.Count > 0 && Zoning == false)
             {
                 var point = _pathToWalk.Dequeue();
                 GoToPosition(point);
@@ -194,6 +195,17 @@ namespace Pathfinder.Travel
                 return World.Npcs.Find(n => n.Name.Contains("T.K."));
 
             throw new Exception("Can't find an NPC in global NPCs to give Signet to Nation: " + nation);
+        }
+
+        public bool Zoning
+        {
+            get => _zoning;
+            set
+            {
+                // if(value.Equals(true))
+                //     OnIsZoning();
+                _zoning = value;
+            }
         }
     }
 }
