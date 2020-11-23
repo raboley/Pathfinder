@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Pathfinder.Persistence
 {
     public interface IPersister
@@ -7,5 +9,7 @@ namespace Pathfinder.Persistence
         T Load<T>();
         void Delete();
         bool Exists();
+
+        List<T> LoadAllOfType<T>();
     }
 }

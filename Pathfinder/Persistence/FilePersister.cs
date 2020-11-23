@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -58,6 +61,50 @@ namespace Pathfinder.Persistence
         {
             bool fileExists = File.Exists(FullPath);
             return fileExists;
+        }
+
+        public List<T> LoadAllOfType<T>()
+        {
+            List<T> allOfType = new List<T>();
+            var allFiles = Directory.GetFiles(FilePath);
+            var beginningMapName = MapName;
+
+            try
+            {
+                foreach (var file in allFiles)
+                {
+                    var mapName = file.Split('.')[0];
+                    MapName = mapName;
+                    var thingOfType = Load<T>();
+                    allOfType.Add(thingOfType);
+
+                    // if (IsEnumerableType(thingOfType.GetType()))
+                    // {
+                    //     allOfType.AddRange((IEnumerable<T>) thingOfType);
+                    // }
+                    // else
+                    // {
+                    //     allOfType.Add(thingOfType);
+                    // }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally
+            {
+                MapName = beginningMapName;
+            }
+
+
+            return allOfType;
+        }
+
+        bool IsEnumerableType(Type type)
+        {
+            return (type.GetInterface(nameof(IEnumerable)) != null);
         }
     }
 }

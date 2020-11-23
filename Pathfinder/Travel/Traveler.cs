@@ -189,14 +189,20 @@ namespace Pathfinder.Travel
 
         public Person SearchForClosestSignetNpc(string nation)
         {
-            if (nation == "Bastok")
-                return World.Npcs.Find(n => n.Name.Contains("I.M."));
-            if (nation == "SandOria")
-                return World.Npcs.Find(n => n.Name.Contains("T.K."));
-            if (nation == "Windurst")
-                return World.Npcs.Find(n => n.Name.Contains("T.K."));
+            string npcPattern = GetSignetNpcPatternByNation(nation);
+            return World.Npcs.Find(n => n.Name.Contains(npcPattern));
+        }
 
-            throw new Exception("Can't find an NPC in global NPCs to give Signet to Nation: " + nation);
+        public string GetSignetNpcPatternByNation(string nation)
+        {
+            if (nation == "Bastok")
+                return "I.M.";
+            if (nation == "SandOria")
+                return "T.K.";
+            // if (nation == "Windurst")
+            //     return "T.K.";
+
+            throw new Exception("Don't know the NPC pattern for nation: " + nation);
         }
 
         public bool Zoning

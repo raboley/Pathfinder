@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Pathfinder.Persistence;
 
 namespace Pathfinder.People
@@ -29,6 +31,14 @@ namespace Pathfinder.People
             persister.FilePath = Path.Combine(parentDirectory, directory);
             persister.FileName = mapName;
             return persister;
+        }
+
+        public List<Person> GetAllPeople()
+        {
+            var allPeople = Persister.LoadAllOfType<List<Person>>();
+            var flattenedList = allPeople.SelectMany(x => x).ToList();
+
+            return flattenedList;
         }
     }
 }
