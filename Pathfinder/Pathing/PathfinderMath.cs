@@ -46,7 +46,7 @@ namespace Pathfinder
         public static int GetDistancePos(Vector3 start, Vector3 end)
         {
             int dstX = GridMath.ConvertFromFloatToInt(Math.Abs(start.X - end.X));
-            int dstY = GridMath.ConvertFromFloatToInt(Math.Abs(start.Y - end.Y));
+            int dstY = GridMath.ConvertFromFloatToInt(Math.Abs(start.Z - end.Z));
 
             int dist;
             if (dstX > dstY)

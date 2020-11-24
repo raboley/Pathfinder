@@ -20,6 +20,7 @@ namespace Pathfinder.Travel
         public ZoneMap BlindGrid;
         public Vector3 goalPosition;
         private bool _zoning;
+        public bool IsDead { get; set; } = false;
 
         public Traveler()
         {
