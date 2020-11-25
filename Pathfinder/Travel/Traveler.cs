@@ -106,16 +106,23 @@ namespace Pathfinder.Travel
             }
 
             _pathToWalk = new Queue<Vector3>(path);
-            while (_pathToWalk.Count > 0 && Zoning == false)
+
+            // TODO: Maybe update this to be better....
+            // Either have the engine break out of traveling on events, or pass in a closure of all conditions.
+            DateTime duration = DateTime.Now.AddSeconds(15);
+            while (_pathToWalk.Count > 0 && Zoning == false && IsDead == false && DateTime.Now < duration)
             {
                 var point = _pathToWalk.Dequeue();
-                GoToPosition(point);
+                bool gotThere = GoToPosition(point);
+                if (gotThere == false)
+                    break;
             }
         }
 
-        public void GoToPosition(Vector3 targetPosition)
+
+        private bool GoToPosition(Vector3 targetPosition)
         {
-            Walker.WalkToPosition(targetPosition);
+            return Walker.TryToWalkToPosition(targetPosition);
         }
 
         public ZoneBoundary GetZoneBorderToNameFromPoint(Vector3 position)

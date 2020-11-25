@@ -44,7 +44,7 @@ namespace Pathfinder.Travel
             }
         }
 
-        public void WalkToPosition(Vector3 targetPosition)
+        public bool TryToWalkToPosition(Vector3 targetPosition)
         {
             var goal = targetPosition;
             int i = 0;
@@ -61,13 +61,15 @@ namespace Pathfinder.Travel
                 if (CantWalkToPosition(position))
                 {
                     OnWalkerIsStuck(position);
-                    return;
+                    return false;
                 }
 
                 CurrentPosition = position;
             }
 
+            
             Zoning = false;
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
