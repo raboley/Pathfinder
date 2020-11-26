@@ -81,10 +81,10 @@ namespace Pathfinder.Travel
             AddUnWalkableNodeAndGetNewPath(e);
         }
 
-        private void AddUnWalkableNodeAndGetNewPath(Vector3 position)
+        private void AddUnWalkableNodeAndGetNewPath(Vector3 position, int distanceTolerance = 0)
         {
             CurrentZone.Map.AddUnWalkableNode(position);
-            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Walker.CurrentPosition, goalPosition);
+            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Walker.CurrentPosition, goalPosition, distanceTolerance);
             if (path == null)
             {
                 _pathToWalk = new Queue<Vector3>();
@@ -95,11 +95,11 @@ namespace Pathfinder.Travel
             foreach (var vector3 in path) _pathToWalk.Enqueue(vector3);
         }
 
-        public void PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint)
+        public void PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint, int distanceTolerance = 0)
         {
             goalPosition = waypoint;
 
-            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint);
+            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint, distanceTolerance);
             if (path == null)
             {
                 return;
@@ -109,8 +109,8 @@ namespace Pathfinder.Travel
 
             // TODO: Maybe update this to be better....
             // Either have the engine break out of traveling on events, or pass in a closure of all conditions.
-            DateTime duration = DateTime.Now.AddSeconds(15);
-            while (_pathToWalk.Count > 0 && Zoning == false && IsDead == false && DateTime.Now < duration)
+            DateTime duration = DateTime.Now.AddSeconds(5);
+            while (_pathToWalk.Count > 0 && Zoning == false && IsDead == false && DateTime.Now < duration && GridMath.GetDistancePos(Walker.CurrentPosition, waypoint) >= distanceTolerance)
             {
                 var point = _pathToWalk.Dequeue();
                 bool gotThere = GoToPosition(point);
@@ -142,27 +142,29 @@ namespace Pathfinder.Travel
             var pos = GetBorderZonePosition(zone);
             if (pos == null)
                 throw new KeyNotFoundException("Don't know where zone: " + zone + " is.");
-            PathfindAndWalkToFarAwayWorldMapPosition(pos);
+            
+            PathfindAndWalkToFarAwayWorldMapPosition((Vector3) pos);
         }
 
-        private Vector3 GetBorderZonePosition(string zone)
+        public Vector3? GetBorderZonePosition(string zone)
         {
             var borderZones = CurrentZone.Boundaries.FindAll(b => b.ToZone == zone);
-            Debug.Assert(borderZones != null, nameof(borderZones) + " != null");
+            // Debug.Assert(borderZones != null, nameof(borderZones) + " != null");
             return GetClosestZoneBorder(borderZones);
         }
 
-        private Vector3 GetClosestZoneBorder(List<ZoneBoundary> borderZones)
+        public Vector3? GetClosestZoneBorder(List<ZoneBoundary> borderZones)
         {
             ZoneBoundary first = null;
             foreach (var zone in borderZones)
             {
                 first = zone;
-                break;
+                if (first != null)
+                    return first.FromPosition;
             }
 
-            Debug.Assert(first != null, nameof(first) + " != null");
-            return first.FromPosition;
+            // Debug.Assert(first != null, nameof(first) + " != null");
+            return null;
         }
 
         public void DiscoverAllNodes()

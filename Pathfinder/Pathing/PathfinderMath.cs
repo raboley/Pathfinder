@@ -38,8 +38,15 @@ namespace Pathfinder
             int dstX = Math.Abs(nodeA.GridX - nodeB.GridX);
             int dstY = Math.Abs(nodeA.GridY - nodeB.GridY);
 
-            if (dstX > dstY) return 14 * dstY + 10 * (dstX - dstY);
-            return 14 * dstX + 10 * (dstY - dstX);
+            int dist; 
+            if (dstX > dstY)
+            {
+                dist = 14 * dstY + 10 * (dstX - dstY);
+                return dist / 10;
+            } 
+            
+            dist = 14 * dstX + 10 * (dstY - dstX);
+            return dist / 10;
         }
 
 

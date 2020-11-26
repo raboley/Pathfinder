@@ -31,7 +31,7 @@ namespace Pathfinder.Pathing
             return waypoints.ToArray();
         }
     }
-    
+
     public static class PathNotSmoother
     {
         public static Vector3[] PathToArray(Vector3 start, Vector3 end, List<Node> path)
@@ -60,7 +60,8 @@ namespace Pathfinder.Pathing
         /// <param name="targetPos"></param>
         /// <param name="distanceTolerance"></param>
         /// <returns></returns>
-        public static Vector3[] FindWaypoints(ZoneMap zoneMap, Vector3 startPos, Vector3 targetPos, int distanceTolerance = 10)
+        public static Vector3[] FindWaypoints(ZoneMap zoneMap, Vector3 startPos, Vector3 targetPos,
+            int distanceTolerance = 0)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -73,55 +74,56 @@ namespace Pathfinder.Pathing
             // // startGridNode.Walkable &&
             // if (targetGridNode.Walkable)
             // {
-                var openSet = new Heap<Node>(zoneMap.MaxSize);
-                var closedSet = new HashSet<Node>();
+            var openSet = new Heap<Node>(zoneMap.MaxSize);
+            var closedSet = new HashSet<Node>();
 
-                openSet.Add(startGridNode);
+            openSet.Add(startGridNode);
 
-                while (openSet.Count > 0)
+            while (openSet.Count > 0)
+            {
+                var currentGridNode = openSet.RemoveFirst();
+                closedSet.Add(currentGridNode);
+
+
+                // var distance = GridMath.GetDistance(currentGridNode, targetGridNode);
+                // if (distance <= distanceTolerance)
+                if (currentGridNode == targetGridNode ||
+                    GridMath.GetDistance(currentGridNode, targetGridNode) <= distanceTolerance)
                 {
-                    var currentGridNode = openSet.RemoveFirst();
-                    closedSet.Add(currentGridNode);
+                    sw.Stop();
+                    Console.WriteLine("Path found: " + sw.ElapsedMilliseconds + "ms");
 
+                    pathSuccess = true;
+                    var waypoints = RetracePath(startGridNode, currentGridNode);
+                    return waypoints;
+                }
 
-                    // var distance = GridMath.GetDistance(currentGridNode, targetGridNode);
-                    // if (distance <= distanceTolerance)
-                    if (currentGridNode == targetGridNode)
+                foreach (var neighbour in zoneMap.GetNeighbours(currentGridNode))
+                {
+                    if ((!neighbour.Walkable && neighbour != targetGridNode) || closedSet.Contains(neighbour)) continue;
+
+                    int newMovementCostToNeighbour =
+                        currentGridNode.GCost + GridMath.GetDistance(currentGridNode, neighbour);
+
+                    if (newMovementCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour))
                     {
-                        sw.Stop();
-                        Console.WriteLine("Path found: " + sw.ElapsedMilliseconds + "ms");
-                        pathSuccess = true;
-                        break;
-                    }
+                        neighbour.GCost = newMovementCostToNeighbour;
+                        neighbour.HCost = GridMath.GetDistance(neighbour, targetGridNode);
+                        neighbour.Parent = currentGridNode;
 
-                    foreach (var neighbour in zoneMap.GetNeighbours(currentGridNode))
-                    {
-                        if ((!neighbour.Walkable && neighbour != targetGridNode) || closedSet.Contains(neighbour)) continue;
-
-                        int newMovementCostToNeighbour =
-                            currentGridNode.GCost + GridMath.GetDistance(currentGridNode, neighbour);
-
-                        if (newMovementCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour))
-                        {
-                            neighbour.GCost = newMovementCostToNeighbour;
-                            neighbour.HCost = GridMath.GetDistance(neighbour, targetGridNode);
-                            neighbour.Parent = currentGridNode;
-
-                            if (!openSet.Contains(neighbour))
-                                openSet.Add(neighbour);
-                            else
-                                openSet.UpdateItem(neighbour);
-                        }
+                        if (!openSet.Contains(neighbour))
+                            openSet.Add(neighbour);
+                        else
+                            openSet.UpdateItem(neighbour);
                     }
                 }
+            }
             // }
 
             if (!pathSuccess) return null;
 
             // var waypoints = RetracePath(startGridNode, targetGridNode);
-            var waypoints = RetracePath(startGridNode, targetGridNode);
-            
-            return waypoints;
+            return null;
         }
 
         private static Vector3[] RetracePath(Node startNode, Node endNode)
