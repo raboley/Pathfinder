@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Pathfinder.Persistence;
 
 namespace Pathfinder.Tests.UnitTests
@@ -23,6 +24,11 @@ namespace Pathfinder.Tests.UnitTests
         public bool Exists()
         {
             return ExistShouldReturn;
+        }
+
+        public List<T> LoadAllOfType<T>()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

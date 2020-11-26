@@ -1,4 +1,3 @@
-using Pathfinder.Pathing;
 using Pathfinder.People;
 using Pathfinder.Travel;
 
@@ -18,7 +17,7 @@ namespace Pathfinder.Tests.IntegrationTests
             // Walk to Signet NPC zone
             Traveler.WalkToZone(signetNpc.MapName);
             // Interact with them to Get Signet
-            Traveler.GoToPosition(signetNpc.Position);
+            Traveler.PathfindAndWalkToFarAwayWorldMapPosition(signetNpc.Position);
             // Get signet
             TalkToSignetPerson(signetNpc);
         }

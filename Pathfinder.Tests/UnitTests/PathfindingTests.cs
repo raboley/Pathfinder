@@ -17,7 +17,7 @@ namespace Pathfinder.Tests.UnitTests
              * --------------------------
              * |    |    |  p |    |    |
              * --------------------------
-             * |    |    |0,0p|    |    |
+             * |    |  p |0,0 |    |    |
              * --------------------------
              * |    |  p |    |    |    |
              * --------------------------
@@ -34,7 +34,7 @@ namespace Pathfinder.Tests.UnitTests
             {
                 // startPos,
                 new Vector3(-1, 0, -1),
-                new Vector3(0, 0, 0),
+                new Vector3(-1, 0, 0),
                 new Vector3(0, 0, 1),
                 endPos
             };
@@ -85,6 +85,7 @@ namespace Pathfinder.Tests.UnitTests
                 new Vector3(-1, 0, -1),
                 new Vector3(0, 0, -1),
                 new Vector3(1, 0, 0),
+                new Vector3(0, 0, 1),
                 new Vector3(-1, 0, 1),
                 endPos
             };

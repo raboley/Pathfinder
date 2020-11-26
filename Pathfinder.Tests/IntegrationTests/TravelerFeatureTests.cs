@@ -68,7 +68,15 @@ namespace Pathfinder.Tests.IntegrationTests
             var stubPersister = new StubPersister();
             var actor = new KnownNodeActor(stubPersister, traveler.CurrentZone.Map);
             var watcher = new Watcher(traveler, actor);
-            traveler.PathfindAndWalkToFarAwayWorldMapPosition(new Vector3(-1, 0, 1));
+
+            // For this to work in the FFXI Finite State Machine this currently needs to exit
+            // Frequently to allow for mobs and other stuff to get targeted. Should customize this behavior
+            // To either break on events in the FSM or allow for extension to choose whether to exit under
+            // certain conditions or not.
+            for (int i = 0; i < 10; i++)
+            {
+                traveler.PathfindAndWalkToFarAwayWorldMapPosition(new Vector3(-1, 0, 1));
+            }
 
             var want = new Vector3(-1, 0, 1);
             var got = traveler.Position;

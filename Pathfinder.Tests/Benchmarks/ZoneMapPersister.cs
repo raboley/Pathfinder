@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Pathfinder.Map;
 using Pathfinder.Persistence;
@@ -177,6 +178,11 @@ namespace Pathfinder.Tests.Benchmarks
         }
 
         public bool Exists()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<T> LoadAllOfType<T>()
         {
             throw new NotImplementedException();
         }
