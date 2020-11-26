@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -17,10 +16,9 @@ namespace Pathfinder.Travel
         public readonly Queue<Vector3> PositionHistory = new Queue<Vector3>();
         public readonly IWalker Walker;
         public Queue<Vector3> _pathToWalk;
+        private bool _zoning;
         public ZoneMap BlindGrid;
         public Vector3 goalPosition;
-        private bool _zoning;
-        public bool IsDead { get; set; } = false;
 
         public Traveler()
         {
@@ -39,6 +37,8 @@ namespace Pathfinder.Travel
             // Position = walker.CurrentPosition;
             CurrentZone.Map.AddKnownNode(walker.CurrentPosition);
         }
+
+        public bool IsDead { get; set; } = false;
 
         public List<Vector3> AllBorderZonePoints
         {
@@ -63,6 +63,17 @@ namespace Pathfinder.Travel
 
         public World World { get; set; }
 
+        public bool Zoning
+        {
+            get => _zoning;
+            set
+            {
+                // if(value.Equals(true))
+                //     OnIsZoning();
+                _zoning = value;
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -84,7 +95,12 @@ namespace Pathfinder.Travel
         private void AddUnWalkableNodeAndGetNewPath(Vector3 position, int distanceTolerance = 0)
         {
             CurrentZone.Map.AddUnWalkableNode(position);
-            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Walker.CurrentPosition, goalPosition, distanceTolerance);
+
+            IPathfindingStyle style = null;
+            if (distanceTolerance > 0)
+                style = new CloseEnoughStyle() {DistanceTolerance = distanceTolerance};
+
+            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Walker.CurrentPosition, goalPosition, style);
             if (path == null)
             {
                 _pathToWalk = new Queue<Vector3>();
@@ -99,7 +115,11 @@ namespace Pathfinder.Travel
         {
             goalPosition = waypoint;
 
-            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint, distanceTolerance);
+            IPathfindingStyle style = null;
+            if (distanceTolerance > 0)
+                style = new CloseEnoughStyle() {DistanceTolerance = distanceTolerance};
+
+            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint, style);
             if (path == null)
             {
                 return;
@@ -110,7 +130,8 @@ namespace Pathfinder.Travel
             // TODO: Maybe update this to be better....
             // Either have the engine break out of traveling on events, or pass in a closure of all conditions.
             DateTime duration = DateTime.Now.AddSeconds(5);
-            while (_pathToWalk.Count > 0 && Zoning == false && IsDead == false && DateTime.Now < duration && GridMath.GetDistancePos(Walker.CurrentPosition, waypoint) >= distanceTolerance)
+            while (_pathToWalk.Count > 0 && Zoning == false && IsDead == false && DateTime.Now < duration &&
+                   GridMath.GetDistancePos(Walker.CurrentPosition, waypoint) >= distanceTolerance)
             {
                 var point = _pathToWalk.Dequeue();
                 bool gotThere = GoToPosition(point);
@@ -142,7 +163,7 @@ namespace Pathfinder.Travel
             var pos = GetBorderZonePosition(zone);
             if (pos == null)
                 throw new KeyNotFoundException("Don't know where zone: " + zone + " is.");
-            
+
             PathfindAndWalkToFarAwayWorldMapPosition((Vector3) pos);
         }
 
@@ -213,17 +234,6 @@ namespace Pathfinder.Travel
             //     return "T.K.";
 
             throw new Exception("Don't know the NPC pattern for nation: " + nation);
-        }
-
-        public bool Zoning
-        {
-            get => _zoning;
-            set
-            {
-                // if(value.Equals(true))
-                //     OnIsZoning();
-                _zoning = value;
-            }
         }
     }
 }

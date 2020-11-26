@@ -59,6 +59,7 @@
         <Compile Include="Map\ZoneMap.cs" />
         <Compile Include="Map\ZoneMapFactory.cs" />
         <Compile Include="Map\ZoneOverseer.cs" />
+        <Compile Include="Pathing\IPathfindingStyle.cs"/>
         <Compile Include="Pathing\IPathSmoother.cs" />
         <Compile Include="Pathing\PathfinderMath.cs" />
         <Compile Include="Pathing\Pathfinding.cs" />

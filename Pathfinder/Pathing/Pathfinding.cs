@@ -50,6 +50,34 @@ namespace Pathfinder.Pathing
         }
     }
 
+    public class ExactMatchStyle : IPathfindingStyle
+    {
+        public bool PathIsFound(Node currentGridNode, Node targetGridNode)
+        {
+            if (currentGridNode == targetGridNode)
+                return true;
+
+            return false;
+        }
+    }
+
+    public class CloseEnoughStyle : IPathfindingStyle
+    {
+        public int DistanceTolerance = 1;
+
+        public bool PathIsFound(Node currentGridNode, Node targetGridNode)
+        {
+            if (currentGridNode == targetGridNode)
+                return true;
+
+            if (GridMath.GetDistance(currentGridNode, targetGridNode) <= DistanceTolerance)
+                return true;
+
+            return false;
+        }
+    }
+
+
     public static class Pathfinding
     {
         /// <summary>
@@ -58,11 +86,14 @@ namespace Pathfinder.Pathing
         /// <param name="zoneMap"></param>
         /// <param name="startPos"></param>
         /// <param name="targetPos"></param>
-        /// <param name="distanceTolerance"></param>
+        /// <param name="pathfindingStyle"></param>
         /// <returns></returns>
         public static Vector3[] FindWaypoints(ZoneMap zoneMap, Vector3 startPos, Vector3 targetPos,
-            int distanceTolerance = 0)
+            IPathfindingStyle pathfindingStyle = null)
         {
+            if (pathfindingStyle == null)
+                pathfindingStyle = new ExactMatchStyle();
+
             var sw = new Stopwatch();
             sw.Start();
 
@@ -87,8 +118,7 @@ namespace Pathfinder.Pathing
 
                 // var distance = GridMath.GetDistance(currentGridNode, targetGridNode);
                 // if (distance <= distanceTolerance)
-                if (currentGridNode == targetGridNode ||
-                    GridMath.GetDistance(currentGridNode, targetGridNode) <= distanceTolerance)
+                if (pathfindingStyle.PathIsFound(currentGridNode, targetGridNode))
                 {
                     sw.Stop();
                     Console.WriteLine("Path found: " + sw.ElapsedMilliseconds + "ms");
