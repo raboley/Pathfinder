@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Pathfinder.Map;
 
@@ -38,13 +39,13 @@ namespace Pathfinder
             int dstX = Math.Abs(nodeA.GridX - nodeB.GridX);
             int dstY = Math.Abs(nodeA.GridY - nodeB.GridY);
 
-            int dist; 
+            int dist;
             if (dstX > dstY)
             {
                 dist = 14 * dstY + 10 * (dstX - dstY);
                 return dist / 10;
-            } 
-            
+            }
+
             dist = 14 * dstX + 10 * (dstY - dstX);
             return dist / 10;
         }
@@ -66,6 +67,88 @@ namespace Pathfinder
             // multiplied by 10 for calcs, should be /10
             dist = 14 * dstX + 10 * (dstY - dstX);
             return dist / 10;
+        }
+
+        public static List<Vector3> GetPerpendicularPoints(Vector3 fromPoint, Vector3 toPoint,
+            int PointsToAddToEachSide)
+        {
+            var differenceX = fromPoint.X - toPoint.X;
+            var differenceZ = fromPoint.Z - toPoint.Z;
+
+            var pointsAddedToEachSide = new List<Vector3>();
+
+            if (differenceZ == 0 && differenceX == 0)
+                return new List<Vector3>(); // No movement, no points to add
+
+
+            if (differenceZ == 0)
+            {
+                for (int i = 1; i <= PointsToAddToEachSide; i++)
+                {
+                    pointsAddedToEachSide.Add(new Vector3(toPoint.X, 0, toPoint.Z + i));
+                    pointsAddedToEachSide.Add(new Vector3(toPoint.X, 0, toPoint.Z - i));
+                }
+
+                return pointsAddedToEachSide;
+            }
+
+            if (differenceX == 0)
+            {
+                for (int i = 1; i <= PointsToAddToEachSide; i++)
+                {
+                    pointsAddedToEachSide.Add(new Vector3(toPoint.X + i, 0, toPoint.Z));
+                    pointsAddedToEachSide.Add(new Vector3(toPoint.X - i, 0, toPoint.Z));
+                }
+
+                return pointsAddedToEachSide;
+            }
+
+            if (DifferenceXandYisOpposite(differenceX, differenceZ))
+            {
+                for (int i = 1; i <= PointsToAddToEachSide; i++)
+                {
+                    pointsAddedToEachSide.Add(new Vector3(toPoint.X + i, 0, toPoint.Z + i));
+                    pointsAddedToEachSide.Add(new Vector3(toPoint.X - i, 0, toPoint.Z - i));
+                }
+
+                return pointsAddedToEachSide;
+            }
+
+            if (DifferenceXandYisSame(differenceX, differenceZ))
+            {
+                for (int i = 1; i <= PointsToAddToEachSide; i++)
+                {
+                    pointsAddedToEachSide.Add(new Vector3(toPoint.X - i, 0, toPoint.Z + i));
+                    pointsAddedToEachSide.Add(new Vector3(toPoint.X + i, 0, toPoint.Z - i));
+                }
+
+                return pointsAddedToEachSide;
+            }
+
+
+            return new List<Vector3>();
+        }
+
+        private static bool DifferenceXandYisOpposite(float differenceX, float differenceZ)
+        {
+            if (differenceX < 0 && differenceZ > 0)
+                return true;
+
+            if (differenceX > 0 && differenceZ < 0)
+                return true;
+
+            return false;
+        }
+
+        private static bool DifferenceXandYisSame(float differenceX, float differenceZ)
+        {
+            if (differenceX < 0 && differenceZ < 0)
+                return true;
+
+            if (differenceX > 0 && differenceZ > 0)
+                return true;
+
+            return false;
         }
     }
 }
