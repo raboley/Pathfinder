@@ -133,7 +133,8 @@ namespace Pathfinder.Pathing
                     if ((!neighbour.Walkable && neighbour != targetGridNode) || closedSet.Contains(neighbour)) continue;
 
                     int newMovementCostToNeighbour =
-                        currentGridNode.GCost + GridMath.GetDistance(currentGridNode, neighbour);
+                        currentGridNode.GCost + GridMath.GetDistance(currentGridNode, neighbour) +
+                        neighbour.MovementPenalty;
 
                     if (newMovementCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour))
                     {

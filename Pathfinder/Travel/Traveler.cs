@@ -130,8 +130,9 @@ namespace Pathfinder.Travel
             // TODO: Maybe update this to be better....
             // Either have the engine break out of traveling on events, or pass in a closure of all conditions.
             DateTime duration = DateTime.Now.AddSeconds(5);
-            while (_pathToWalk.Count > 0 && Zoning == false && IsDead == false && DateTime.Now < duration &&
-                   GridMath.GetDistancePos(Walker.CurrentPosition, waypoint) >= distanceTolerance)
+            while (_pathToWalk.Count > 0 && Zoning == false && IsDead == false && DateTime.Now < duration
+                   && GridMath.GetDistancePos(Walker.CurrentPosition, waypoint) >= distanceTolerance
+            )
             {
                 var point = _pathToWalk.Dequeue();
                 bool gotThere = GoToPosition(point);

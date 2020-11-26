@@ -42,8 +42,8 @@ namespace Pathfinder.Map
     public class Node : IHeapItem<Node>, IEquatable<Node>
     {
         [NonSerialized] public int GCost;
-         public int GridX;
-         public int GridY;
+        public int GridX;
+        public int GridY;
         [NonSerialized] public int HCost;
         [NonSerialized] public Node Parent;
 
@@ -56,6 +56,18 @@ namespace Pathfinder.Map
             Walkable = _walkable;
             WorldPosition = worldPos;
             Unknown = unknown;
+        }
+
+        [JsonIgnore]
+        public int MovementPenalty
+        {
+            get
+            {
+                if (Unknown)
+                    return 1;
+
+                return 0;
+            }
         }
 
         public bool Unknown { get; set; }

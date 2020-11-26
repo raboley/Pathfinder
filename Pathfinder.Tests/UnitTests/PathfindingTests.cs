@@ -96,5 +96,57 @@ namespace Pathfinder.Tests.UnitTests
             // assert
             Assert.Equal(want, got);
         }
+
+
+        [Fact]
+        public void FavorsKnownNodesOverUnknownNodes()
+        {
+            /*
+             * Visualization of the MapGrid.
+             * p = path
+             * x = obstacle
+-------------------------------
+|     |  e  |     |     |     |
+-------------------------------
+|  ?  |  ?  |  p  |     |     |
+-------------------------------
+|  ?  |  ?  |  p  |     |     |
+-------------------------------
+|  ?  |  p  |     |     |     |
+-------------------------------
+|  s  |     |     |     |     |
+-------------------------------
+             */
+
+            var grid = SetupZoneMap.SetupMediumGrid();
+            grid.AddKnownNode(new Vector3(0, 0, 0));
+            grid.AddKnownNode(new Vector3(0, 0, 1));
+            grid.AddKnownNode(new Vector3(0, 0, 2));
+            grid.AddKnownNode(new Vector3(0, 0, -1));
+            grid.AddKnownNode(new Vector3(0, 0, -2));
+
+
+            grid.AddKnownNode(new Vector3(-1, 0, -2));
+            grid.AddKnownNode(new Vector3(-1, 0, 2));
+
+            // string example = grid.Print();
+
+            var startPos = new Vector3(-2, 0, -2);
+            var endPos = new Vector3(-1, 0, 2);
+            Vector3[] want =
+            {
+                // startPos,
+                new Vector3(-1, 0, -1),
+                Vector3.Zero,
+                new Vector3(0, 0, 1),
+                endPos
+            };
+
+            // act 
+            var got = Pathfinding.FindWaypoints(grid, startPos, endPos);
+
+            // assert
+            Assert.Equal(want, got);
+        }
     }
 }
