@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Numerics;
@@ -14,6 +16,12 @@ namespace Pathfinder.Map
         }
 
         public string Name { get; set; }
+
+        public ConcurrentQueue<Vector3> PointsToExplore { get; set; } = new ConcurrentQueue<Vector3>();
+
+        public Vector3? NextPointToExplore { get; set; } = null;
+
+        public List<Vector3> Explored { get; set; } = new List<Vector3>();
 
         public List<ZoneBoundary> Boundaries { get; set; } = new List<ZoneBoundary>();
 

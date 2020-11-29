@@ -27,7 +27,7 @@ namespace Pathfinder
                 closedSet.Add(currentZone);
 
                 // Are we at the end?
-                if (currentZone == endZone)
+                if (currentZone.Name == endZone.Name)
                 {
                     failedToFindRoute = false;
                     break;

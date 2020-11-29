@@ -14,5 +14,6 @@ namespace Pathfinder.Travel
         void OnWalkerIsStuck(Vector3 currentPosition);
         event EventHandler<Vector3> IsStuck;
         event PropertyChangedEventHandler PropertyChanged;
+        void TryToEscapeFromBeingInABoxOfUnWalkablePositions();
     }
 }

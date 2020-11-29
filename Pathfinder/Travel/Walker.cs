@@ -73,6 +73,10 @@ namespace Pathfinder.Travel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void TryToEscapeFromBeingInABoxOfUnWalkablePositions()
+        {
+            
+        }
 
         private bool CantWalkToPosition(Vector3 newPosition)
         {

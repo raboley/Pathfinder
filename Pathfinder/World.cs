@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Pathfinder.Map;
 using Pathfinder.People;
+using Pathfinder.Persistence;
 
 namespace Pathfinder
 {
@@ -10,16 +11,32 @@ namespace Pathfinder
         public List<Zone> Zones { get; set; } = new List<Zone>();
         public List<Person> Npcs { get; set; } = new List<Person>();
         public List<Person> Mobs { get; set; } = new List<Person>();
+        public FilePersister ZonePersister { get; set; }
+        public PeopleOverseer PeopleManager { get; set; }
+
 
         public List<Zone> GetNeighbors(Zone zone)
         {
             var neighbors = new List<Zone>();
             var allNeighborZoneNames = zone.Boundaries.Select(b => b.ToZone).ToList();
-            var distinctNeighborZoneNames = allNeighborZoneNames.GroupBy(x => x).Where(g => g.Count() == 1)
-                .SelectMany(g => g).ToList();
+
+            var distinctNeighborZoneNames = new List<string>();
+            foreach (var neighborZoneName in allNeighborZoneNames)
+            {
+                if (distinctNeighborZoneNames.Contains(neighborZoneName))
+                    continue;
+                
+                distinctNeighborZoneNames.Add(neighborZoneName);
+            }
+            
+            // var distinctNeighborZoneNames = allNeighborZoneNames.GroupBy(x => x).Where(g => g.Count() == 1)
+            //     .SelectMany(g => g).ToList();
 
 
-            foreach (string zoneName in distinctNeighborZoneNames) neighbors.Add(GetZoneByName(zoneName));
+            foreach (string zoneName in distinctNeighborZoneNames)
+            {
+                neighbors.Add(GetZoneByName(zoneName));
+            }
 
             return neighbors;
         }
@@ -37,6 +54,18 @@ namespace Pathfinder
         public Zone GetZoneByName(string zoneName)
         {
             return Zones.Find(z => z.Name == zoneName);
+        }
+
+        public void LoadAllZonesToWorld(Zone currentZone)
+        {
+            Zones = ZonePersister.LoadAllOfType<Zone>();
+            Zones.RemoveAll(x => x.Name == currentZone.Name);
+            Zones.Add(currentZone);
+        }
+
+        public List<Person> GetAllNpcs()
+        {
+            return PeopleManager.GetAllPeople();
         }
     }
 }

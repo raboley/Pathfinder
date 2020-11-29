@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,10 +16,11 @@ namespace Pathfinder.Travel
     {
         public readonly Queue<Vector3> PositionHistory = new Queue<Vector3>();
         public readonly IWalker Walker;
-        public Queue<Vector3> _pathToWalk;
+        public Queue<Vector3> PathToWalk;
         private bool _zoning;
         public ZoneMap BlindGrid;
-        public Vector3 goalPosition;
+        public Vector3 GoalPosition;
+        public Zone GoalZone;
 
         public Traveler()
         {
@@ -57,7 +59,7 @@ namespace Pathfinder.Travel
             set => Walker.CurrentPosition = value;
         }
 
-        public List<Zone> ZonesToTravelThrough { get; set; } = new List<Zone>();
+        public ConcurrentQueue<Zone> ZonesToTravelThrough { get; set; } = new ConcurrentQueue<Zone>();
 
         public Zone CurrentZone { get; set; }
 
@@ -94,26 +96,36 @@ namespace Pathfinder.Travel
 
         private void AddUnWalkableNodeAndGetNewPath(Vector3 position, int distanceTolerance = 0)
         {
-            CurrentZone.Map.AddUnWalkableNode(position);
+            if (IsDead)
+                return;
+
+            // Also don't record stuck if menu is open.
+            if (!IsFighting && !MenuIsOpen)
+                CurrentZone.Map.AddUnWalkableNode(position);
 
             IPathfindingStyle style = null;
             if (distanceTolerance > 0)
                 style = new CloseEnoughStyle() {DistanceTolerance = distanceTolerance};
 
-            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Walker.CurrentPosition, goalPosition, style);
+            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Walker.CurrentPosition, GoalPosition, style);
             if (path == null)
             {
-                _pathToWalk = new Queue<Vector3>();
+                PathToWalk = new Queue<Vector3>();
                 return;
             }
 
-            _pathToWalk = new Queue<Vector3>();
-            foreach (var vector3 in path) _pathToWalk.Enqueue(vector3);
+            PathToWalk = new Queue<Vector3>();
+            foreach (var vector3 in path) PathToWalk.Enqueue(vector3);
         }
 
-        public void PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint, int distanceTolerance = 0)
+        public bool MenuIsOpen { get; set; } = false;
+
+        public bool IsFighting { get; set; } = false;
+
+        public void PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint, int distanceTolerance = 0,
+            int secondsToRunFor = 5)
         {
-            goalPosition = waypoint;
+            GoalPosition = waypoint;
 
             IPathfindingStyle style = null;
             if (distanceTolerance > 0)
@@ -122,19 +134,20 @@ namespace Pathfinder.Travel
             var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint, style);
             if (path == null)
             {
+                Walker.TryToEscapeFromBeingInABoxOfUnWalkablePositions();
                 return;
             }
 
-            _pathToWalk = new Queue<Vector3>(path);
+            PathToWalk = new Queue<Vector3>(path);
 
             // TODO: Maybe update this to be better....
             // Either have the engine break out of traveling on events, or pass in a closure of all conditions.
-            DateTime duration = DateTime.Now.AddSeconds(5);
-            while (_pathToWalk.Count > 0 && Zoning == false && IsDead == false && DateTime.Now < duration
+            DateTime duration = DateTime.Now.AddSeconds(secondsToRunFor);
+            while (PathToWalk.Count > 0 && Zoning == false && IsDead == false && DateTime.Now < duration
                    && GridMath.GetDistancePos(Walker.CurrentPosition, waypoint) >= distanceTolerance
             )
             {
-                var point = _pathToWalk.Dequeue();
+                var point = PathToWalk.Dequeue();
                 bool gotThere = GoToPosition(point);
                 if (gotThere == false)
                     break;
@@ -153,13 +166,15 @@ namespace Pathfinder.Travel
         }
 
 
-        public void GoToZone(string zone)
+        private void GoToZone(string zone)
         {
             if (Zoning)
                 return;
             // Already in that zone!
             if (CurrentZone.Name == zone)
+            {
                 return;
+            }
 
             var pos = GetBorderZonePosition(zone);
             if (pos == null)
@@ -211,30 +226,156 @@ namespace Pathfinder.Travel
         public void WalkToZone(string zoneName)
         {
             var zonesToTravelTo = WorldPathfinder.FindWorldPathToZone(World, CurrentZone.Name, zoneName);
+            if (zonesToTravelTo == null)
+                throw new Exception("Couldn't find linking zones from: " + CurrentZone.Name + " to zone:" + zoneName);
+
             WalkThroughZones(zonesToTravelTo);
         }
 
-        public void WalkThroughZones(List<Zone> zonesToTravelTo)
+        private void WalkThroughZones(List<Zone> zonesToTravelTo)
         {
-            foreach (var zone in zonesToTravelTo) GoToZone(zone.Name);
+            if (CurrentZone.Name == zonesToTravelTo[0].Name)
+                zonesToTravelTo.RemoveAt(0);
+
+            GoToZone(zonesToTravelTo[0].Name);
+
+            // Since traveler exits, we can't expect to be at the next zone by the time the for each loop goes.
+            // foreach (var zone in zonesToTravelTo)
+            // {
+            //     GoToZone(zone.Name);
+            // }
         }
 
-        public Person SearchForClosestSignetNpc(string nation)
+        public Person SearchForClosestSignetNpc(string nation, List<Person> allPeople)
         {
-            string npcPattern = GetSignetNpcPatternByNation(nation);
-            return World.Npcs.Find(n => n.Name.Contains(npcPattern));
+            var npcPatterns = GetSignetNpcPatternByNation(nation);
+            return GetClosestMatchingNpcInAnyZoneByPatterns(allPeople, npcPatterns);
         }
 
-        public string GetSignetNpcPatternByNation(string nation)
+        private Person GetClosestMatchingNpcInAnyZoneByPatterns(List<Person> allPeople, List<string> npcPatterns)
         {
+            // No Matches in current zone
+            var npcs = FindAllNpcsMatchingPatternsInWorld(npcPatterns, allPeople);
+
+            // find all in the same zone.
+            var signetPeopleInSameZone = npcs.FindAll(x => x.MapName == CurrentZone.Name);
+            if (signetPeopleInSameZone.Count > 0)
+            {
+                return GetClosestPerson(signetPeopleInSameZone);
+            }
+
+            return GetClosestPersonInAnyZone(npcs);
+        }
+
+        private Person GetClosestPersonInAnyZone(List<Person> npcs)
+        {
+            int shortestZoneChangeCount = 99999;
+            Person closestPerson = null;
+            foreach (var npc in npcs)
+            {
+                var zonesToTravelThrough = WorldPathfinder.FindWorldPathToZone(World, CurrentZone.Name, npc.MapName);
+                if (zonesToTravelThrough.Count < shortestZoneChangeCount)
+                {
+                    shortestZoneChangeCount = zonesToTravelThrough.Count;
+                    closestPerson = npc;
+                }
+            }
+
+            return closestPerson;
+        }
+
+        private Person GetClosestPerson(List<Person> signetPeopleInSameZone)
+        {
+            var currentShortestDistance = 9999;
+            Person closestSignetPerson = null;
+            foreach (var person in signetPeopleInSameZone)
+            {
+                var distance = GridMath.GetDistancePos(Walker.CurrentPosition, person.Position);
+                if (distance < currentShortestDistance)
+                {
+                    currentShortestDistance = distance;
+                    closestSignetPerson = person;
+                }
+            }
+
+            return closestSignetPerson;
+        }
+
+        private List<Person> FindAllNpcsMatchingPatternsInWorld(List<string> npcPatterns, List<Person> npcs)
+        {
+            var signetNpcs = new List<Person>();
+            foreach (var npcPattern in npcPatterns)
+            {
+                signetNpcs.AddRange(npcs.FindAll(n => n.Name.Contains(npcPattern)));
+            }
+
+            return signetNpcs;
+        }
+
+        public List<string> GetSignetNpcPatternByNation(string nation)
+        {
+            var nationStrings = new List<string>();
             if (nation == "Bastok")
-                return "I.M.";
+            {
+                nationStrings.Add("I.M.");
+                return nationStrings;
+            }
+
             if (nation == "SandOria")
-                return "T.K.";
+            {
+                nationStrings.Add("R.K");
+                nationStrings.Add("T.K");
+                return nationStrings;
+            }
             // if (nation == "Windurst")
             //     return "T.K.";
 
             throw new Exception("Don't know the NPC pattern for nation: " + nation);
+        }
+
+        public void WalkAcrossWorldToNpcByName(string npcName)
+        {
+            var npc = GetClosestMatchingNpcInAnyZoneByName(npcName);
+            WalkAcrossTheWorldToPerson(npc);
+        }
+
+        private Person GetClosestMatchingNpcInAnyZoneByName(string npcName)
+        {
+            var allPeople = World.GetAllNpcs();
+            var names = new List<string> {npcName};
+            var npc = GetClosestMatchingNpcInAnyZoneByPatterns(allPeople, names);
+            return npc;
+        }
+
+        private void WalkAcrossTheWorldToPerson(Person npc)
+        {
+            if (CurrentZone.Name != npc.MapName)
+            {
+                WalkToZone(npc.MapName);
+            }
+            
+            if (CurrentZone.Name == npc.MapName)
+            {
+               PathfindAndWalkToFarAwayWorldMapPosition(npc.Position);
+            }
+        }
+
+        public int GetDistanceFromPersonByName(string gateGuardName)
+        {
+            var npc = GetClosestMatchingNpcInAnyZoneByName(gateGuardName);
+            if (CurrentZone.Name != npc.MapName)
+                return Int32.MaxValue;
+
+            return GridMath.GetDistancePos(Walker.CurrentPosition, npc.Position);
+        }
+        
+        public bool AmNotWithinTalkingDistanceToPersonByName(string name)
+        {
+            int distance = GetDistanceFromPersonByName(name);
+            if (distance > 1)
+                return true;
+
+            return false;
         }
     }
 }
