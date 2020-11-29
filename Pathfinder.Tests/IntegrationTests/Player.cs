@@ -13,7 +13,7 @@ namespace Pathfinder.Tests.IntegrationTests
         public void GetSignet()
         {
             // Search List of NPCs for Signet NPC
-            var signetNpc = Traveler.SearchForClosestSignetNpc(Nation);
+            var signetNpc = Traveler.SearchForClosestSignetNpc(Nation, Traveler.World.Npcs);
             // Walk to Signet NPC zone
             Traveler.WalkToZone(signetNpc.MapName);
             // Interact with them to Get Signet

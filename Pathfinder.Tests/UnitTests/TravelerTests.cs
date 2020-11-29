@@ -106,7 +106,7 @@ namespace Pathfinder.Tests.UnitTests
             };
 
             var zoner = new Zoner(traveler, ExampleWorld.Sample());
-            traveler.GoToZone(targetZoneName);
+            traveler.WalkToZone(targetZoneName);
 
 
             Assert.Equal(targetZoneName, traveler.CurrentZone.Name);
@@ -131,7 +131,8 @@ namespace Pathfinder.Tests.UnitTests
                 world.GetZoneByName("C"),
                 world.GetZoneByName("D")
             };
-            traveler.WalkThroughZones(zones);
+
+            traveler.WalkToZone(end, true);
 
             Assert.Equal(end, traveler.CurrentZone.Name);
         }
@@ -142,7 +143,7 @@ namespace Pathfinder.Tests.UnitTests
             var want = ExampleWorld.BastokSignetPerson();
             var traveler = SetupWorld();
 
-            var got = traveler.SearchForClosestSignetNpc("Bastok");
+            var got = traveler.SearchForClosestSignetNpc("Bastok", traveler.World.Npcs);
             Assert.Equal(want, got);
         }
 

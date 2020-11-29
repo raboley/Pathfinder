@@ -174,6 +174,9 @@ namespace Pathfinder.Tests.UnitTests
         {
             var want = @"{
   'Name': 'bastok_mines',
+  'PointsToExplore': [],
+  'NextPointToExplore': null,
+  'Explored': [],
   'Boundaries': [
     {
       'ToZone': 'mob_zone',

@@ -16,11 +16,11 @@ namespace Pathfinder.Travel
     {
         public readonly Queue<Vector3> PositionHistory = new Queue<Vector3>();
         public readonly IWalker Walker;
-        public Queue<Vector3> PathToWalk;
         private bool _zoning;
         public ZoneMap BlindGrid;
         public Vector3 GoalPosition;
         public Zone GoalZone;
+        public Queue<Vector3> PathToWalk;
 
         public Traveler()
         {
@@ -76,6 +76,10 @@ namespace Pathfinder.Travel
             }
         }
 
+        public bool MenuIsOpen { get; set; } = false;
+
+        public bool IsFighting { get; set; } = false;
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -117,10 +121,6 @@ namespace Pathfinder.Travel
             PathToWalk = new Queue<Vector3>();
             foreach (var vector3 in path) PathToWalk.Enqueue(vector3);
         }
-
-        public bool MenuIsOpen { get; set; } = false;
-
-        public bool IsFighting { get; set; } = false;
 
         public void PathfindAndWalkToFarAwayWorldMapPosition(Vector3 waypoint, int distanceTolerance = 0,
             int secondsToRunFor = 5)
@@ -223,13 +223,23 @@ namespace Pathfinder.Travel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void WalkToZone(string zoneName)
+        public void WalkToZone(string zoneName, bool nonStop = false)
         {
             var zonesToTravelTo = WorldPathfinder.FindWorldPathToZone(World, CurrentZone.Name, zoneName);
             if (zonesToTravelTo == null)
                 throw new Exception("Couldn't find linking zones from: " + CurrentZone.Name + " to zone:" + zoneName);
 
-            WalkThroughZones(zonesToTravelTo);
+            if (nonStop)
+            {
+                while (CurrentZone.Name != zoneName)
+                {
+                    WalkThroughZones(zonesToTravelTo);
+                }
+            }
+            else
+            {
+                WalkThroughZones(zonesToTravelTo);
+            }
         }
 
         private void WalkThroughZones(List<Zone> zonesToTravelTo)
@@ -353,10 +363,10 @@ namespace Pathfinder.Travel
             {
                 WalkToZone(npc.MapName);
             }
-            
+
             if (CurrentZone.Name == npc.MapName)
             {
-               PathfindAndWalkToFarAwayWorldMapPosition(npc.Position);
+                PathfindAndWalkToFarAwayWorldMapPosition(npc.Position);
             }
         }
 
@@ -368,7 +378,7 @@ namespace Pathfinder.Travel
 
             return GridMath.GetDistancePos(Walker.CurrentPosition, npc.Position);
         }
-        
+
         public bool AmNotWithinTalkingDistanceToPersonByName(string name)
         {
             int distance = GetDistanceFromPersonByName(name);

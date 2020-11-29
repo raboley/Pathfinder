@@ -29,7 +29,7 @@ namespace Pathfinder.Tests.IntegrationTests
 
             // setup the world
             var traveler = SetupTraveler(start);
-            traveler.WalkToZone(end);
+            traveler.WalkToZone(end, true);
 
             Assert.Equal(end, traveler.CurrentZone.Name);
         }
