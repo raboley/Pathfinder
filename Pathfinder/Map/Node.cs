@@ -64,7 +64,7 @@ namespace Pathfinder.Map
             get
             {
                 if (Unknown)
-                    return 1;
+                    return 5;
 
                 return 0;
             }

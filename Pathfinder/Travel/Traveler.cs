@@ -247,6 +247,9 @@ namespace Pathfinder.Travel
             if (CurrentZone.Name == zonesToTravelTo[0].Name)
                 zonesToTravelTo.RemoveAt(0);
 
+            if (zonesToTravelTo.Count == 0)
+                return;
+            
             GoToZone(zonesToTravelTo[0].Name);
 
             // Since traveler exits, we can't expect to be at the next zone by the time the for each loop goes.
@@ -284,6 +287,9 @@ namespace Pathfinder.Travel
             foreach (var npc in npcs)
             {
                 var zonesToTravelThrough = WorldPathfinder.FindWorldPathToZone(World, CurrentZone.Name, npc.MapName);
+                if (zonesToTravelThrough == null)
+                    continue;
+                
                 if (zonesToTravelThrough.Count < shortestZoneChangeCount)
                 {
                     shortestZoneChangeCount = zonesToTravelThrough.Count;
