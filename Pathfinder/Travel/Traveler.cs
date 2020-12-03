@@ -180,7 +180,7 @@ namespace Pathfinder.Travel
             if (pos == null)
                 throw new KeyNotFoundException("Don't know where zone: " + zone + " is.");
 
-            PathfindAndWalkToFarAwayWorldMapPosition((Vector3) pos);
+            PathfindAndWalkToFarAwayWorldMapPosition((Vector3) pos, secondsToRunFor: 60);
         }
 
         public Vector3? GetBorderZonePosition(string zone)
