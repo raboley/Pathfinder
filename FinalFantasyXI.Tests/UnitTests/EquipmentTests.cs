@@ -16,6 +16,23 @@ namespace FinalFantasyXI.Tests.UnitTests
                 EquipSlots.Main,
                 EquipSlots.Sub
             };
+            want.Skill = SkillType.Sword;
+            want.EquipAbleByJobs = new List<Job>
+            {
+                Job.Warrior,
+                Job.RedMage,
+                Job.Thief,
+                Job.Paladin,
+                Job.DarkKnight,
+                Job.BeastMaster,
+                Job.Bard,
+                Job.Ranger,
+                Job.Ninja,
+                Job.Dragoon,
+                Job.BlueMage,
+                Job.Corsair,
+                Job.RuneFencer
+            };
 
             var weapon = OnionSword();
             var got = Equipment.Equipment.GetEquipmentFromItem(weapon);
@@ -27,6 +44,8 @@ namespace FinalFantasyXI.Tests.UnitTests
         {
             Assert.Equal(want.Name, got.Name);
             Assert.Equal(want.EquipAbleInSlots, got.EquipAbleInSlots);
+            Assert.Equal(want.Skill, got.Skill);
+            Assert.Equal(want.EquipAbleByJobs, got.EquipAbleByJobs);
         }
 
         private static IItem OnionSword()
@@ -34,7 +53,9 @@ namespace FinalFantasyXI.Tests.UnitTests
             var weapon = new IItem
             {
                 Name = new[] {"OnionSword"},
-                Slots = 3
+                Slots = 3,
+                Skill = 3,
+                Jobs = 4419554
             };
             return weapon;
         }
@@ -61,6 +82,44 @@ namespace FinalFantasyXI.Tests.UnitTests
 
             var weapon = new IItem {Slots = 3};
             var got = Equipment.Equipment.GetEquipSlots(weapon);
+
+            Assert.Equal(want, got);
+        }
+
+        [Fact]
+        public void GetWeaponTypeCanGetWeaponType()
+        {
+            var want = SkillType.Sword;
+
+            var weapon = OnionSword();
+            var got = Equipment.Equipment.GetWeaponType(weapon);
+
+            Assert.Equal(want, got);
+        }
+
+        [Fact]
+        public void GetJobs()
+        {
+            var want = new List<Job>
+            {
+                Job.Warrior,
+                Job.RedMage,
+                Job.Thief,
+                Job.Paladin,
+                Job.DarkKnight,
+                Job.BeastMaster,
+                Job.Bard,
+                Job.Ranger,
+                Job.Ninja,
+                Job.Dragoon,
+                Job.BlueMage,
+                Job.Corsair,
+                Job.RuneFencer
+            };
+
+            var weapon = OnionSword();
+            var got = Equipment.Equipment.GetJobs(weapon);
+
 
             Assert.Equal(want, got);
         }
