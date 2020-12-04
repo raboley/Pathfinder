@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathfinder", "Pathfinder\Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathfinder.Tests", "Pathfinder.Tests\Pathfinder.Tests.csproj", "{DF7A4CB3-CA9A-427B-9587-D19EE1A0EFC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalFantasyXI", "FinalFantasyXI\FinalFantasyXI.csproj", "{CF87FC10-25A2-4249-8B77-98385B712189}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalFantasyXI.Tests", "FinalFantasyXI.Tests\FinalFantasyXI.Tests.csproj", "{D8C66572-0849-4C71-9B7F-158093668EF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{DF7A4CB3-CA9A-427B-9587-D19EE1A0EFC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF7A4CB3-CA9A-427B-9587-D19EE1A0EFC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF7A4CB3-CA9A-427B-9587-D19EE1A0EFC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF87FC10-25A2-4249-8B77-98385B712189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF87FC10-25A2-4249-8B77-98385B712189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF87FC10-25A2-4249-8B77-98385B712189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF87FC10-25A2-4249-8B77-98385B712189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8C66572-0849-4C71-9B7F-158093668EF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8C66572-0849-4C71-9B7F-158093668EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8C66572-0849-4C71-9B7F-158093668EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8C66572-0849-4C71-9B7F-158093668EF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
