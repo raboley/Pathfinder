@@ -122,6 +122,18 @@ namespace FinalFantasyXI.Equipment
 
     public static class Equipment
     {
+        public static EquipmentItem GetEquipmentFromItem(IItem weapon)
+        {
+            var equipment = new EquipmentItem
+            {
+                Name = GetEquipmentName(weapon),
+                EquipAbleInSlots = GetEquipSlots(weapon)
+            };
+
+            return equipment;
+        }
+
+
         public static List<EquipSlots> GetEquipSlots(IItem item)
         {
             var slotsCanEquip = new List<EquipSlots>();
@@ -143,6 +155,12 @@ namespace FinalFantasyXI.Equipment
                 return false;
 
             return true;
+        }
+
+
+        public static string GetEquipmentName(IItem weapon)
+        {
+            return weapon.Name[0];
         }
     }
 
