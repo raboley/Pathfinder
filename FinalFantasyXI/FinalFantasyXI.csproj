@@ -38,6 +38,7 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Equipment\Equipment.cs"/>
         <Compile Include="ItemFinder\Craft.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="Soul\Calling.cs"/>
