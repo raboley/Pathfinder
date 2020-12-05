@@ -11,6 +11,7 @@ namespace FinalFantasyXI.Tests.UnitTests
         {
             var want = new EquipmentItem();
             want.Name = "OnionSword";
+            want.Level = 1;
             want.EquipAbleInSlots = new List<EquipSlots>
             {
                 EquipSlots.Main,
@@ -46,6 +47,7 @@ namespace FinalFantasyXI.Tests.UnitTests
             Assert.Equal(want.EquipAbleInSlots, got.EquipAbleInSlots);
             Assert.Equal(want.Skill, got.Skill);
             Assert.Equal(want.EquipAbleByJobs, got.EquipAbleByJobs);
+            Assert.Equal(want.Level, got.Level);
         }
 
         private static IItem OnionSword()
@@ -55,7 +57,8 @@ namespace FinalFantasyXI.Tests.UnitTests
                 Name = new[] {"OnionSword"},
                 Slots = 3,
                 Skill = 3,
-                Jobs = 4419554
+                Jobs = 4419554,
+                Level = 1
             };
             return weapon;
         }

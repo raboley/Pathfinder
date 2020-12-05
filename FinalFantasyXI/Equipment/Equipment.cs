@@ -166,7 +166,8 @@ namespace FinalFantasyXI.Equipment
                 Name = GetEquipmentName(weapon),
                 EquipAbleInSlots = GetEquipSlots(weapon),
                 Skill = GetWeaponType(weapon),
-                EquipAbleByJobs = GetJobs(weapon)
+                EquipAbleByJobs = GetJobs(weapon),
+                Level = weapon.Level
             };
 
             return equipment;
@@ -229,6 +230,11 @@ namespace FinalFantasyXI.Equipment
         {
             return ((Item.Jobs & JobMask) != 0);
         }
+
+        public static int GetLevel(IItem weapon)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class EquipmentItem
@@ -239,6 +245,7 @@ namespace FinalFantasyXI.Equipment
         public string Name { get; set; }
         public SkillType Skill { get; set; }
         public IEnumerable<Job> EquipAbleByJobs { get; set; }
+        public int Level { get; set; }
     }
 
     public enum SkillType
