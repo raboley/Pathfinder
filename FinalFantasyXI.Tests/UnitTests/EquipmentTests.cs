@@ -9,30 +9,28 @@ namespace FinalFantasyXI.Tests.UnitTests
         [Fact]
         public void NewEquipment()
         {
-            var want = new EquipmentItem();
-            want.Name = "OnionSword";
-            want.Level = 1;
-            want.EquipAbleInSlots = new List<EquipSlots>
+            var want = new EquipmentItem
             {
-                EquipSlots.Main,
-                EquipSlots.Sub
-            };
-            want.Skill = SkillType.Sword;
-            want.EquipAbleByJobs = new List<Job>
-            {
-                Job.Warrior,
-                Job.RedMage,
-                Job.Thief,
-                Job.Paladin,
-                Job.DarkKnight,
-                Job.BeastMaster,
-                Job.Bard,
-                Job.Ranger,
-                Job.Ninja,
-                Job.Dragoon,
-                Job.BlueMage,
-                Job.Corsair,
-                Job.RuneFencer
+                Name = "OnionSword",
+                Level = 1,
+                EquipAbleInSlots = new List<EquipSlots> {EquipSlots.Main, EquipSlots.Sub},
+                Skill = SkillType.Sword,
+                EquipAbleByJobs = new List<Job>
+                {
+                    Job.Warrior,
+                    Job.RedMage,
+                    Job.Thief,
+                    Job.Paladin,
+                    Job.DarkKnight,
+                    Job.BeastMaster,
+                    Job.Bard,
+                    Job.Ranger,
+                    Job.Ninja,
+                    Job.Dragoon,
+                    Job.BlueMage,
+                    Job.Corsair,
+                    Job.RuneFencer
+                }
             };
 
             var weapon = OnionSword();
@@ -41,7 +39,7 @@ namespace FinalFantasyXI.Tests.UnitTests
             EquipmentItemEquals(want, got);
         }
 
-        private static void EquipmentItemEquals(EquipmentItem want, EquipmentItem got)
+        public static void EquipmentItemEquals(IEquipmentItem want, IEquipmentItem got)
         {
             Assert.Equal(want.Name, got.Name);
             Assert.Equal(want.EquipAbleInSlots, got.EquipAbleInSlots);

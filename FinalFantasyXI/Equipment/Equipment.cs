@@ -231,13 +231,29 @@ namespace FinalFantasyXI.Equipment
             return ((Item.Jobs & JobMask) != 0);
         }
 
-        public static int GetLevel(IItem weapon)
+        public static List<IEquipmentItem> GetEquipmentValidForLevel(Player player, List<IEquipmentItem> equipmentBag)
         {
-            throw new NotImplementedException();
+            var validEquip = equipmentBag.FindAll(x => x.Level <= player.Level);
+            return validEquip;
+        }
+
+        public static List<IEquipmentItem> GetEquipmentValidForSlot(EquipSlots slot, List<IEquipmentItem> equipmentBag)
+        {
+            var validEquip = equipmentBag.FindAll(x => x.EquipAbleInSlots.Contains(slot));
+            return validEquip;
         }
     }
 
-    public class EquipmentItem
+    public interface IEquipmentItem
+    {
+        List<EquipSlots> EquipAbleInSlots { get; set; }
+        string Name { get; set; }
+        SkillType Skill { get; set; }
+        IEnumerable<Job> EquipAbleByJobs { get; set; }
+        int Level { get; set; }
+    }
+
+    public class EquipmentItem : IEquipmentItem
     {
         public List<EquipSlots> EquipAbleInSlots { get; set; } = new List<EquipSlots>();
 
