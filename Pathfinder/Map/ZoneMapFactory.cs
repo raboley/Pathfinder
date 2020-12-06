@@ -47,12 +47,18 @@ namespace Pathfinder.Map
             Persister.MapName = mapName;
             if (Persister.Exists()) return LoadGrid(mapName);
 
+            var grid = CreateNewZoneMap(mapName);
+
+            return grid;
+        }
+
+        public ZoneMap CreateNewZoneMap(string mapName)
+        {
             var grid = new ZoneMap();
             grid.MapName = mapName;
             grid.GridCenter = DefaultGridCenter;
             grid.GridWorldSize = DefaultGridSize;
             grid.BuildGridMap();
-
             return grid;
         }
     }

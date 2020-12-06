@@ -18,7 +18,15 @@ namespace Pathfinder
         public List<Zone> GetNeighbors(Zone zone)
         {
             var neighbors = new List<Zone>();
-            var allNeighborZoneNames = zone.Boundaries.Select(b => b.ToZone).ToList();
+            var allNeighborZoneNames = new List<string>();
+            // Trying to make this more thread safe than it was before. Without totally ripping out the implementation.
+            for (int i = 0; i < zone.Boundaries.Count; i++)
+            {
+                var neighborName = zone.Boundaries[i].ToZone;
+
+                if (!allNeighborZoneNames.Contains(neighborName))
+                    allNeighborZoneNames.Add(neighborName); 
+            }
 
             var distinctNeighborZoneNames = new List<string>();
             foreach (var neighborZoneName in allNeighborZoneNames)
