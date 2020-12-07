@@ -26,6 +26,7 @@ namespace Pathfinder.Tests.UnitTests
 
             var traveler = new Traveler {CurrentZone = zone};
             traveler.Walker.CurrentPosition = startPos;
+            traveler.PathMaker = new GridPathMaker {ZoneMap = zone.Map};
 
 
             traveler.PathfindAndWalkToFarAwayWorldMapPosition(endPos);
@@ -104,6 +105,7 @@ namespace Pathfinder.Tests.UnitTests
                 Position = Vector3.Zero,
                 World = ExampleWorld.Sample()
             };
+            traveler.PathMaker = new GridPathMaker {ZoneMap = traveler.CurrentZone.Map};
 
             var zoner = new Zoner(traveler, ExampleWorld.Sample());
             traveler.WalkToZone(targetZoneName);

@@ -15,9 +15,9 @@ namespace Pathfinder.Tests.UnitTests
              * --------------------------
              * |    |    |    | end|    |
              * --------------------------
-             * |    |    |  p |    |    |
+             * |    |    |    |  p |    |
              * --------------------------
-             * |    |  p |0,0 |    |    |
+             * |    |    |0,0 |    |    |
              * --------------------------
              * |    |  p |    |    |    |
              * --------------------------
@@ -34,8 +34,9 @@ namespace Pathfinder.Tests.UnitTests
             {
                 // startPos,
                 new Vector3(-1, 0, -1),
-                new Vector3(-1, 0, 0),
-                new Vector3(0, 0, 1),
+                // new Vector3(-1, 0, 0),
+                Vector3.Zero,
+                new Vector3(1, 0, 1),
                 endPos
             };
 
@@ -54,13 +55,13 @@ namespace Pathfinder.Tests.UnitTests
              * p = path
              * x = obstacle
 -------------------------------
-|     |     |     |     |     |
+|     |  p  |     |     |     |
 -------------------------------
-|  e  |  w  |     |     |     |
+|  e  |     |     |     |     |
 -------------------------------
-|  x  |  x  |  x  |  w  |     |
+|  x  |  x  |  x  |  p  |     |
 -------------------------------
-|     |  w  |  w  |     |     |
+|     |  p  |  p  |     |     |
 -------------------------------
 |  s  |     |     |     |     |
 -------------------------------
@@ -86,7 +87,7 @@ namespace Pathfinder.Tests.UnitTests
                 new Vector3(0, 0, -1),
                 new Vector3(1, 0, 0),
                 new Vector3(0, 0, 1),
-                new Vector3(-1, 0, 1),
+                new Vector3(-1, 0, 2),
                 endPos
             };
 
@@ -112,9 +113,9 @@ namespace Pathfinder.Tests.UnitTests
 -------------------------------
 |  ?  |  ?  |  p  |     |     |
 -------------------------------
-|  ?  |  p  |     |     |     |
+|  ?  |  ?  |  p  |     |     |
 -------------------------------
-|  s  |     |     |     |     |
+|  s  |  p  |     |     |     |
 -------------------------------
              */
 
@@ -136,7 +137,9 @@ namespace Pathfinder.Tests.UnitTests
             Vector3[] want =
             {
                 // startPos,
-                new Vector3(-1, 0, -1),
+
+                new Vector3(-1, 0, -2),
+                new Vector3(0, 0, -1),
                 Vector3.Zero,
                 new Vector3(0, 0, 1),
                 endPos

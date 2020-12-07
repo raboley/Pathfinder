@@ -50,6 +50,7 @@ namespace Pathfinder.Tests.UnitTests
             var watcher = new Watcher(traveler, actor);
             traveler.CurrentZone = zone;
             traveler.Position = new Vector3(-2, 0, -2);
+            traveler.PathMaker = new GridPathMaker {ZoneMap = zone.Map};
 
             // Walked path
             traveler.PathfindAndWalkToFarAwayWorldMapPosition(endPos);

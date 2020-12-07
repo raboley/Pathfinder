@@ -20,6 +20,7 @@ namespace Pathfinder.Travel
         public ZoneMap BlindGrid;
         public Vector3 GoalPosition;
         public Zone GoalZone;
+        public IPathMaker PathMaker;
         public Queue<Vector3> PathToWalk;
 
         public Traveler()
@@ -38,6 +39,10 @@ namespace Pathfinder.Travel
             CurrentZone = world.GetZoneByName(currentZoneName);
             // Position = walker.CurrentPosition;
             CurrentZone.Map.AddKnownNode(walker.CurrentPosition);
+            PathMaker = new GridPathMaker
+            {
+                ZoneMap = CurrentZone.Map
+            };
         }
 
         public bool IsDead { get; set; } = false;
@@ -130,8 +135,10 @@ namespace Pathfinder.Travel
             IPathfindingStyle style = null;
             if (distanceTolerance > 0)
                 style = new CloseEnoughStyle() {DistanceTolerance = distanceTolerance};
+            else
+                style = new ExactMatchStyle();
 
-            var path = Pathfinding.FindWaypoints(CurrentZone.Map, Position, waypoint, style);
+            var path = PathMaker.FindWaypoints(Position, waypoint, style);
             if (path == null)
             {
                 Walker.TryToEscapeFromBeingInABoxOfUnWalkablePositions();
@@ -249,7 +256,7 @@ namespace Pathfinder.Travel
 
             if (zonesToTravelTo.Count == 0)
                 return;
-            
+
             GoToZone(zonesToTravelTo[0].Name);
 
             // Since traveler exits, we can't expect to be at the next zone by the time the for each loop goes.
@@ -289,7 +296,7 @@ namespace Pathfinder.Travel
                 var zonesToTravelThrough = WorldPathfinder.FindWorldPathToZone(World, CurrentZone.Name, npc.MapName);
                 if (zonesToTravelThrough == null)
                     continue;
-                
+
                 if (zonesToTravelThrough.Count < shortestZoneChangeCount)
                 {
                     shortestZoneChangeCount = zonesToTravelThrough.Count;
@@ -392,6 +399,21 @@ namespace Pathfinder.Travel
                 return true;
 
             return false;
+        }
+    }
+
+    public interface IPathMaker
+    {
+        Vector3[] FindWaypoints(Vector3 start, Vector3 end, IPathfindingStyle pathfindingStyle);
+    }
+
+    public class GridPathMaker : IPathMaker
+    {
+        public ZoneMap ZoneMap { get; set; }
+
+        public Vector3[] FindWaypoints(Vector3 start, Vector3 end, IPathfindingStyle pathfindingStyle)
+        {
+            return Pathfinding.FindWaypoints(ZoneMap, start, end, pathfindingStyle);
         }
     }
 }
