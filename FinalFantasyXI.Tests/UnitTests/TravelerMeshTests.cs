@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.IO;
 using Xunit;
 
@@ -9,18 +8,11 @@ namespace FinalFantasyXI.Tests.UnitTests
         [Fact]
         public void NavDllExists()
         {
-            var want = "exists";
-            var got = "";
+            var expectedDllPath = "FFXINAV.dll";
 
-            var dir = Directory.GetCurrentDirectory();
+            var got = File.Exists(expectedDllPath);
 
-            if (File.Exists("FFXINAV.dll"))
-            {
-                FileVersionInfo FFXINAVversion = FileVersionInfo.GetVersionInfo("FFXINAV.dll");
-                got = string.Format(@"FFXINAV.dll Found: Version: ({0})", FFXINAVversion.FileVersion);
-            }
-
-            Assert.Equal(want, got);
+            Assert.True(got);
         }
     }
 }
