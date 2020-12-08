@@ -1,4 +1,5 @@
 using System.IO;
+using FinalFantasyXI.XPathfinder;
 using Xunit;
 
 namespace FinalFantasyXI.Tests.UnitTests
@@ -13,6 +14,17 @@ namespace FinalFantasyXI.Tests.UnitTests
             var got = File.Exists(expectedDllPath);
 
             Assert.True(got);
+        }
+
+        [Fact]
+        public void CanCreateNavClass()
+        {
+            var nav = new FFXINAV();
+
+            var dir = Directory.GetCurrentDirectory();
+
+            Assert.NotNull(nav);
+            // Assert.Equal(want, got);
         }
     }
 }

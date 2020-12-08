@@ -51,11 +51,11 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="IntegrationTests\TravelerMeshTests.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="UnitTests\EquipmentManagerTests.cs"/>
         <Compile Include="UnitTests\EquipmentTests.cs"/>
         <Compile Include="UnitTests\ItemFinderTests.cs"/>
-        <Compile Include="UnitTests\TravelerMeshTests.cs"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\FinalFantasyXI\FinalFantasyXI.csproj">

@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalFantasyXI", "FinalFant
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinalFantasyXI.Tests", "FinalFantasyXI.Tests\FinalFantasyXI.Tests.csproj", "{D8C66572-0849-4C71-9B7F-158093668EF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ffxi", "ffxi\ffxi.csproj", "{86442540-6B46-47EB-B6BE-527AB0430EEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{D8C66572-0849-4C71-9B7F-158093668EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8C66572-0849-4C71-9B7F-158093668EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8C66572-0849-4C71-9B7F-158093668EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86442540-6B46-47EB-B6BE-527AB0430EEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86442540-6B46-47EB-B6BE-527AB0430EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86442540-6B46-47EB-B6BE-527AB0430EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86442540-6B46-47EB-B6BE-527AB0430EEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
