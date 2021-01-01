@@ -405,6 +405,8 @@ namespace Pathfinder.Travel
     public interface IPathMaker
     {
         Vector3[] FindWaypoints(Vector3 start, Vector3 end, IPathfindingStyle pathfindingStyle);
+
+        void LoadZone(string name);
     }
 
     public class GridPathMaker : IPathMaker
